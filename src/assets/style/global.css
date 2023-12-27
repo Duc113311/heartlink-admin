@@ -1,0 +1,13 @@
+.el-table th.el-table__cell {
+  background-color: #3c145b !important;
+}
+.el-table .el-table__cell {
+  padding: 14px 0 !important;
+}
+.el-table thead {
+  color: #ffffff !important;
+}
+.el-table__header-wrapper {
+  border-top-right-radius: 15px !important;
+  border-top-left-radius: 15px !important;
+}

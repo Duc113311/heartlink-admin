@@ -1,13 +1,44 @@
 <template>
   <div class="container">
-    <h1 class="title">HeartLink CMS</h1>
+    <div class="mb-10 w-full flex justify-center items-center">
+      <img src="../../assets/icon_svg/ic_logo_name.svg" width="250" />
+    </div>
     <div class="card">
-      <form>
-        <input type="text" placeholder="Username" />
-        <input type="password" placeholder="Password" />
-        <div class="buttons">
-          <a href="#" class="register-link">Register</a>
-          <button type="submit" class="login-button">Login</button>
+      <form @submit.prevent="validateForm">
+        <div class="single-input" ref="username">
+          <img src="../../assets/icon_svg/ic_account.svg" class="mr-2" />
+          <input
+            v-model="username"
+            @input="handelAccount"
+            type="text"
+            placeholder="User name"
+          />
+        </div>
+
+        <div class="single-input" ref="password">
+          <img src="../../assets/icon_svg/ic_password.svg" class="mr-2" />
+          <input
+            @input="handelAccount"
+            v-model="password"
+            placeholder="Password"
+          />
+        </div>
+        <div v-if="errorName" class="error-message">
+          {{ errorName }}
+        </div>
+        <div class="w-full flex justify-center items-center">
+          <!-- <div class="buttons">
+            <a href="#" class="register-link">Register</a>
+            <button type="submit" class="login-button">Login</button>
+          </div> -->
+
+          <BhButtonActive
+            :nameButtonDefault="nameLogin"
+            :statusDisable="isDisable"
+            :numberWeightBold="600"
+            :isWidth="true"
+            @onClickActionButton="onChangeLogin"
+          ></BhButtonActive>
         </div>
       </form>
     </div>
@@ -15,16 +46,61 @@
 </template>
 
 <script>
+import BhButtonActive from "../../control/button/bh-button-active";
 export default {
+  components: { BhButtonActive },
   name: "form-login",
 
   data() {
-    return {};
+    return {
+      nameLogin: "LOGIN",
+      isDisable: false,
+
+      username: "",
+      password: "",
+      errorName: "",
+    };
   },
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    /**
+     * Validate form login
+     */
+    validateForm() {
+      debugger;
+
+      if (!this.username && !this.password) {
+        this.$refs.username.classList.add("bor-error");
+        this.$refs.password.classList.add("bor-error");
+        this.errorName = "Please enter user name & password";
+      } else if (!this.username) {
+        this.$refs.username.classList.add("bor-error");
+        this.errorName = "Please enter user name ";
+      } else if (!this.password) {
+        this.$refs.password.classList.add("bor-error");
+        this.errorName = "Please enter password";
+      } else {
+        this.onChangeLogin();
+      }
+    },
+
+    handelAccount() {
+      if (this.username || this.password) {
+        this.$refs.username.classList.remove("bor-error");
+        this.$refs.password.classList.remove("bor-error");
+
+        this.errorName = "";
+      }
+    },
+    /**
+     * Action login
+     */
+    onChangeLogin() {
+      alert("Login successful! Username: " + this.username);
+    },
+  },
 };
 </script>
 
@@ -32,8 +108,8 @@ export default {
 body {
   margin: 0;
   padding: 0;
-  background-color: #0f0f1a;
-  color: #fff;
+  background-color: #ffffff;
+  color: #000000;
   font-family: Arial, sans-serif;
 }
 
@@ -43,6 +119,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
+  max-width: 100%;
 }
 
 .title {
@@ -52,78 +129,49 @@ body {
 }
 
 .card {
-  width: 300px;
-  background-color: #1e213a;
+  width: 370px;
+  background-color: #ffffff;
   padding: 20px;
-  border-radius: 10px;
-  border-top: 4px solid #19d4ca;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  box-shadow: 0px 1px 22px 7px rgb(255 255 255 / 30%);
+}
+
+.single-input {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+  padding: 20px 12px;
+  transition: box-shadow 0.3s;
+  background-color: transparent;
 }
 
 form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 22px;
 }
 
-input {
-  padding: 10px;
+.single-input input {
+  color: #000000;
   border: none;
-  background-color: transparent;
-  border-bottom: 1px solid #ccc;
-  color: #fff;
-  transition: box-shadow 0.3s;
+  outline: none;
 }
-
-input:focus {
+.single-input input::placeholder {
+  color: #694a4a; /* Màu của placeholder */
+  letter-spacing: 0.5px;
+}
+.single-input:focus-within {
+  box-shadow: 0 0 10px #19d4ca;
+}
+.single-input:focus {
   box-shadow: 0 0 10px #19d4ca;
 }
 
-.buttons {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 10px;
+.error-message {
+  color: red;
 }
-
-.login-button,
-.register-link {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
-  text-decoration: none;
+.bor-error {
+  border: 1.5px solid red;
 }
-
-.login-button {
-  background-color: transparent;
-  color: #19d4ca;
-}
-
-.login-button:hover {
-  background-color: #19d4ca;
-  color: #fff;
-  box-shadow: none;
-}
-
-.login-button:active {
-  box-shadow: 0 0 10px #19d4ca;
-}
-
-.register-link {
-  color: #ccc;
-  background-color: transparent;
-}
-
-.register-link:hover {
-  color: #fff;
-}
-
-.register-link:active {
-  box-shadow: 0 0 10px #ccc;
-}
-
 @media (max-width: 480px) {
   .card {
     width: 100%;

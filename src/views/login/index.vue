@@ -1,10 +1,16 @@
 <template>
-  <div></div>
+  <div class="w-full h-full">
+    <div class="bg-default">
+      <FormLogin></FormLogin>
+    </div>
+  </div>
 </template>
 
 <script>
+import FormLogin from "../../components/login/form-login";
 export default {
-  name: "login-page ",
+  components: { FormLogin },
+  name: "login-view ",
 
   data() {
     return {};
@@ -16,4 +22,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.bg-default {
+  background-image: url("../../assets/icon_svg/bg-login.svg");
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+</style>
