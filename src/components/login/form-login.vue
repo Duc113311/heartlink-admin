@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import BhButtonActive from "../../control/button/bh-button-active";
 export default {
   components: { BhButtonActive },
@@ -65,6 +66,7 @@ export default {
   mounted() {},
 
   methods: {
+    ...mapActions(["loginApp", "loginAppView"]),
     /**
      * Validate form login
      */
@@ -98,7 +100,17 @@ export default {
      * Action login
      */
     onChangeLogin() {
-      alert("Login successful! Username: " + this.username);
+      debugger;
+
+      this.loginAppView({
+        username: this.username,
+        password: this.password,
+      }).then((data) => {
+        debugger;
+        if (data) {
+          this.$router.push({ path: "/dashboard" }).catch(() => {});
+        }
+      });
     },
   },
 };

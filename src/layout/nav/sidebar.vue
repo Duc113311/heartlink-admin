@@ -12,7 +12,7 @@
     </div>
     <div class="sidebar-content h-[calc(100vh-50px)] py-[20px]">
       <div
-        class="flex flex-col justify-between h-full px-[20px] space-y-[10px]"
+        class="flex flex-col justify-between h-full px-[10px] space-y-[10px]"
       >
         <ul class="flex flex-col w-full">
           <li class="my-px">

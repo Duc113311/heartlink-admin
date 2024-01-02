@@ -38,6 +38,14 @@ export default {
 
   computed: {},
 
+  created() {
+    const tokenId = localStorage.getItem("token");
+    if (tokenId) {
+      this.$router.push({ path: "/dashboard" }).catch(() => {});
+    } else {
+      this.$router.push({ path: "/login" }).catch(() => {});
+    }
+  },
   mounted() {},
   methods: {},
 };

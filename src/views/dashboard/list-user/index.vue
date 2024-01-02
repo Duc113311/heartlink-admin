@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-full">
     <div
-      class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+      class="flex flex-col gap-3 h-[50px] sm:flex-row sm:items-center sm:justify-between"
       bis_skin_checked="1"
     >
       <h2 class="text-xl font-bold text-black">List user</h2>
@@ -42,7 +42,7 @@
         <input
           type="search"
           id="default-search"
-          class="block search-text w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          class="block search-text w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Search Mockups, Logos..."
           required
         />
