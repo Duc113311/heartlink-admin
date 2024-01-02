@@ -5,6 +5,14 @@
       <div class="flex justify-center w-full h-full items-center z-30">
         <div class="z-model">
           <div class="relative">
+            <div class="absolute right-0 top-0 p-2">
+              <img
+                @click="onHideModelBg"
+                src="../../assets/icon_svg/ic_cancel.svg"
+                width="25"
+                alt=""
+              />
+            </div>
             <slot> </slot>
           </div>
         </div>

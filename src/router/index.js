@@ -4,14 +4,24 @@ import Dashboard from "../views/dashboard/index.vue";
 
 const routes = [
   {
-    path: "/dashboard",
+    path: "/",
     name: "dashboard-view",
-    redirect: "/dashboard/statistical",
+    redirect: "/dashboard",
     meta: {
       title: "Dashboard",
     },
     component: Dashboard,
     children: [
+      {
+        path: "/dashboard",
+        component: import(
+          /* webpackChunkName: "dash-view" */ "../views/dashboard/dash-view/index.vue"
+        ),
+        name: "dash-view",
+        meta: {
+          title: "dash",
+        },
+      },
       {
         path: "statistical",
         component: import(
@@ -20,6 +30,17 @@ const routes = [
         name: "statistical-view",
         meta: {
           title: "Statistical",
+        },
+      },
+
+      {
+        path: "list-user",
+        component: import(
+          /* webpackChunkName: "user-view" */ "../views/dashboard/list-user/index.vue"
+        ),
+        name: "user-view",
+        meta: {
+          title: "user-view",
         },
       },
       {

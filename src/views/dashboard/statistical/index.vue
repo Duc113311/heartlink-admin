@@ -6,7 +6,7 @@
     ></CensorshipPage>
   </div>
 
-  <BhModel v-if="isShowModel">
+  <BhModel v-if="isShowModel" @onHideModel="onHideModel">
     <CheckImage></CheckImage>
   </BhModel>
 </template>
@@ -25,7 +25,7 @@ export default {
 
   data() {
     return {
-      isShowModel: true,
+      isShowModel: false,
     };
   },
 
@@ -38,6 +38,11 @@ export default {
 
     onChangeUpdateImage() {
       debugger;
+      this.isShowModel = true;
+    },
+
+    onHideModel(val) {
+      this.isShowModel = val;
     },
   },
 };

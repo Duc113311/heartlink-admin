@@ -1,48 +1,102 @@
 <template>
-  <div
-    class="navbar-classic navbar navbar-expand-lg navbar navbar-expand navbar-light"
-  >
-    <div class="flex justify-between w-full">
-      <div class="flex items-center">
-        <a id="nav-toggle" class="nav-icon me-2 icon-xs">
-          <img src="../../assets/icon_svg/ic_nav.svg" alt="" srcset="" />
-        </a>
-        <div class="ms-lg-3 d-none d-md-none d-lg-block">
-          <form class="flex items-center">
-            <input placeholder="Search" type="search" class="form-control" />
+  <header class="header bg-white shadow py-4 px-4 h-[70px] z-30">
+    <div class="header-content flex items-center flex-row">
+      <form action="#">
+        <div class="hidden md:flex relative">
+          <form action="https://formbold.com/s/unique_form_id" method="POST">
+            <div class="relative">
+              <button class="absolute top-1/2 left-0 -translate-y-1/2">
+                <svg
+                  class="h-6 w-6 text-gray-500"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </button>
+
+              <input
+                type="text"
+                placeholder="Type to search..."
+                class="w-full bg-transparent pr-4 pl-9 focus:outline-none text-black"
+              />
+            </div>
           </form>
         </div>
-      </div>
-      <div class="navbar-right-wrap ms-2 flex nav-top-wrap">
-        <ul
-          class="navbar-right-wrap ms-auto flex nav-top-wrap items-center gap-2"
-        >
-          <li class="stopevent dropdown">
-            <a
-              class="btn btn-light cursor-pointer btn-icon rounded-circle indicator indicator-primary text-muted"
-              aria-expanded="false"
+
+        <div class="flex md:hidden">
+          <button
+            class="z-99999 block rounded-sm border border-stroke bg-white p-1.5 shadow-sm dark:border-stroke dark:bg-boxdark lg:hidden"
+            @click="toggleSideBar"
+          >
+            <img
+              class="w-[25px] h-[25px]"
+              src="../../assets/icon_svg/ic_nav.svg"
+              alt=""
+              srcset=""
+            />
+          </button>
+          <a
+            href="#"
+            class="flex items-center justify-center h-10 w-10 border-transparent"
+          >
+            <svg
+              class="h-6 w-6 text-gray-500"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <img src="../../assets/icon_svg/ic_bell.svg" alt="" srcset="" />
-            </a>
-          </li>
-          <li class="ms-2 dropdown">
-            <a
-              class="rounded-circle cursor-pointer"
-              id="dropdownUser"
-              aria-expanded="false"
-              ><div class="avatar avatar-md avatar-indicators avatar-online">
-                <img
-                  alt="avatar"
-                  src="../../assets/icon_svg/avatar.jpg"
-                  width="50"
-                  class="rounded-circle"
-                /></div
-            ></a>
-          </li>
-        </ul>
+              <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </a>
+        </div>
+      </form>
+      <div class="flex ml-auto w-[200px]">
+        <div
+          class="flex items-center justify-start space-x-4 cursor-pointer"
+          @click="toggleDrop"
+        >
+          <img
+            src="../../assets/icon_svg/avatar.jpg"
+            class="rounded-circle w-10 h-10 rounded-full border-2 border-gray-50"
+          />
+          <div class="font-semibold dark:text-gray-800 text-gray-800 text-left">
+            <div>Nguyen Van Duc</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">Admin</div>
+          </div>
+          <div
+            v-show="showDropDown"
+            class="absolute right-[10px] z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 top-16"
+          >
+            <div class="p-[10px] text-left" role="none">
+              <a
+                href="#"
+                class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-200 hover:text-gray-800 transition duration-400 ease-in-out"
+                >Account Setting</a
+              >
+              <a
+                href="#"
+                class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-200 hover:text-gray-800 transition duration-400 ease-in-out"
+                >Support</a
+              >
+              <a
+                href="#"
+                class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-200 hover:text-gray-800 transition duration-400 ease-in-out"
+                >Logout</a
+              >
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </header>
 </template>
 
 <script>
@@ -59,53 +113,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.navbar-classic {
-  background-color: #fff;
-  padding: 0.625rem 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 20, 0.08), 0 1px 2px rgba(0, 0, 20, 0.08);
-}
-
-.rounded-circle {
-  border-radius: 50%;
-}
-
-.avatar-indicators {
-  position: relative;
-}
-.avatar-md {
-  width: 2.5rem;
-  height: 2.5rem;
-}
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.form-control {
-  display: block;
-  width: 100%;
-  padding: 0.5rem 1rem;
-  font-size: 0.9375rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #637381;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #c4cdd5;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border-radius: 0.375rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-.form-control:focus {
-  color: #637381;
-  background-color: #fff;
-  border-color: #b1a5ff;
-  outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(98, 75, 255, 0.25);
-}
-</style>
+<style lang="scss" scoped></style>
