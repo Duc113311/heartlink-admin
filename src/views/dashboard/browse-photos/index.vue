@@ -381,6 +381,12 @@
         </div>
       </div>
     </div>
+
+    <div
+      class="overflow-y-auto form-popup h-full overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 max-h-full"
+    >
+      <div class="w-full max-w-3xl max-h-full"></div>
+    </div>
   </div>
 
   <!-- Main modal -->
