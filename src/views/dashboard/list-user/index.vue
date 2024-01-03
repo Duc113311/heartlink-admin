@@ -9,9 +9,7 @@
       <nav>
         <ol class="flex items-center gap-2">
           <li>
-            <a class="font-medium" href="index.html" previewlistener="true"
-              >Dashboard /</a
-            >
+            <a class="font-medium" href="index.html">Dashboard /</a>
           </li>
           <li class="text-blue-400">Profile</li>
         </ol>

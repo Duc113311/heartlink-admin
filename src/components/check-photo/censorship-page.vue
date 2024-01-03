@@ -121,7 +121,7 @@
                   width="18"
                   alt=""
                 />
-                <div class="text-base">Pending</div>
+                <div class="text-sm">Pending</div>
               </div>
             </td>
             <td class="px-6 py-4">
@@ -131,7 +131,7 @@
                   width="18"
                   alt=""
                 />
-                <div class="text-base">Pending</div>
+                <div class="text-sm">Pending</div>
               </div>
             </td>
             <td class="px-6 py-4">100</td>
