@@ -92,62 +92,179 @@
             <td class="px-6 py-4">
               <div class="flex items-center justify-start">{{ index }}</div>
             </td>
-            <td class="px-6 py-4">{{ item.createBy }}</td>
+            <td class="px-6 py-4">
+              <el-tooltip
+                class="box-item rounded-md shadow-md"
+                effect="light"
+                placement="top"
+              >
+                {{ convertDate(item.createBy).formattedDate }}
+                <template #content>
+                  <div>{{ convertDate(item.createBy).formattedTime }}</div>
+                </template>
+              </el-tooltip>
+            </td>
             <th
               scope="row"
               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
             >
-              <div class="w-[200px] truncate" :title="item.fullname">
+              <div class="w-[100px] truncate" :title="item.fullname">
                 {{ item.fullname }}
               </div>
             </th>
             <td class="px-6 py-4">
-              <div class="flex items-center justify-start">
-                <img
-                  class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-                  :src="`${
-                    item.avatarUsers[0].avatarDetails !== null
-                      ? item.avatarUsers[0].avatarDetails
-                      : avatarDefault
-                  }`"
-                />
+              <div class="flex items-center justify-start relative">
+                <el-tooltip
+                  class="box-item rounded-md shadow-md"
+                  effect="light"
+                  placement="right"
+                >
+                  <div class="flex items-center justify-start relative">
+                    <div
+                      class="w-16 h-16 p-1 rounded-full bg-avatar-default"
+                      :style="`background-image:url(${
+                        item.avatarUsers[0].avatarDetails !== null
+                          ? item.avatarUsers[0].avatarDetails
+                          : avatarDefault
+                      })`"
+                    />
+                    <div
+                      class="top-0 flex justify-center items-center left-12 text-white absolute w-[25px] h-[25px] text-center bg-red-600 border-2 border-white dark:border-gray-800 rounded-full"
+                    >
+                      <span class="text-xs">+9</span>
+                    </div>
+                  </div>
+                  <template #content> <div>9 image</div> </template>
+                </el-tooltip>
               </div>
             </td>
 
             <td class="px-6 py-4">
               <div class="flex items-center gap-2">
-                <img
-                  src="../../assets/icon_svg/ic_pending.svg"
-                  width="18"
-                  alt=""
-                />
-                <div class="text-sm">Pending</div>
+                <el-tooltip
+                  class="box-item rounded-md shadow-md"
+                  effect="light"
+                  placement="right"
+                >
+                  <div class="flex items-center gap-2">
+                    <img
+                      src="../../assets/icon_svg/ic_pending.svg"
+                      width="18"
+                      alt=""
+                    />
+                    <div class="text-sm">Pending</div>
+                  </div>
+                  <template #content>
+                    <div class="p-1 gap-2 grid">
+                      <div class="flex justify-between items-center w-full">
+                        <div class="flex items-center gap-2">
+                          <img
+                            src="../../assets/icon_svg/ic_pending.svg"
+                            width="18"
+                            alt=""
+                          />
+                          <div class="text-sm">Pending</div>
+                        </div>
+                        <div class="text-sm">: 5</div>
+                      </div>
+                      <div class="flex justify-between items-center w-full">
+                        <div class="flex items-center gap-2">
+                          <img
+                            src="../../assets/icon_svg/ic_approved.svg"
+                            width="18"
+                            alt=""
+                          />
+                          <div class="text-sm">Approved</div>
+                        </div>
+                        <div class="text-sm">: 5</div>
+                      </div>
+                      <div class="flex justify-between items-center w-full">
+                        <div class="flex items-center gap-2">
+                          <img
+                            src="../../assets/icon_svg/ic_disapprove.svg"
+                            width="18"
+                            alt=""
+                          />
+                          <div class="text-sm">Disapprove</div>
+                        </div>
+                        <div class="text-sm">: 5</div>
+                      </div>
+                    </div>
+                  </template>
+                </el-tooltip>
               </div>
             </td>
             <td class="px-6 py-4">
               <div class="flex items-center gap-2">
-                <img
-                  src="../../assets/icon_svg/ic_pending.svg"
-                  width="18"
-                  alt=""
-                />
-                <div class="text-sm">Pending</div>
+                <el-tooltip
+                  class="box-item rounded-md shadow-md"
+                  effect="light"
+                  placement="right"
+                >
+                  <div class="flex items-center gap-2">
+                    <img
+                      src="../../assets/icon_svg/ic_pending.svg"
+                      width="18"
+                      alt=""
+                    />
+                    <div class="text-sm">Pending</div>
+                  </div>
+                  <template #content>
+                    <div class="p-1 gap-2 grid">
+                      <div class="flex justify-between items-center w-full">
+                        <div class="flex items-center gap-2">
+                          <img
+                            src="../../assets/icon_svg/ic_pending.svg"
+                            width="18"
+                            alt=""
+                          />
+                          <div class="text-sm">Pending</div>
+                        </div>
+                        <div class="text-sm">: 5</div>
+                      </div>
+                      <div class="flex justify-between items-center w-full">
+                        <div class="flex items-center gap-2">
+                          <img
+                            src="../../assets/icon_svg/ic_approved.svg"
+                            width="18"
+                            alt=""
+                          />
+                          <div class="text-sm">Approved</div>
+                        </div>
+                        <div class="text-sm">: 5</div>
+                      </div>
+                      <div class="flex justify-between items-center w-full">
+                        <div class="flex items-center gap-2">
+                          <img
+                            src="../../assets/icon_svg/ic_disapprove.svg"
+                            width="18"
+                            alt=""
+                          />
+                          <div class="text-sm">Disapprove</div>
+                        </div>
+                        <div class="text-sm">: 5</div>
+                      </div>
+                    </div>
+                  </template>
+                </el-tooltip>
               </div>
             </td>
             <td class="px-6 py-4">100</td>
 
             <td class="px-6 py-4">
               <div class="gap-2 flex justify-center">
-                <a
-                  href="#"
+                <button
+                  @click="onClickView()"
                   class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                  >View</a
                 >
-                <a
-                  href="#"
+                  View
+                </button>
+                <button
+                  @click="onClickEdit(item)"
                   class="font-medium text-green-500 dark:text-blue-500 hover:underline"
-                  >Edit</a
                 >
+                  Edit
+                </button>
               </div>
             </td>
           </tr>
@@ -226,6 +343,7 @@
 </template>
 
 <script>
+import funValidation from "../../middleware/validation";
 export default {
   name: "censorship-page",
 
@@ -243,8 +361,30 @@ export default {
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    convertDate(val) {
+      const resultDate = funValidation.convertDateTime(val);
+      return resultDate;
+    },
+
+    onClickView(val) {
+      this.$emit("onChangeViewImage", true);
+    },
+
+    onClickEdit(item) {
+      this.$emit("onChangeEditImage", {
+        data: item,
+        status: true,
+      });
+    },
+  },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.bg-avatar-default {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+</style>

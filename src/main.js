@@ -16,4 +16,5 @@ app.use(ElementPlus);
 
 app.use(router);
 app.use(store);
+
 app.mount("#app");
