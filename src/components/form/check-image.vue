@@ -215,9 +215,17 @@ export default {
 
   computed: {
     imageActive() {
-      return this.urlImage
-        ? this.urlImage
-        : this.propertyImage.avatarUsers[0].avatarDetails;
+      debugger;
+      if (
+        this.propertyImage &&
+        this.propertyImage.avatarUsers &&
+        this.propertyImage.avatarUsers.length > 0
+      ) {
+        return this.urlImage.length !== 0
+          ? this.urlImage
+          : this.propertyImage.avatarUsers[0].avatarDetails;
+      }
+      return this.avatarUrl;
     },
     propertyImage() {
       return this.imageDetail;
