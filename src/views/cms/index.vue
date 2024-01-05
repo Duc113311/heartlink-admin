@@ -1,12 +1,10 @@
 <template>
-  <div class="w-full h-full">
-    <router-view />
-  </div>
+  <div class="w-full h-full">Hello</div>
 </template>
 
 <script>
 export default {
-  name: "layout-page",
+  name: "cms-default-view",
 
   data() {
     return {};

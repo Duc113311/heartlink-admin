@@ -12,10 +12,10 @@
 
         <div class="border border-gray-300 rounded-md p-[20px] h-full">
           <div class="w-full h-full bg-orange-300 overflow-y-auto">
-            
           </div>
         </div> -->
-        <router-view />
+        <div>Hello</div>
+        <router-view></router-view>
       </div>
       <FooterAdmin></FooterAdmin>
     </main>

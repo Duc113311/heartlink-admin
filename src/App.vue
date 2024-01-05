@@ -43,7 +43,7 @@ export default {
     if (tokenId) {
       this.$router.push({ path: "/dashboard" }).catch(() => {});
     } else {
-      this.$router.push({ path: "/login" }).catch(() => {});
+      this.$router.push({ path: "/" }).catch(() => {});
     }
   },
   mounted() {},

@@ -1,69 +1,52 @@
 import { createRouter, createWebHistory } from "vue-router";
 // import HomeView from "../views/HomeView.vue";
 import Dashboard from "../views/dashboard/index.vue";
+import Login from "../views/login/index.vue";
+import CMS from "../views/cms/index.vue";
+import DashView from "../views/dashboard/dash-view/index.vue";
+import StatisticalView from "../views/dashboard/statistical/index.vue";
+import UserView from "../views/dashboard/list-user/index.vue";
+import BrowsePhoto from "../views/dashboard/browse-photos/index.vue";
 
 const routes = [
   {
     path: "/",
+    name: "login-page",
+    component: Login,
+  },
+  {
+    path: "/cms",
+    name: "cms-default-view",
+
+    component: CMS,
+  },
+  {
+    path: "/dashboard",
     name: "dashboard-view",
-    redirect: "/dashboard",
-    meta: {
-      title: "Dashboard",
-    },
     component: Dashboard,
     children: [
       {
-        path: "/dashboard",
-        component: import(
-          /* webpackChunkName: "dash-view" */ "../views/dashboard/dash-view/index.vue"
-        ),
+        path: "",
         name: "dash-view",
-        meta: {
-          title: "dash",
-        },
+
+        component: DashView,
       },
       {
         path: "statistical",
-        component: import(
-          /* webpackChunkName: "statistical-view" */ "../views/dashboard/statistical/index.vue"
-        ),
         name: "statistical-view",
-        meta: {
-          title: "Statistical",
-        },
+        component: StatisticalView,
       },
-
       {
         path: "list-user",
-        component: import(
-          /* webpackChunkName: "user-view" */ "../views/dashboard/list-user/index.vue"
-        ),
         name: "user-view",
-        meta: {
-          title: "user-view",
-        },
+        component: UserView,
       },
       {
         path: "browse-photos",
-        component: import(
-          /* webpackChunkName: "browse-photos-view" */ "../views/dashboard/browse-photos/index.vue"
-        ),
         name: "browse-photos-view",
-        meta: {
-          title: "Browse Photos",
-        },
+        component: BrowsePhoto,
       },
     ],
-  },
-
-  {
-    path: "/login",
-    name: "login-page",
-    meta: {
-      title: "login",
-    },
-    component: () =>
-      import(/* webpackChunkName: "login-page" */ "../views/login/index.vue"),
   },
 ];
 

@@ -16,22 +16,21 @@
       >
         <ul class="flex flex-col w-full">
           <li class="my-px">
-            <router-link to="/dashboard">
-              <div
-                class="inline-flex relative items-center px-[10px] py-[10px] w-full text-base font-medium rounded-md border-gray-200 hover:bg-gray-300 hover:text-gray-800 transition duration-400 ease-in-out"
+            <div
+              @click="onClickRouterDashboard()"
+              class="inline-flex relative items-center px-[10px] py-[10px] w-full text-base font-medium rounded-md border-gray-200 hover:bg-gray-300 hover:text-gray-800 transition duration-400 ease-in-out"
+            >
+              <span
+                class="flex items-center justify-center text-lg text-gray-400"
               >
-                <span
-                  class="flex items-center justify-center text-lg text-gray-400"
-                >
-                  <img
-                    class="mr-2 w-[20px] h-[20px] fill-current"
-                    src="../../assets/icon_svg/ic_dashboard.svg"
-                    alt=""
-                  />
-                </span>
-                <span class="ml-3">Dashboard</span>
-              </div>
-            </router-link>
+                <img
+                  class="mr-2 w-[20px] h-[20px] fill-current"
+                  src="../../assets/icon_svg/ic_dashboard.svg"
+                  alt=""
+                />
+              </span>
+              <span class="ml-3">Dashboard</span>
+            </div>
           </li>
           <li class="my-px">
             <span
@@ -40,56 +39,54 @@
             >
           </li>
           <li class="my-px">
-            <router-link to="/list-user">
-              <div
-                class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
+            <div
+              @click="onClickRouterUser()"
+              class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
+            >
+              <span
+                class="flex items-center justify-center text-lg text-gray-400"
               >
-                <span
-                  class="flex items-center justify-center text-lg text-gray-400"
+                <svg
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  class="h-6 w-6"
                 >
-                  <svg
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    class="h-6 w-6"
-                  >
-                    <path
-                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                    />
-                  </svg>
-                </span>
-                <span class="ml-3">List user</span>
-              </div>
-            </router-link>
+                  <path
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+              </span>
+              <span class="ml-3">List user</span>
+            </div>
           </li>
           <li class="my-px">
-            <router-link to="/browse-photos">
-              <div
-                class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
+            <div
+              @click="onClickRouterBrowse()"
+              class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
+            >
+              <span
+                class="flex items-center justify-center text-lg text-gray-400"
               >
-                <span
-                  class="flex items-center justify-center text-lg text-gray-400"
+                <svg
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  class="h-6 w-6"
                 >
-                  <svg
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    class="h-6 w-6"
-                  >
-                    <path
-                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-                    />
-                  </svg>
-                </span>
-                <span class="ml-3">Check image user</span>
-              </div>
-            </router-link>
+                  <path
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                  />
+                </svg>
+              </span>
+              <span class="ml-3">Check image user</span>
+            </div>
           </li>
           <li class="my-px">
             <button
@@ -203,8 +200,8 @@
             </button>
             <ul id="dropdown-example" class="py-2 space-y-2">
               <li class="my-px">
-                <a
-                  href="#"
+                <button
+                  @click="onClickRouterInterest()"
                   class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                 >
                   <span
@@ -225,7 +222,7 @@
                     </svg>
                   </span>
                   <span class="ml-3">Interests</span>
-                </a>
+                </button>
               </li>
               <li class="my-px">
                 <a
@@ -470,6 +467,21 @@ export default {
   mounted() {},
 
   methods: {
+    onClickRouterDashboard() {
+      this.$router.push({ path: "/dashboard" }).catch(() => {});
+    },
+
+    onClickRouterBrowse() {
+      this.$router.push({ path: "/dashboard/browse-photos" }).catch(() => {});
+    },
+
+    onClickRouterUser() {
+      this.$router.push({ path: "/dashboard/list-user" }).catch(() => {});
+    },
+
+    onClickRouterInterest() {
+      this.$router.push({ path: "/dashboard/interest" }).catch(() => {});
+    },
     toggleDrop() {
       this.showDropDown = !this.showDropDown;
     },

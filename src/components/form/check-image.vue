@@ -241,7 +241,8 @@ export default {
       }
     },
 
-    handleCheckboxChange(index) {
+    handleCheckboxChange(val, index) {
+      debugger;
       // Do something based on the checkbox change, for example:
       const isChecked = this.selectedItems[index];
 
