@@ -4,7 +4,7 @@
     <div
       class="flex flex-col gap-3 h-[50px] sm:flex-row sm:items-center sm:justify-between"
     >
-      <h2 class="text-xl font-bold text-black">Check image verify</h2>
+      <h2 class="text-xl font-bold text-black">CMS Avatar</h2>
 
       <nav>
         <ol class="flex items-center gap-2">

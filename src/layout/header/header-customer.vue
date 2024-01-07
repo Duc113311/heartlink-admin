@@ -58,7 +58,7 @@
           </a>
         </div>
       </form>
-      <div class="flex ml-auto w-[200px]">
+      <div class="flex ml-auto">
         <div
           class="flex items-center justify-start space-x-4 cursor-pointer"
           @click="toggleDrop"
@@ -68,8 +68,10 @@
             class="rounded-circle w-10 h-10 rounded-full border-2 border-gray-50"
           />
           <div class="font-semibold dark:text-gray-800 text-gray-800 text-left">
-            <div>Nguyen Van Duc</div>
-            <div class="text-xs text-gray-500 dark:text-gray-400">Admin</div>
+            <div>{{ inforAdmin.name }}</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">
+              {{ roleName }}
+            </div>
           </div>
           <div
             v-show="showDropDown"
@@ -105,6 +107,25 @@ export default {
 
   data() {
     return {};
+  },
+
+  computed: {
+    inforAdmin() {
+      const localUser = JSON.parse(localStorage.getItem("user"));
+
+      return localUser;
+    },
+
+    roleName() {
+      const localUser = JSON.parse(localStorage.getItem("user"));
+      if (localUser.role === "admin") {
+        return "Admin";
+      } else if (localUser.role === "operator") {
+        return "Operator";
+      } else {
+        return "Reporter";
+      }
+    },
   },
 
   mounted() {},

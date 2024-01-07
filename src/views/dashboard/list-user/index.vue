@@ -131,7 +131,7 @@
               scope="row"
               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
             >
-              <div class="w-[200px] truncate" :title="item.fullname">
+              <div class="w-[100px] truncate" :title="item.fullname">
                 {{ item.fullname }}
               </div>
             </th>

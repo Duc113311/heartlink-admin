@@ -10,7 +10,7 @@ const mutations = {
   setTokenLogin(state, data) {
     debugger;
     localStorage.setItem("token", data.token);
-    localStorage.setItem("user", data.user);
+    localStorage.setItem("user", JSON.stringify(data.user));
 
     state.tokenUser = data;
   },

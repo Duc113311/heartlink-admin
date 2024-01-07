@@ -46,7 +46,13 @@ export default {
       this.$router.push({ path: "/" }).catch(() => {});
     }
   },
-  mounted() {},
+  mounted() {
+    debugger;
+
+    const userLocal = localStorage.getItem("user");
+
+    console.log(JSON.parse(userLocal));
+  },
   methods: {},
 };
 </script>

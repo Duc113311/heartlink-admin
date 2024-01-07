@@ -6,7 +6,7 @@
     >
       <HeaderCustomer></HeaderCustomer>
       <div
-        class="main-content flex flex-col flex-grow p-[20px] h-[calc(100vh-130px)] show-scroll overflow-y-auto"
+        class="main-content flex flex-col overflow-hidden flex-grow p-[20px] h-[calc(100vh-130px)] show-scroll overflow-y-auto"
       >
         <!-- <h1 class="font-bold text-2xl text-gray-700">Dashboard</h1>
 
@@ -14,7 +14,6 @@
           <div class="w-full h-full bg-orange-300 overflow-y-auto">
           </div>
         </div> -->
-        <div>Hello</div>
         <router-view></router-view>
       </div>
       <FooterAdmin></FooterAdmin>
