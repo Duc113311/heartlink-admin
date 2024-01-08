@@ -117,7 +117,7 @@
             >Previous</a
           >
         </li>
-        <li v-for="page in visiblePages" :key="page">
+        <li v-for="page in totalPages" :key="page">
           <a
             href="#"
             :class="{
@@ -155,6 +155,7 @@ export default {
   data() {
     return {
       currentPage: 1,
+      totalPages: 10,
     };
   },
 
@@ -175,28 +176,6 @@ export default {
 
       return limitData;
     },
-
-    visiblePages() {
-      const maxVisiblePages = 5; // Đặt số lượng trang hiển thị tối đa
-      const totalPages = this.limitPage.total;
-      const startPage = Math.max(
-        1,
-        this.currentPage - Math.floor(maxVisiblePages / 2)
-      );
-      const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-      const pages = [];
-      for (let page = startPage; page <= endPage; page++) {
-        pages.push(page);
-      }
-
-      return pages;
-    },
-    showEllipsisAfterLastVisiblePage() {
-      return (
-        this.visiblePages[this.visiblePages.length - 1] < this.limitPage.total
-      );
-    },
   },
 
   mounted() {},
@@ -208,13 +187,14 @@ export default {
     },
 
     goToPage(page) {
+      debugger;
       if (page >= 1 && page <= this.limitPage.total) {
         this.currentPage = page;
         // Gọi API hoặc thực hiện các thao tác khác khi chuyển trang
 
         this.$emit("onChangeLimitNext", {
           currentPage: this.currentPage,
-          totalPages: this.totalPages,
+          pageSize: this.totalPages,
         });
       }
     },

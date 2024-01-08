@@ -8,7 +8,10 @@
 
     <!-- table -->
 
-    <TableLanguage :dataTable="dataTable"></TableLanguage>
+    <TableLanguage
+      :dataTable="dataTable"
+      @onChangeLimitNext="onChangeLimitNext"
+    ></TableLanguage>
   </div>
 
   <el-dialog
@@ -134,6 +137,21 @@ export default {
     onConfirmDialog() {
       this.dialogFormVisible = false;
       this.ElNotification();
+    },
+
+    async onChangeLimitNext(val) {
+      await this.getListInterests({
+        currentPage: val.currentPage,
+        pageSize: val.pageSize,
+        filters: [
+          {
+            columnName: "langs.en",
+            value: val,
+            operation: "contains",
+            dataType: "text",
+          },
+        ],
+      });
     },
   },
 };
