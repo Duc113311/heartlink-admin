@@ -89,7 +89,7 @@ export default {
 
   data() {
     return {
-      dialogFormVisible: true,
+      dialogFormVisible: false,
       form: {
         key: "",
         name: "",

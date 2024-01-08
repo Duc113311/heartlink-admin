@@ -95,7 +95,7 @@ export default {
 
   data() {
     return {
-      dialogFormVisible: true,
+      dialogFormVisible: false,
       form: {
         key: "",
         name: "",
@@ -110,7 +110,7 @@ export default {
 
   computed: {
     dataTable() {
-      const listData = this.$store.state.profileModule.listInterest;
+      const listData = this.$store.state.profileModule.listGender;
 
       return listData;
     },

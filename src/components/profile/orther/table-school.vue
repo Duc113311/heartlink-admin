@@ -18,10 +18,8 @@
             </div>
           </th>
           <th scope="col" class="px-6 py-3">STT</th>
-          <th scope="col" class="px-6 py-3">Primary Key</th>
-          <th scope="col" class="px-6 py-3">English</th>
-          <th scope="col" class="px-6 py-3">Vietnamese</th>
-          <th scope="col" class="px-6 py-3">Japanese</th>
+          <th scope="col" class="px-6 py-3">Name school</th>
+          <th scope="col" class="px-6 py-3">Training system</th>
           <th scope="col" class="px-6 py-3">Create by</th>
           <th scope="col" class="px-6 py-3 text-center">Action</th>
         </tr>
@@ -47,10 +45,8 @@
           <td class="px-6 py-4">
             <div class="flex items-center justify-start">{{ index }}</div>
           </td>
-          <td class="px-6 py-4">{{ item.code }}</td>
-          <td class="px-6 py-4">{{ item.langs.en }}</td>
-          <td class="px-6 py-4">{{ item.langs.vi }}</td>
-          <td class="px-6 py-4">{{ item.langs.ja }}</td>
+          <td class="px-6 py-4">{{ item.name }}</td>
+          <td class="px-6 py-4">{{ item.category }}</td>
 
           <td class="px-6 py-4">
             <el-tooltip
@@ -117,7 +113,7 @@
             >Previous</a
           >
         </li>
-        <li v-for="page in visiblePages" :key="page">
+        <li v-for="page in totalPages" :key="page">
           <a
             href="#"
             :class="{
@@ -129,14 +125,12 @@
             {{ page }}</a
           >
         </li>
-        <li v-if="showEllipsisAfterLastVisiblePage">
-          <span>...</span>
-        </li>
+
         <li>
           <a
             href="#"
             @click.prevent="goToPage(currentPage + 1)"
-            :disabled="currentPage === limitPage.total"
+            :disabled="currentPage === totalPages"
             class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >Next</a
           >
@@ -155,6 +149,7 @@ export default {
   data() {
     return {
       currentPage: 1,
+      totalPages: 10,
     };
   },
 
@@ -175,28 +170,6 @@ export default {
 
       return limitData;
     },
-
-    visiblePages() {
-      const maxVisiblePages = 5; // Đặt số lượng trang hiển thị tối đa
-      const totalPages = this.limitPage.total;
-      const startPage = Math.max(
-        1,
-        this.currentPage - Math.floor(maxVisiblePages / 2)
-      );
-      const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-      const pages = [];
-      for (let page = startPage; page <= endPage; page++) {
-        pages.push(page);
-      }
-
-      return pages;
-    },
-    showEllipsisAfterLastVisiblePage() {
-      return (
-        this.visiblePages[this.visiblePages.length - 1] < this.limitPage.total
-      );
-    },
   },
 
   mounted() {},
@@ -208,7 +181,7 @@ export default {
     },
 
     goToPage(page) {
-      if (page >= 1 && page <= this.limitPage.total) {
+      if (page >= 1 && page <= this.totalPages) {
         this.currentPage = page;
         // Gọi API hoặc thực hiện các thao tác khác khi chuyển trang
 

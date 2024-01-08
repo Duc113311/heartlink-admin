@@ -59,6 +59,27 @@ const mutations = {
   setListInterests(state, data) {
     state.listInterest = data.list_data;
   },
+  setListGender(state, data) {
+    state.listGender = data.list_data;
+  },
+  setListSexual(state, data) {
+    state.listSexual = data.list_data;
+  },
+  setListSchool(state, data) {
+    state.listSchool = data.list_data;
+  },
+  setListJobTitle(state, data) {
+    state.listJobTitle = data.list_data;
+  },
+  setListLanguages(state, data) {
+    state.listLanguage = data.list_data;
+  },
+  setListPackages(state, data) {
+    state.listPackage = data.list_data;
+  },
+  setListLocation(state, data) {
+    state.listLocation = data.list_data;
+  },
 };
 
 const actions = {
@@ -85,13 +106,36 @@ const actions = {
   },
 
   /**
+   * List danh sách Gender
+   * @param {*} param0
+   * @param {*} data
+   */
+  async getListGender({ commit }, data) {
+    await http_mongo
+      .get(`api/genders`, {
+        params: data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          commit("setListGender", response.data.data);
+          commit("setLimit", response.data.data);
+        }
+      })
+      .catch((error) => {});
+  },
+
+  /**
    * List danh sách sexual
    * @param {*} param0
    * @param {*} pageSize
    */
-  async getListSexual({ commit }, pageSize) {
+  async getListSexual({ commit }, data) {
     await http_mongo
-      .get(`api/sexuals?currentPage=0&pageSize=${pageSize}`, {
+      .get(`api/sexuals`, {
+        params: data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -99,6 +143,7 @@ const actions = {
       .then((response) => {
         if (response.status === 200) {
           commit("setListSexual", response.data.data);
+          commit("setLimit", response.data.data);
         }
       })
       .catch((error) => {});
@@ -109,9 +154,10 @@ const actions = {
    * @param {*} param0
    * @param {*} pageSize
    */
-  async getListSchools({ commit }, pageSize) {
+  async getListSchools({ commit }, data) {
     await http_mongo
-      .get(`api/schools?currentPage=0&pageSize=${pageSize}`, {
+      .get(`api/schools`, {
+        params: data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -119,6 +165,7 @@ const actions = {
       .then((response) => {
         if (response.status === 200) {
           commit("setListSchool", response.data.data);
+          commit("setLimit", response.data.data);
         }
       })
       .catch((error) => {});
@@ -129,9 +176,10 @@ const actions = {
    * @param {*} param0
    * @param {*} pageSize
    */
-  async getListJobTitle({ commit }, pageSize) {
+  async getListJobTitle({ commit }, data) {
     await http_mongo
-      .get(`api/job-titles?currentPage=0&pageSize=${pageSize}`, {
+      .get(`api/job-titles`, {
+        params: data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -139,26 +187,7 @@ const actions = {
       .then((response) => {
         if (response.status === 200) {
           commit("setListJobTitle", response.data.data);
-        }
-      })
-      .catch((error) => {});
-  },
-
-  /**
-   * List danh sách Gender
-   * @param {*} param0
-   * @param {*} pageSize
-   */
-  async getListGender({ commit }, pageSize) {
-    await http_mongo
-      .get(`api/genders?currentPage=0&pageSize=${pageSize}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          commit("setListGender", response.data.data);
+          commit("setLimit", response.data.data);
         }
       })
       .catch((error) => {});
@@ -169,9 +198,10 @@ const actions = {
    * @param {*} param0
    * @param {*} pageSize
    */
-  async getListLanguages({ commit }, pageSize) {
+  async getListLanguages({ commit }, data) {
     await http_mongo
-      .get(`api/languages?currentPage=0&pageSize=${pageSize}`, {
+      .get(`api/languages`, {
+        params: data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -179,6 +209,7 @@ const actions = {
       .then((response) => {
         if (response.status === 200) {
           commit("setListLanguages", response.data.data);
+          commit("setLimit", response.data.data);
         }
       })
       .catch((error) => {});
@@ -189,9 +220,10 @@ const actions = {
    * @param {*} param0
    * @param {*} pageSize
    */
-  async getListPackages({ commit }, pageSize) {
+  async getListPackages({ commit }, data) {
     await http_mongo
-      .get(`api/packages?currentPage=0&pageSize=${pageSize}`, {
+      .get(`api/packages`, {
+        params: data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -199,6 +231,7 @@ const actions = {
       .then((response) => {
         if (response.status === 200) {
           commit("setListPackages", response.data.data);
+          commit("setLimit", response.data.data);
         }
       })
       .catch((error) => {});
@@ -209,9 +242,10 @@ const actions = {
    * @param {*} param0
    * @param {*} pageSize
    */
-  async getListLocations({ commit }, pageSize) {
+  async getListLocations({ commit }, data) {
     await http_mongo
-      .get(`api/areas?currentPage=0&pageSize=${pageSize}`, {
+      .get(`api/areas`, {
+        params: data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -219,6 +253,7 @@ const actions = {
       .then((response) => {
         if (response.status === 200) {
           commit("setListLocation", response.data.data);
+          commit("setLimit", response.data.data);
         }
       })
       .catch((error) => {});
