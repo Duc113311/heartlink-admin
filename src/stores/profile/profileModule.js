@@ -9,11 +9,53 @@ const state = {
   listLanguage: [], // Language
   listPackage: [], // Package
   listLocation: [], // Location
+  limitPage: {},
+
+  listKeyLanguages: [
+    { key: "en", value: "English" },
+    { key: "fr", value: "French" },
+    { key: "es", value: "Spanish" },
+    { key: "de", value: "German" },
+    { key: "it", value: "Italian" },
+    { key: "pt", value: "Portuguese" },
+    { key: "ru", value: "Russian" },
+    { key: "zh", value: "Chinese (Mandarin)" },
+    { key: "ja", value: "Japanese" },
+    { key: "ko", value: "Korean" },
+    { key: "ar", value: "Arabic" },
+    { key: "hi", value: "Hindi" },
+    { key: "th", value: "Thai" },
+    { key: "id", value: "Indonesian" },
+    { key: "vi", value: "Vietnamese" },
+    { key: "tr", value: "Turkish" },
+    { key: "pl", value: "Polish" },
+    { key: "nl", value: "Dutch" },
+    { key: "sv", value: "Swedish" },
+    { key: "da", value: "Danish" },
+    { key: "el", value: "Greek" },
+    { key: "no", value: "Norwegian" },
+    { key: "fi", value: "Finnish" },
+    { key: "hu", value: "Hungarian" },
+    { key: "cs", value: "Czech" },
+    { key: "sk", value: "Slovak" },
+    { key: "ro", value: "Romanian" },
+    { key: "bg", value: "Bulgarian" },
+    { key: "hr", value: "Croatian" },
+    { key: "sr", value: "Serbian" },
+    { key: "bs", value: "Bosnian" },
+    { key: "sl", value: "Slovenian" },
+    { key: "mk", value: "Macedonian" },
+  ],
 };
 
 const getters = {};
 
 const mutations = {
+  setLimit(state, data) {
+    state.limitPage.currentPage = data.currentPage;
+    state.limitPage.limit = data.limit;
+    state.limitPage.total = data.total;
+  },
   setListInterests(state, data) {
     state.listInterest = data.list_data;
   },
@@ -25,9 +67,10 @@ const actions = {
    * @param {*} param0
    * @param {*} pageSize
    */
-  async getListInterests({ commit }, pageSize) {
+  async getListInterests({ commit }, data) {
     await http_mongo
-      .get(`api/interests?currentPage=0&pageSize=${pageSize}`, {
+      .get(`api/interests`, {
+        params: data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -35,6 +78,7 @@ const actions = {
       .then((response) => {
         if (response.status === 200) {
           commit("setListInterests", response.data.data);
+          commit("setLimit", response.data.data);
         }
       })
       .catch((error) => {});

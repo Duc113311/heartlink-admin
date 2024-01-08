@@ -18,7 +18,7 @@
           <li class="my-px" v-if="roleAdmin === 'admin'">
             <div
               @click="onClickRouterDashboard()"
-              class="inline-flex relative items-center px-[10px] py-[10px] w-full text-base font-medium rounded-md border-gray-200 hover:bg-gray-300 hover:text-gray-800 transition duration-400 ease-in-out"
+              class="inline-flex relative items-center px-[10px] py-[10px] w-full text-base font-medium rounded-md border-gray-200 hover:bg-gray-100 hover:text-gray-700 transition duration-400 ease-in-out"
             >
               <span
                 class="flex items-center justify-center text-lg text-gray-400"
@@ -111,6 +111,7 @@
                 </li>
                 <li class="my-px">
                   <a
+                    @click="onClickRouterBrowse()"
                     href="#"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
@@ -259,8 +260,8 @@
               <ul id="dropdown-example" class="py-2 space-y-2 pl-3">
                 <li class="my-px">
                   <a
-                    href="#"
-                    class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                    @click="onClickRouterInterest()"
+                    class="flex flex-row items-center cursor-pointer h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <span
                       class="flex items-center justify-center text-lg text-gray-400"
@@ -284,32 +285,36 @@
                 </li>
                 <li class="my-px">
                   <a
-                    href="#"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
-                    <span
-                      class="flex items-center justify-center text-lg text-gray-400"
+                    <button
+                      @click="onClickRouterSexual()"
+                      class="flex flex-row items-center"
                     >
-                      <svg
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        class="h-6 w-6"
+                      <span
+                        class="flex items-center justify-center text-lg text-gray-400"
                       >
-                        <path
-                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-                        />
-                      </svg>
-                    </span>
-                    <span class="ml-3">Orientation Sexual </span>
+                        <svg
+                          fill="none"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          class="h-6 w-6"
+                        >
+                          <path
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                          />
+                        </svg>
+                      </span>
+                      <span class="ml-3">Orientation Sexual </span>
+                    </button>
                   </a>
                 </li>
                 <li class="my-px">
                   <a
-                    href="#"
+                    @click="onClickRouterGender()"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <span
@@ -334,7 +339,7 @@
                 </li>
                 <li class="my-px">
                   <a
-                    href="#"
+                    @click="onClickRouterSchool()"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <span
@@ -359,7 +364,7 @@
                 </li>
                 <li class="my-px">
                   <a
-                    href="#"
+                    @click="onClickRouterLanguage()"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <span
@@ -384,7 +389,32 @@
                 </li>
                 <li class="my-px">
                   <a
-                    href="#"
+                    @click="onClickRouterSchool()"
+                    class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                  >
+                    <span
+                      class="flex items-center justify-center text-lg text-gray-400"
+                    >
+                      <svg
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        class="h-6 w-6"
+                      >
+                        <path
+                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                        />
+                      </svg>
+                    </span>
+                    <span class="ml-3">School </span>
+                  </a>
+                </li>
+                <li class="my-px">
+                  <a
+                    @click="onClickRouterPackage()"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <span
@@ -409,7 +439,7 @@
                 </li>
                 <li class="my-px">
                   <a
-                    href="#"
+                    @click="onClickRouterLocation()"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <span
@@ -480,7 +510,6 @@ export default {
 
   computed: {
     roleAdmin() {
-      debugger;
       const localUser = JSON.parse(localStorage.getItem("user"));
       if (localUser.role === "admin") {
         return "admin";
@@ -508,8 +537,39 @@ export default {
     },
 
     onClickRouterInterest() {
-      this.$router.push({ path: "/dashboard/interest" }).catch(() => {});
+      this.$router
+        .push({ path: "/dashboard/profile/interest" })
+        .catch(() => {});
     },
+
+    onClickRouterSexual() {
+      this.$router.push({ path: "/dashboard/profile/sexual" }).catch(() => {});
+    },
+
+    onClickRouterGender() {
+      this.$router.push({ path: "/dashboard/profile/gender" }).catch(() => {});
+    },
+
+    onClickRouterLanguage() {
+      this.$router
+        .push({ path: "/dashboard/profile/language" })
+        .catch(() => {});
+    },
+
+    onClickRouterPackage() {
+      this.$router.push({ path: "/dashboard/profile/package" }).catch(() => {});
+    },
+
+    onClickRouterLocation() {
+      this.$router
+        .push({ path: "/dashboard/profile/location" })
+        .catch(() => {});
+    },
+
+    onClickRouterSchool() {
+      this.$router.push({ path: "/dashboard/profile/school" }).catch(() => {});
+    },
+
     toggleDrop() {
       this.showDropDown = !this.showDropDown;
     },
