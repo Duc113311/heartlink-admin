@@ -46,6 +46,25 @@ const state = {
     { key: "sl", value: "Slovenian" },
     { key: "mk", value: "Macedonian" },
   ],
+
+  // Form chung
+  formData: {
+    _id: "",
+    code: "",
+    langs: {
+      en: "",
+      vi: "",
+      ja: "",
+    },
+    insert: {
+      by: "",
+      when: "",
+    },
+    update: {
+      by: "",
+      when: "",
+    },
+  },
 };
 
 const getters = {};
@@ -80,6 +99,10 @@ const mutations = {
   setListLocation(state, data) {
     state.listLocation = data.list_data;
   },
+
+  setFormData(state, data) {
+    state.formData = data;
+  },
 };
 
 const actions = {
@@ -103,6 +126,52 @@ const actions = {
         }
       })
       .catch((error) => {});
+  },
+
+  updateInterest({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .put(`api/interests/${data._id}`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("login successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+
+  deleteInterest({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .delete(`api/interests/${data._id}?hardDelete=true`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Delete successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
   },
 
   /**

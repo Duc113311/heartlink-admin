@@ -39,13 +39,22 @@
       >
         Add new primary key
       </button>
-      <button
-        @click="onClickDeleteAll()"
-        type="button"
-        class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+      <el-popover
+        placement="top"
+        :width="200"
+        trigger="click"
+        content="Coming soon"
       >
-        Delete primary all
-      </button>
+        <template #reference>
+          <button
+            @click="onClickDeleteAll()"
+            type="button"
+            class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          >
+            Delete primary all
+          </button>
+        </template>
+      </el-popover>
     </div>
   </div>
 </template>
@@ -83,6 +92,10 @@ export default {
 
     onClickAddNew() {
       this.$emit("onChangeAddNew", true);
+    },
+
+    onClickDeleteAll() {
+      debugger;
     },
   },
 };

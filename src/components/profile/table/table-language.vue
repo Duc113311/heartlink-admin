@@ -12,6 +12,8 @@
               <input
                 id="checkbox-all-search"
                 type="checkbox"
+                v-model="selectAll"
+                @change="toggleSelectAll"
                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
               <label for="checkbox-all-search" class="sr-only">checkbox</label>
@@ -26,7 +28,7 @@
           <th scope="col" class="px-6 py-3 text-center">Action</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-loading="isLoading">
         <tr
           v-for="(item, index) in listDataTable"
           :key="index"
@@ -37,6 +39,8 @@
               <input
                 id="checkbox-table-search-1"
                 type="checkbox"
+                v-model="selectedItems[index]"
+                @change="handleCheckboxChange(item, index)"
                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
               <label for="checkbox-table-search-1" class="sr-only"
@@ -68,7 +72,7 @@
           <td class="px-6 py-4">
             <div class="gap-2 flex justify-center">
               <button
-                @click="onClickView()"
+                @click="onClickView(item)"
                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
               >
                 View
@@ -79,12 +83,48 @@
               >
                 Edit
               </button>
-              <button
-                @click="onClickDelete(item)"
-                class="font-medium text-red-500 dark:text-blue-500 hover:underline"
+              <el-popover
+                placement="left"
+                :width="400"
+                trigger="click"
+                v-model:visible="popoverVisibleDelete[item._id]"
               >
-                Delete
-              </button>
+                <template #reference>
+                  <button
+                    class="font-medium text-red-500 dark:text-blue-500 hover:underline"
+                  >
+                    Delete
+                  </button>
+                </template>
+
+                <template v-slot="">
+                  <div class="flex justify-center items-center w-full">
+                    <div class="w-full text-center">
+                      <p
+                        class="mb-4 text-base text-gray-500 dark:text-gray-300"
+                      >
+                        Are you sure you want to delete this item
+                        {{ item.code }}?
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex justify-center items-center space-x-4">
+                    <button
+                      @click="onClickCancel(item._id)"
+                      type="button"
+                      class="py-2 px-3 text-sm font-medium text-gray-500 bg-slate-50 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                    >
+                      No, cancel
+                    </button>
+                    <button
+                      @click="onClickDelete(item)"
+                      class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-2 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                    >
+                      Yes, I'm sure
+                    </button>
+                  </div>
+                </template>
+              </el-popover>
             </div>
           </td>
         </tr>
@@ -117,11 +157,12 @@
             >Previous</a
           >
         </li>
-        <li v-for="page in totalPages" :key="page">
+
+        <li v-for="page in visiblePages" :key="page">
           <a
             href="#"
             :class="{
-              'text-blue-700 bg-blue-100 !important': page === currentPage,
+              'font-active': page === currentPage,
             }"
             @click.prevent="goToPage(page)"
             class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -130,7 +171,10 @@
           >
         </li>
         <li v-if="showEllipsisAfterLastVisiblePage">
-          <span>...</span>
+          <a
+            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            >...</a
+          >
         </li>
         <li>
           <a
@@ -148,6 +192,7 @@
 
 <script>
 import funValidation from "../../../middleware/validation";
+import { ref } from "vue";
 
 export default {
   name: "table-language",
@@ -156,6 +201,9 @@ export default {
     return {
       currentPage: 1,
       totalPages: 10,
+      popoverVisibleDelete: {},
+      selectAll: false,
+      selectedItems: [],
     };
   },
 
@@ -164,9 +212,16 @@ export default {
       type: Array,
       default: () => [],
     },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   computed: {
+    isLoading() {
+      return this.loading;
+    },
     listDataTable() {
       return this.dataTable;
     },
@@ -176,18 +231,68 @@ export default {
 
       return limitData;
     },
-  },
 
+    visiblePages() {
+      const maxVisiblePages = 5; // Đặt số lượng trang hiển thị tối đa
+      const totalPages = this.limitPage.total;
+      const startPage = Math.max(
+        1,
+        this.currentPage - Math.floor(maxVisiblePages / 2)
+      );
+      const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+      const pages = [];
+      for (let page = startPage; page <= endPage; page++) {
+        pages.push(page);
+      }
+
+      debugger;
+      return pages;
+    },
+    showEllipsisAfterLastVisiblePage() {
+      return (
+        this.visiblePages[this.visiblePages.length - 1] < this.limitPage.total
+      );
+    },
+  },
+  watch: {
+    selectAll(newVal) {
+      this.selectedItems = newVal
+        ? Array(this.listDataTable.length).fill(true)
+        : [];
+    },
+  },
   mounted() {},
 
   methods: {
+    toggleSelectAll() {
+      if (this.selectAll) {
+        this.selectAll = true;
+      } else {
+        this.selectAll = false;
+      }
+    },
+
+    handleCheckboxChange(val, index) {
+      debugger;
+      // Do something based on the checkbox change, for example:
+      const isChecked = this.selectedItems[index];
+
+      if (isChecked) {
+        console.log(`Checkbox at index ${index} is checked.`);
+        // Add your logic for when the checkbox is checked
+      } else {
+        console.log(`Checkbox at index ${index} is unchecked.`);
+        // Add your logic for when the checkbox is unchecked
+      }
+    },
+
     convertDate(val) {
       const resultDate = funValidation.convertDateTime(val.when);
       return resultDate;
     },
 
     goToPage(page) {
-      debugger;
       if (page >= 1 && page <= this.limitPage.total) {
         this.currentPage = page;
         // Gọi API hoặc thực hiện các thao tác khác khi chuyển trang
@@ -198,13 +303,30 @@ export default {
         });
       }
     },
+
+    onClickView(val) {
+      this.$emit("onChangeViewData", val);
+    },
+
+    onClickEdit(val) {
+      this.$emit("onChangeUpdateData", val);
+    },
+
+    onClickDelete(val) {
+      this.$emit("onChangeDeleteData", val);
+      this.popoverVisibleDelete[val._id] = false;
+    },
+
+    onClickCancel(itemId) {
+      this.popoverVisibleDelete[itemId] = false;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.font-w {
-  font-weight: 700;
-  background-color: blueviolet;
+.font-active {
+  color: #dbeafe;
+  background-color: #1d4ed8;
 }
 </style>
