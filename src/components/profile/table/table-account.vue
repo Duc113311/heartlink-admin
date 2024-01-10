@@ -20,10 +20,12 @@
             </div>
           </th>
           <th scope="col" class="px-6 py-3">STT</th>
-          <th scope="col" class="px-6 py-3">Primary Key</th>
-          <th scope="col" class="px-6 py-3">English</th>
-          <th scope="col" class="px-6 py-3">Vietnamese</th>
-          <th scope="col" class="px-6 py-3">Japanese</th>
+          <th scope="col" class="px-6 py-3">Full name</th>
+          <th scope="col" class="px-6 py-3">Address</th>
+          <th scope="col" class="px-6 py-3">Email</th>
+          <th scope="col" class="px-6 py-3">Phone number</th>
+          <th scope="col" class="px-6 py-3">Disable</th>
+          <th scope="col" class="px-6 py-3">Role</th>
           <th scope="col" class="px-6 py-3">Create by</th>
           <th scope="col" class="px-6 py-3 text-center">Action</th>
         </tr>
@@ -51,10 +53,12 @@
           <td class="px-6 py-4">
             <div class="flex items-center justify-start">{{ index }}</div>
           </td>
-          <td class="px-6 py-4">{{ item.code }}</td>
-          <td class="px-6 py-4">{{ item.langs.en }}</td>
-          <td class="px-6 py-4">{{ item.langs.vi }}</td>
-          <td class="px-6 py-4">{{ item.langs.ja }}</td>
+          <td class="px-6 py-4">{{ item.name }}</td>
+          <td class="px-6 py-4">{{ item.address }}</td>
+          <td class="px-6 py-4">{{ item.email }}</td>
+          <td class="px-6 py-4">{{ item.phone }}</td>
+          <td class="px-6 py-4">{{ item.disable }}</td>
+          <td class="px-6 py-4">{{ item.role }}</td>
 
           <td class="px-6 py-4">
             <el-tooltip
@@ -71,18 +75,99 @@
 
           <td class="px-6 py-4">
             <div class="gap-2 flex justify-center">
-              <button
-                @click="onClickView(item)"
-                class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+              <el-popover
+                placement="left"
+                :width="400"
+                trigger="click"
+                v-model:visible="popoverVisibleReset[item._id]"
               >
-                View
-              </button>
+                <template #reference>
+                  <button
+                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                  >
+                    Reset
+                  </button>
+                </template>
+
+                <template v-slot="">
+                  <div class="flex justify-center items-center w-full">
+                    <div class="w-full text-center">
+                      <p
+                        class="mb-4 text-base text-gray-500 dark:text-gray-300"
+                      >
+                        Do you want to reset password
+                        <span class="font-semibold">{{ item.name }}</span>
+                        account?
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex justify-center items-center space-x-4">
+                    <button
+                      @click="onClickCancelReset(item._id)"
+                      type="button"
+                      class="py-2 px-3 text-sm font-medium text-gray-500 bg-slate-50 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                    >
+                      No, cancel
+                    </button>
+                    <button
+                      @click="onClickReset(item)"
+                      class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-2 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                    >
+                      Yes, I'm sure
+                    </button>
+                  </div>
+                </template>
+              </el-popover>
+
               <button
                 @click="onClickEdit(item)"
                 class="font-medium text-green-500 dark:text-blue-500 hover:underline"
               >
                 Edit
               </button>
+              <el-popover
+                placement="left"
+                :width="400"
+                trigger="click"
+                v-model:visible="popoverVisibleDisable[item._id]"
+              >
+                <template #reference>
+                  <button
+                    class="font-medium text-red-500 dark:text-blue-500 hover:underline"
+                  >
+                    Disable
+                  </button>
+                </template>
+
+                <template v-slot="">
+                  <div class="flex justify-center items-center w-full">
+                    <div class="w-full text-center">
+                      <p
+                        class="mb-4 text-base text-gray-500 dark:text-gray-300"
+                      >
+                        Do you want to disable
+                        <span class="font-semibold">{{ item.name }}</span>
+                        account?
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex justify-center items-center space-x-4">
+                    <button
+                      @click="onClickCancelDisable(item._id)"
+                      type="button"
+                      class="py-2 px-3 text-sm font-medium text-gray-500 bg-slate-50 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                    >
+                      No, cancel
+                    </button>
+                    <button
+                      @click="onClickDisable(item)"
+                      class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-2 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                    >
+                      Yes, I'm sure
+                    </button>
+                  </div>
+                </template>
+              </el-popover>
               <el-popover
                 placement="left"
                 :width="400"
@@ -103,8 +188,9 @@
                       <p
                         class="mb-4 text-base text-gray-500 dark:text-gray-300"
                       >
-                        Are you sure you want to delete this item
-                        {{ item.code }}?
+                        Do you want to delete
+                        <span class="font-semibold">{{ item.name }}</span>
+                        account?
                       </p>
                     </div>
                   </div>
@@ -130,63 +216,6 @@
         </tr>
       </tbody>
     </table>
-    <nav
-      class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"
-      aria-label="Table navigation"
-    >
-      <span
-        class="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto"
-        >Showing
-        <span class="font-semibold text-gray-900 dark:text-white"
-          >{{ limitPage.currentPage === 0 ? "1" : limitPage.currentPage }}-{{
-            limitPage.limit
-          }}</span
-        >
-        of
-        <span class="font-semibold text-gray-900 dark:text-white">{{
-          limitPage.total
-        }}</span></span
-      >
-      <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8 gap-3">
-        <li>
-          <a
-            href="#"
-            @click.prevent="goToPage(currentPage - 1)"
-            :disabled="currentPage === 1"
-            class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >Previous</a
-          >
-        </li>
-
-        <li v-for="page in visiblePages" :key="page">
-          <a
-            href="#"
-            :class="{
-              'font-active': page === currentPage,
-            }"
-            @click.prevent="goToPage(page)"
-            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          >
-            {{ page }}</a
-          >
-        </li>
-        <li v-if="showEllipsisAfterLastVisiblePage">
-          <a
-            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >...</a
-          >
-        </li>
-        <li>
-          <a
-            href="#"
-            @click.prevent="goToPage(currentPage + 1)"
-            :disabled="currentPage === limitPage.total"
-            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >Next</a
-          >
-        </li>
-      </ul>
-    </nav>
   </div>
 </template>
 
@@ -195,13 +224,16 @@ import funValidation from "../../../middleware/validation";
 import { ref } from "vue";
 
 export default {
-  name: "table-language",
+  name: "table-account",
 
   data() {
     return {
       currentPage: 1,
       totalPages: 18,
       popoverVisibleDelete: {},
+      popoverVisibleDisable: {},
+      popoverVisibleReset: {},
+
       selectAll: false,
       selectedItems: [],
     };
@@ -304,8 +336,10 @@ export default {
       }
     },
 
-    onClickView(val) {
-      this.$emit("onChangeViewData", val);
+    onClickReset(val) {
+      debugger;
+      this.$emit("onChangeResetData", val);
+      this.popoverVisibleReset[val._id] = false;
     },
 
     onClickEdit(val) {
@@ -317,8 +351,20 @@ export default {
       this.popoverVisibleDelete[val._id] = false;
     },
 
+    onClickDisable(val) {
+      this.$emit("onChangeDisableData", val);
+      this.popoverVisibleDisable[val._id] = false;
+    },
+
     onClickCancel(itemId) {
       this.popoverVisibleDelete[itemId] = false;
+    },
+    onClickCancelDisable(itemId) {
+      this.popoverVisibleDisable[itemId] = false;
+    },
+
+    onClickCancelReset(itemId) {
+      this.popoverVisibleReset[itemId] = false;
     },
   },
 };

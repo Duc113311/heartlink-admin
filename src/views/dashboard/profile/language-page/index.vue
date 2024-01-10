@@ -4,33 +4,113 @@
     <titlePage></titlePage>
 
     <!-- Search -->
-    <SearchPage
-      @onChangeAddNew="onChangeAddNew"
-      @onChangeSearch="onChangeSearch"
-    ></SearchPage>
+    <SearchPage @onChangeAddNew="onChangeAddNew"></SearchPage>
 
     <!-- table -->
 
     <TableLanguage
       :dataTable="dataTable"
+      :loading="isLoading"
       @onChangeLimitNext="onChangeLimitNext"
+      @onChangeDeleteData="onChangeDeleteData"
+      @onChangeUpdateData="onChangeUpdateData"
+      @onChangeViewData="onChangeViewData"
     ></TableLanguage>
   </div>
 
   <el-dialog
     v-model="dialogFormVisible"
-    :title="titleDialog"
     width="30%"
+    @close="closeDialog"
     draggable
   >
-    <el-form :model="form">
-      <el-form-item label="Primary key" :label-width="formLabelWidth">
-        <el-input v-model="form.key" autocomplete="off" />
+    <template #title>
+      <div class="text-lg font-semibold text-slate-500">Add primary key</div>
+    </template>
+    <el-form
+      :model="dataForm"
+      :id="dataForm._id"
+      :rules="rules"
+      ref="dataFormRef"
+      label-position="left"
+    >
+      <el-form-item
+        label="Primary key"
+        :label-width="formLabelWidth"
+        prop="code"
+        :rules="[
+          {
+            required: true,
+            message: 'Primary key is required',
+            trigger: 'blur',
+          },
+        ]"
+      >
+        <el-input
+          :disabled="actionView"
+          v-model="dataForm.code"
+          autocomplete="off"
+          ref="codeInput"
+        />
       </el-form-item>
-      <el-form-item label="Primary name" :label-width="formLabelWidth">
-        <el-input v-model="form.name" autocomplete="off" />
+      <!-- <el-form-item label="Primary name" :label-width="formLabelWidth">
+        <el-input v-model="dataForm.name" autocomplete="off" />
+      </el-form-item> -->
+      <el-form-item
+        label="English name"
+        :label-width="formLabelWidth"
+        prop="langs.en"
+        :rules="[
+          {
+            required: true,
+            message: 'English name is required',
+            trigger: 'blur',
+          },
+        ]"
+      >
+        <el-input
+          :disabled="actionView"
+          v-model="dataForm.langs.en"
+          autocomplete="off"
+        />
       </el-form-item>
-      <el-form-item label="" :label-width="formLabelWidth">
+      <el-form-item
+        label="Vietnamese name"
+        :label-width="formLabelWidth"
+        prop="langs.vi"
+        :rules="[
+          {
+            required: true,
+            message: 'Vietnamese name is required',
+            trigger: 'blur',
+          },
+        ]"
+      >
+        <el-input
+          :disabled="actionView"
+          v-model="dataForm.langs.vi"
+          autocomplete="off"
+        />
+      </el-form-item>
+      <el-form-item
+        label="Japan name"
+        :label-width="formLabelWidth"
+        prop="langs.ja"
+        :rules="[
+          {
+            required: true,
+            message: 'Japan name is required',
+            trigger: 'blur',
+          },
+        ]"
+      >
+        <el-input
+          :disabled="actionView"
+          v-model="dataForm.langs.ja"
+          autocomplete="off"
+        />
+      </el-form-item>
+      <!-- <el-form-item label="" :label-width="formLabelWidth">
         <el-select v-model="form.region" placeholder="Please select langue">
           <el-option label="Select All" value="all" />
           <el-option
@@ -41,10 +121,8 @@
           />
           <el-option />
         </el-select>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
+      </el-form-item> -->
+      <div class="dialog-footer flex items-center justify-end">
         <button
           type="button"
           @click="onCancelDialog()"
@@ -53,14 +131,15 @@
           Cancel
         </button>
         <button
+          :disabled="actionView"
           @click="onConfirmDialog()"
           type="button"
           class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-3 py-2.5 text-center me-2 mb-2"
         >
           Confirm
         </button>
-      </span>
-    </template>
+      </div>
+    </el-form>
   </el-dialog>
 </template>
 
@@ -70,7 +149,7 @@ import SearchPage from "../../../../components/profile/search-button/search-page
 import titlePage from "@/components/profile/title/title-page.vue";
 import { ElNotification } from "element-plus";
 
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 export default {
   components: {
     TableLanguage,
@@ -79,10 +158,10 @@ export default {
   },
 
   setup() {
-    const notificationSuccess = () => {
+    const notificationSuccess = (message) => {
       ElNotification({
         title: "Success",
-        message: "This is a success message",
+        message: message,
         type: "success",
       });
     };
@@ -96,6 +175,7 @@ export default {
   data() {
     return {
       dialogFormVisible: false,
+      actionView: false,
       form: {
         key: "",
         name: "",
@@ -105,6 +185,8 @@ export default {
       titleDialog: "Add primary key",
       selectedLanguage: "en",
       translatedValue: "",
+      dataFormAction: {},
+      isLoading: false,
     };
   },
 
@@ -115,61 +197,152 @@ export default {
       return listData;
     },
 
+    dataForm() {
+      return this.$store.state.profileModule.formData;
+    },
+
     listKey() {
       return this.$store.state.profileModule.listKeyLanguages;
     },
   },
 
   async mounted() {
+    this.isLoading = true;
+
     await this.getListLanguages({
       currentPage: 0,
-      pageSize: 10,
+      pageSize: 18,
     });
+
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
   },
 
   methods: {
-    ...mapActions(["getListLanguages"]),
+    ...mapMutations(["setFormData"]),
+    ...mapActions([
+      "getListLanguages",
+      "insertLanguages",
+      "updateLanguages",
+      "deleteLanguages",
+    ]),
 
     onChangeAddNew(val) {
       this.dialogFormVisible = val;
     },
 
-    async onChangeSearch(val) {
+    closeDialog() {
+      debugger;
+      this.$refs.dataFormRef.resetFields();
+    },
+
+    onCancelDialog() {
+      this.dialogFormVisible = false;
+      this.$refs.dataFormRef.resetFields();
+    },
+    async onConfirmDialog() {
+      // this.dialogFormVisible = false;
+      debugger;
+
+      this.$refs.dataFormRef.validate((valid) => {
+        if (valid) {
+          debugger;
+          this.handelAPI();
+          // Form is valid, you can submit the data or perform other actions
+          console.log("Form is valid");
+        } else {
+          // Form is not valid, show an error message or handle it accordingly
+          return false;
+        }
+      });
+      // await this.updateLanguages(this.dataFormAction).then((data) => {
+      //   this.notificationSuccess();
+      // });
+    },
+
+    async handelAPI() {
+      debugger;
+      const formData = this.dataForm;
+      if (formData._id) {
+        await this.updateLanguages(formData).then((data) => {
+          this.notificationSuccess("Update record successfully");
+          this.dialogFormVisible = false;
+        });
+      } else {
+        await this.insertLanguages(formData).then((data) => {
+          this.notificationSuccess("Insert record successfully");
+        });
+      }
+      this.$refs.dataFormRef.resetFields();
+      // await this.updateLanguages(this.dataFormAction).then((data) => {
+      //   this.notificationSuccess();
+      // });
+      this.isLoading = true;
       await this.getListLanguages({
         currentPage: 0,
-        pageSize: 10,
-        filters: [
-          {
-            columnName: "langs.en",
-            value: val,
-            operation: "contains",
-            dataType: "text",
-          },
-        ],
+        pageSize: 16,
       });
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
     },
 
     async onChangeLimitNext(val) {
       await this.getListLanguages({
         currentPage: val.currentPage,
         pageSize: val.pageSize,
-        filters: [
-          {
-            columnName: "langs.en",
-            value: val,
-            operation: "contains",
-            dataType: "text",
-          },
-        ],
       });
     },
 
-    onCancelDialog() {
-      this.dialogFormVisible = false;
+    onChangeViewData(val) {
+      this.dataFormAction = {
+        _id: val._id,
+        code: val.code,
+        langs: {
+          en: val.langs.en,
+          vi: val.langs.vi,
+          ja: val.langs.ja,
+        },
+        insert: val.insert,
+        update: val.update,
+      };
+      this.setFormData(this.dataFormAction);
+      this.actionView = true;
+      this.dialogFormVisible = true;
     },
-    onConfirmDialog() {
-      this.dialogFormVisible = false;
-      this.ElNotification();
+
+    onChangeUpdateData(val) {
+      this.dataFormAction = {
+        _id: val._id,
+        code: val.code,
+        langs: {
+          en: val.langs.en,
+          vi: val.langs.vi,
+          ja: val.langs.ja,
+        },
+        insert: val.insert,
+        update: val.update,
+      };
+      this.setFormData(this.dataFormAction);
+      this.actionView = false;
+      this.dialogFormVisible = true;
+    },
+
+    async onChangeDeleteData(val) {
+      await this.deleteLanguages(val).then((data) => {
+        this.notificationSuccess();
+      });
+
+      this.isLoading = true;
+      await this.getListLanguages({
+        currentPage: 0,
+        pageSize: 16,
+      });
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
     },
   },
 };

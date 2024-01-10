@@ -20,10 +20,7 @@
             </div>
           </th>
           <th scope="col" class="px-6 py-3">STT</th>
-          <th scope="col" class="px-6 py-3">Primary Key</th>
-          <th scope="col" class="px-6 py-3">English</th>
-          <th scope="col" class="px-6 py-3">Vietnamese</th>
-          <th scope="col" class="px-6 py-3">Japanese</th>
+          <th scope="col" class="px-6 py-3">Title Name</th>
           <th scope="col" class="px-6 py-3">Create by</th>
           <th scope="col" class="px-6 py-3 text-center">Action</th>
         </tr>
@@ -51,11 +48,7 @@
           <td class="px-6 py-4">
             <div class="flex items-center justify-start">{{ index }}</div>
           </td>
-          <td class="px-6 py-4">{{ item.code }}</td>
-          <td class="px-6 py-4">{{ item.langs.en }}</td>
-          <td class="px-6 py-4">{{ item.langs.vi }}</td>
-          <td class="px-6 py-4">{{ item.langs.ja }}</td>
-
+          <td class="px-6 py-4">{{ item.name }}</td>
           <td class="px-6 py-4">
             <el-tooltip
               class="box-item rounded-md shadow-md"
@@ -195,7 +188,7 @@ import funValidation from "../../../middleware/validation";
 import { ref } from "vue";
 
 export default {
-  name: "table-language",
+  name: "table-job-title",
 
   data() {
     return {

@@ -1,11 +1,9 @@
 <template>
-  <footer class="footer px-4 py-6">
-    <div class="footer-content">
-      <p class="text-sm text-gray-600 text-center">
-        © Heartconnect 2023. All rights reserved.
-        <a href="https://twitter.com/iaminos">Create by bachasoft</a>
-      </p>
-    </div>
+  <footer class="footer h-[60px] px-3 flex justify-center items-center w-full">
+    <p class="text-sm text-gray-600 text-center">
+      © Heartconnect 2023. All rights reserved.
+      <a href="https://twitter.com/iaminos">Create by bachasoft</a>
+    </p>
   </footer>
 </template>
 

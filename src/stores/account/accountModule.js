@@ -2,6 +2,8 @@ import { http_mongo } from "../../configs/http-mongo";
 
 const state = {
   listAccount: [],
+  formAccount: {},
+  listRole: [],
 };
 
 const getters = {};
@@ -14,6 +16,14 @@ const mutations = {
   setListReport(state, data) {
     state.listReport = data.list_data;
   },
+
+  setFormAccount(state, data) {
+    state.formAccount = data;
+  },
+
+  setRoles(state, data) {
+    state.listRole = data;
+  },
 };
 
 const actions = {
@@ -22,9 +32,10 @@ const actions = {
    * @param {*} param0
    * @param {*} pageSize
    */
-  async getListAccount({ commit }, pageSize) {
+  async getListAccount({ commit }, data) {
     await http_mongo
-      .get(`api/users?currentPage=0&pageSize=${pageSize}`, {
+      .get(`api/users`, {
+        params: data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -32,6 +43,137 @@ const actions = {
       .then((response) => {
         if (response.status === 200) {
           commit("setListAccount", response.data.data);
+        }
+      })
+      .catch((error) => {});
+  },
+
+  // disableAccount({ commit }, data) {
+  //   return new Promise((resolve, reject) => {
+  //     http_mongo
+  //       .put(`api/unlock-account/${data._id}`, {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         },
+  //       })
+  //       .then((response) => {
+  //         if (response.status === 200) {
+  //           resolve("Unlock successful", response.data);
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         if (err.response.status === 401) {
+  //           reject("validation error", err);
+  //         } else {
+  //           reject("something went wrong", err);
+  //         }
+  //       });
+  //   });
+  // },
+
+  insertAccount({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .post(`api/users`, {
+          params: data,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Insert successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+
+  resetAccount({ commit }, data) {
+    debugger;
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .put(`api/reset-password/${data._id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Reset successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+  // updateAccount({ commit }, data) {
+  //   return new Promise((resolve, reject) => {
+  //     http_mongo
+  //       .put(`api/users/${data._id}`, {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         },
+  //       })
+  //       .then((response) => {
+  //         if (response.status === 200) {
+  //           resolve("Update successful", response.data);
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         if (err.response.status === 401) {
+  //           reject("validation error", err);
+  //         } else {
+  //           reject("something went wrong", err);
+  //         }
+  //       });
+  //   });
+  // },
+
+  deleteAccount({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .delete(`api/users/${data._id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Delete successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+
+  async getRoles({ commit }, pageSize) {
+    await http_mongo
+      .get(`api/users/getRoles`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          commit("setRoles", response.data.data);
         }
       })
       .catch((error) => {});

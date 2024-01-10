@@ -65,6 +65,8 @@ const state = {
       when: "",
     },
   },
+
+  formLocation: {},
 };
 
 const getters = {};
@@ -103,9 +105,13 @@ const mutations = {
   setFormData(state, data) {
     state.formData = data;
   },
+  setFormLocation(state, data) {
+    state.formLocation = data;
+  },
 };
 
 const actions = {
+  //#region  Interest
   /**
    * Lấy danh sách interest
    * @param {*} param0
@@ -127,7 +133,41 @@ const actions = {
       })
       .catch((error) => {});
   },
+  /**
+   * Thêm thông tin
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  insertInterest({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .post(`api/interests`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Insert successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
 
+  /**
+   * Update interest
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
   updateInterest({ commit }, data) {
     return new Promise((resolve, reject) => {
       http_mongo
@@ -150,7 +190,12 @@ const actions = {
         });
     });
   },
-
+  /**
+   * Delete interest
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
   deleteInterest({ commit }, data) {
     return new Promise((resolve, reject) => {
       http_mongo
@@ -174,6 +219,9 @@ const actions = {
     });
   },
 
+  //#endregion
+
+  //#region Gender
   /**
    * List danh sách Gender
    * @param {*} param0
@@ -197,6 +245,95 @@ const actions = {
   },
 
   /**
+   * Thêm thông tin
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  insertGender({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .post(`api/genders`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Insert successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+
+  /**
+   * Update interest
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  updateGender({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .put(`api/genders/${data._id}`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Update successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+  /**
+   * Delete interest
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  deleteGender({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .delete(`api/genders/${data._id}?hardDelete=true`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Delete successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+
+  //#endregion
+
+  //#region Sexual
+  /**
    * List danh sách sexual
    * @param {*} param0
    * @param {*} pageSize
@@ -218,6 +355,95 @@ const actions = {
       .catch((error) => {});
   },
 
+  /**
+   * Thêm thông tin
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  insertSexual({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .post(`api/sexuals`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Insert successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+
+  /**
+   * Update interest
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  updateSexual({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .put(`api/sexuals/${data._id}`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Update successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+  /**
+   * Delete interest
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  deleteSexual({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .delete(`api/sexuals/${data._id}?hardDelete=true`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Delete successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+
+  //#endregion
+
+  //#region School
   /**
    * List danh sách school
    * @param {*} param0
@@ -241,6 +467,95 @@ const actions = {
   },
 
   /**
+   * Thêm thông tin
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  insertSchool({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .post(`api/schools`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Insert successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+
+  /**
+   * Update interest
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  updateSchool({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .put(`api/schools/${data._id}`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Update successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+  /**
+   * Delete interest
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  deleteSchool({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .delete(`api/schools/${data._id}?hardDelete=true`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Delete successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+
+  //#endregion
+
+  //#region Job-Title
+  /**
    * List danh sách job title
    * @param {*} param0
    * @param {*} pageSize
@@ -262,6 +577,95 @@ const actions = {
       .catch((error) => {});
   },
 
+  /**
+   * Thêm thông tin
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  insertJobTitle({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .post(`api/job-titles`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Insert successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+
+  /**
+   * Update interest
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  updateJobTitle({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .put(`api/job-titles/${data._id}`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Update successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+  /**
+   * Delete interest
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  deleteJobTitle({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .delete(`api/job-titles/${data._id}?hardDelete=true`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Delete successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+
+  //#endregion
+
+  //#region Languages
   /**
    * List danh sách Languages
    * @param {*} param0
@@ -285,6 +689,95 @@ const actions = {
   },
 
   /**
+   * Thêm thông tin
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  insertLanguages({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .post(`api/languages`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Insert successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+
+  /**
+   * Update interest
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  updateLanguages({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .put(`api/languages/${data._id}`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Update successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+  /**
+   * Delete interest
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  deleteLanguages({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .delete(`api/languages/${data._id}?hardDelete=true`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Delete successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+
+  //#endregion
+
+  //#region Package
+  /**
    * List danh sách Packages
    * @param {*} param0
    * @param {*} pageSize
@@ -307,6 +800,94 @@ const actions = {
   },
 
   /**
+   * Thêm thông tin
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  insertPackages({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .post(`api/packages`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Insert successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+
+  /**
+   * Update interest
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  updatePackages({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .put(`api/packages/${data._id}`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Update successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+  /**
+   * Delete interest
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  deletePackages({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .delete(`api/packages/${data._id}?hardDelete=true`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Delete successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+
+  //#endregion
+
+  /**
    * Lấy danh sách location
    * @param {*} param0
    * @param {*} pageSize
@@ -326,6 +907,92 @@ const actions = {
         }
       })
       .catch((error) => {});
+  },
+
+  /**
+   * Thêm thông tin
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  insertLocation({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .post(`api/areas`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Insert successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+
+  /**
+   * Update interest
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  updateLocation({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .put(`api/areas/${data._id}`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Update successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+  /**
+   * Delete interest
+   * @param {*} param0
+   * @param {*} data
+   * @returns
+   */
+  deleteLocation({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .delete(`api/areas/${data._id}?hardDelete=true`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Delete successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
   },
 };
 

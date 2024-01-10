@@ -16,6 +16,7 @@ import LocationView from "../views/dashboard/profile/location-page/index.vue";
 import PackageView from "../views/dashboard/profile/package-page/index.vue";
 import SexualView from "../views/dashboard/profile/sexual-page/index.vue";
 import SchoolView from "../views/dashboard/profile/school-page/index.vue";
+import AccountView from "../views/dashboard/account/index.vue";
 
 const routes = [
   {
@@ -127,6 +128,12 @@ const routes = [
             },
           },
         ],
+      },
+      // Account
+      {
+        path: "account",
+        name: "AccountView-view",
+        component: AccountView,
       },
     ],
   },

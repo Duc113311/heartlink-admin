@@ -20,36 +20,90 @@
 
   <el-dialog
     v-model="dialogFormVisible"
-    :title="titleDialog"
     width="30%"
+    @close="closeDialog"
     draggable
   >
-    <el-form :model="dataForm" :id="dataForm._id">
-      <el-form-item label="Primary key" :label-width="formLabelWidth">
+    <template #title>
+      <div class="text-lg font-semibold text-slate-500">Add primary key</div>
+    </template>
+    <el-form
+      :model="dataForm"
+      :id="dataForm._id"
+      :rules="rules"
+      ref="dataFormRef"
+      label-position="left"
+    >
+      <el-form-item
+        label="Primary key"
+        :label-width="formLabelWidth"
+        prop="code"
+        :rules="[
+          {
+            required: true,
+            message: 'Primary key is required',
+            trigger: 'blur',
+          },
+        ]"
+      >
         <el-input
           :disabled="actionView"
           v-model="dataForm.code"
           autocomplete="off"
+          ref="codeInput"
         />
       </el-form-item>
       <!-- <el-form-item label="Primary name" :label-width="formLabelWidth">
         <el-input v-model="dataForm.name" autocomplete="off" />
       </el-form-item> -->
-      <el-form-item label="English name" :label-width="formLabelWidth">
+      <el-form-item
+        label="English name"
+        :label-width="formLabelWidth"
+        prop="langs.en"
+        :rules="[
+          {
+            required: true,
+            message: 'English name is required',
+            trigger: 'blur',
+          },
+        ]"
+      >
         <el-input
           :disabled="actionView"
           v-model="dataForm.langs.en"
           autocomplete="off"
         />
       </el-form-item>
-      <el-form-item label="Vietnamese name" :label-width="formLabelWidth">
+      <el-form-item
+        label="Vietnamese name"
+        :label-width="formLabelWidth"
+        prop="langs.vi"
+        :rules="[
+          {
+            required: true,
+            message: 'Vietnamese name is required',
+            trigger: 'blur',
+          },
+        ]"
+      >
         <el-input
           :disabled="actionView"
           v-model="dataForm.langs.vi"
           autocomplete="off"
         />
       </el-form-item>
-      <el-form-item label="Japan name" :label-width="formLabelWidth">
+      <el-form-item
+        label="Japan name"
+        :label-width="formLabelWidth"
+        prop="langs.ja"
+        :rules="[
+          {
+            required: true,
+            message: 'Japan name is required',
+            trigger: 'blur',
+          },
+        ]"
+      >
         <el-input
           :disabled="actionView"
           v-model="dataForm.langs.ja"
@@ -68,9 +122,7 @@
           <el-option />
         </el-select>
       </el-form-item> -->
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
+      <div class="dialog-footer flex items-center justify-end">
         <button
           type="button"
           @click="onCancelDialog()"
@@ -86,8 +138,8 @@
         >
           Confirm
         </button>
-      </span>
-    </template>
+      </div>
+    </el-form>
   </el-dialog>
 </template>
 
@@ -106,10 +158,10 @@ export default {
   },
 
   setup() {
-    const notificationSuccess = () => {
+    const notificationSuccess = (message) => {
       ElNotification({
         title: "Success",
-        message: "This is a success message",
+        message: message,
         type: "success",
       });
     };
@@ -156,9 +208,10 @@ export default {
 
   async mounted() {
     this.isLoading = true;
+
     await this.getListInterests({
       currentPage: 0,
-      pageSize: 10,
+      pageSize: 18,
     });
 
     setTimeout(() => {
@@ -168,21 +221,67 @@ export default {
 
   methods: {
     ...mapMutations(["setFormData"]),
-    ...mapActions(["getListInterests", "updateInterest", "deleteInterest"]),
+    ...mapActions([
+      "getListInterests",
+      "insertInterest",
+      "updateInterest",
+      "deleteInterest",
+    ]),
 
     onChangeAddNew(val) {
       this.dialogFormVisible = val;
     },
 
+    closeDialog() {
+      this.$refs.dataFormRef.resetFields();
+    },
+
     onCancelDialog() {
       this.dialogFormVisible = false;
+      this.$refs.dataFormRef.resetFields();
     },
     async onConfirmDialog() {
-      this.dialogFormVisible = false;
+      // this.dialogFormVisible = false;
 
-      await this.updateInterest(this.dataFormAction).then((data) => {
-        this.notificationSuccess();
+      this.$refs.dataFormRef.validate((valid) => {
+        if (valid) {
+          this.handelAPI();
+          // Form is valid, you can submit the data or perform other actions
+          console.log("Form is valid");
+        } else {
+          // Form is not valid, show an error message or handle it accordingly
+          return false;
+        }
       });
+      // await this.updateInterest(this.dataFormAction).then((data) => {
+      //   this.notificationSuccess();
+      // });
+    },
+
+    async handelAPI() {
+      const formData = this.dataForm;
+      if (formData._id) {
+        await this.updateInterest(formData).then((data) => {
+          this.notificationSuccess("Update record successfully");
+          this.dialogFormVisible = false;
+        });
+      } else {
+        await this.insertInterest(formData).then((data) => {
+          this.notificationSuccess("Insert record successfully");
+        });
+      }
+      this.$refs.dataFormRef.resetFields();
+      // await this.updateInterest(this.dataFormAction).then((data) => {
+      //   this.notificationSuccess();
+      // });
+      this.isLoading = true;
+      await this.getListInterests({
+        currentPage: 0,
+        pageSize: 16,
+      });
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
     },
 
     async onChangeLimitNext(val) {
@@ -234,7 +333,7 @@ export default {
       this.isLoading = true;
       await this.getListInterests({
         currentPage: 0,
-        pageSize: 10,
+        pageSize: 16,
       });
 
       setTimeout(() => {
