@@ -271,7 +271,7 @@ export default {
       "deleteAccount",
       "updateAccount",
       "resetAccount",
-      "disableAccount",
+      "updateDisableAccount",
       "insertAccount",
     ]),
 
@@ -319,7 +319,7 @@ export default {
     },
 
     async onChangeDisableData(val) {
-      await this.disableAccount(val).then((data) => {
+      await this.updateDisableAccount(val).then((data) => {
         this.notificationSuccess();
       });
 

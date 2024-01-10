@@ -48,28 +48,28 @@ const actions = {
       .catch((error) => {});
   },
 
-  // disableAccount({ commit }, data) {
-  //   return new Promise((resolve, reject) => {
-  //     http_mongo
-  //       .put(`api/unlock-account/${data._id}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //         },
-  //       })
-  //       .then((response) => {
-  //         if (response.status === 200) {
-  //           resolve("Unlock successful", response.data);
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         if (err.response.status === 401) {
-  //           reject("validation error", err);
-  //         } else {
-  //           reject("something went wrong", err);
-  //         }
-  //       });
-  //   });
-  // },
+  updateDisableAccount({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .put(`api/lock-account/${data._id}`, {
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDBlZjZlMDM5NmMwMjEwMjZhNjk1ODQiLCJlbWFpbCI6ImFkbWluIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3MDU0NTE4OTAsImlhdCI6MTcwNDg0NzA5MH0.6ssxcLHJ5SaifAvQRRNbdzLTqLsQKYSEfSP6MfdwkGE`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Unlock successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
 
   insertAccount({ commit }, data) {
     return new Promise((resolve, reject) => {

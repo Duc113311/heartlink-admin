@@ -134,6 +134,9 @@ const routes = [
         path: "account",
         name: "AccountView-view",
         component: AccountView,
+        meta: {
+          nameTitle: "Account",
+        },
       },
     ],
   },

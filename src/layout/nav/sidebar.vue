@@ -86,6 +86,7 @@
               <ul id="dropdown-example" class="py-2 space-y-2 pl-3">
                 <li class="my-px">
                   <a
+                    @click="onClickRouterUser()"
                     href="#"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
