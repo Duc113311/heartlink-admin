@@ -59,43 +59,68 @@
         </div>
       </form>
       <div class="flex ml-auto">
-        <div
-          class="flex items-center justify-start space-x-4 cursor-pointer"
-          @click="toggleDrop"
-        >
-          <img
-            src="../../assets/icon_svg/avatar.jpg"
-            class="rounded-circle w-10 h-10 rounded-full border-2 border-gray-50"
-          />
-          <div class="font-semibold dark:text-gray-800 text-gray-800 text-left">
-            <div>{{ inforAdmin.name }}</div>
-            <div class="text-xs text-gray-500 dark:text-gray-400">
-              {{ roleName }}
+        <el-popover placement="bottom" :width="200" trigger="click">
+          <template #reference>
+            <div
+              class="flex items-center justify-start space-x-4 cursor-pointer"
+              @click="toggleDrop"
+            >
+              <img
+                src="../../assets/icon_svg/avatar.jpg"
+                class="rounded-circle w-10 h-10 rounded-full border-2 border-gray-50"
+              />
+              <div
+                class="font-semibold dark:text-gray-800 text-gray-800 text-left"
+              >
+                <div>{{ inforAdmin.name }}</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400">
+                  {{ roleName }}
+                </div>
+              </div>
+              <div
+                v-show="showDropDown"
+                class="absolute right-[10px] z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 top-16"
+              >
+                <div class="p-[10px] text-left" role="none">
+                  <a
+                    href="#"
+                    class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-200 hover:text-gray-800 transition duration-400 ease-in-out"
+                    >Account Setting</a
+                  >
+                  <a
+                    href="#"
+                    class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-200 hover:text-gray-800 transition duration-400 ease-in-out"
+                    >Support</a
+                  >
+                  <a
+                    href="#"
+                    class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-200 hover:text-gray-800 transition duration-400 ease-in-out"
+                    >Logout</a
+                  >
+                </div>
+              </div>
             </div>
-          </div>
-          <div
-            v-show="showDropDown"
-            class="absolute right-[10px] z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 top-16"
-          >
-            <div class="p-[10px] text-left" role="none">
-              <a
-                href="#"
-                class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-200 hover:text-gray-800 transition duration-400 ease-in-out"
-                >Account Setting</a
-              >
-              <a
-                href="#"
-                class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-200 hover:text-gray-800 transition duration-400 ease-in-out"
-                >Support</a
-              >
-              <a
-                href="#"
-                class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-200 hover:text-gray-800 transition duration-400 ease-in-out"
-                >Logout</a
-              >
+          </template>
+          <template v-slot="">
+            <div>
+              <div class="flex items-center">
+                <div class="text-left gap-2 w-full">
+                  <div
+                    class="flex w-full justify-start items-center p-2 cursor-pointer hover:bg-slate-300"
+                  >
+                    Change password
+                  </div>
+                  <div
+                    @click="onClickLogout()"
+                    class="flex w-full justify-start items-center p-2 cursor-pointer hover:bg-slate-300"
+                  >
+                    Logout
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </template>
+        </el-popover>
       </div>
     </div>
   </header>
@@ -130,7 +155,11 @@ export default {
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    onClickLogout() {
+      this.$emit("onChangeLogout", false);
+    },
+  },
 };
 </script>
 

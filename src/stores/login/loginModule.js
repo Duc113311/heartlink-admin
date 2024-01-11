@@ -34,12 +34,10 @@ const actions = {
   },
 
   async loginAppView({ commit }, data) {
-    debugger;
     return new Promise((resolve, reject) => {
       http_mongo
         .post(`api/login`, data)
         .then((response) => {
-          debugger;
           if (response.status === 200) {
             commit("setTokenLogin", response.data.data);
             resolve("login successful", response.data);
@@ -47,8 +45,10 @@ const actions = {
         })
         .catch((err) => {
           if (err.response.status === 401) {
+            debugger;
             reject("validation error", err);
           } else {
+            debugger;
             reject("something went wrong", err);
           }
         });

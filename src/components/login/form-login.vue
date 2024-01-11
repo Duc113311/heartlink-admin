@@ -100,8 +100,6 @@ export default {
      * Action login
      */
     onChangeLogin() {
-      debugger;
-
       this.loginAppView({
         username: this.username,
         password: this.password,

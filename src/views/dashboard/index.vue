@@ -1,10 +1,13 @@
 <template>
-  <div class="flex flex-row min-h-screen bg-gray-100 text-white">
+  <div
+    class="flex flex-row min-h-screen bg-gray-100 text-white"
+    v-loading="loading"
+  >
     <Sidebar></Sidebar>
     <main
       class="main flex flex-col flex-grow -ml-64 md:ml-0 transition-all duration-150 ease-in"
     >
-      <HeaderCustomer></HeaderCustomer>
+      <HeaderCustomer @onChangeLogout="onChangeLogout"></HeaderCustomer>
       <div
         class="main-content flex flex-col overflow-hidden flex-grow p-[20px] h-[calc(100vh-130px)] show-scroll overflow-y-auto"
       >
@@ -36,7 +39,9 @@ export default {
   name: "dashboard-view",
 
   data() {
-    return {};
+    return {
+      loading: false,
+    };
   },
 
   mounted() {
@@ -45,6 +50,15 @@ export default {
 
   methods: {
     ...mapActions(["getListCardUsers"]),
+
+    onChangeLogout() {
+      debugger;
+      setTimeout(() => {
+        this.loading = false;
+        localStorage.clear();
+        this.$router.push({ path: "/" }).catch(() => {});
+      }, 2000);
+    },
   },
 };
 </script>
