@@ -1,343 +1,193 @@
 <template>
   <div class="w-full h-full">
     <!-- header -->
-    <div
-      class="flex flex-col gap-3 h-[50px] sm:flex-row sm:items-center sm:justify-between"
-    >
-      <h2 class="text-xl font-bold text-black">CMS Avatar</h2>
-
-      <nav>
-        <ol class="flex items-center gap-2">
-          <li>
-            <a class="font-medium" href="index.html">Dashboard /</a>
-          </li>
-          <li class="text-blue-400">Check image</li>
-        </ol>
-      </nav>
+    <div class="flex w-full">
+      <div class="flex items-start w-[600px]">
+        <div class="text-center flex items-center">
+          <div class="relative">
+            <div
+              class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+            >
+              <svg
+                class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+            <input
+              type="search"
+              id="default-search"
+              v-model="inputSearch"
+              class="block search-text w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Search key, name"
+              @input="onChangeSearch(inputSearch)"
+              required
+            />
+          </div>
+          <el-select
+            v-model="valueRoles"
+            class="m-2 w-[170px] rounded-lg"
+            placeholder="Please select role"
+            size="large"
+          >
+            <el-option
+              v-for="item in dataRoles"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+          <el-select
+            v-model="valueRoles"
+            class="m-2 w-[170px] rounded-lg"
+            placeholder="Please select role"
+            size="large"
+          >
+            <el-option
+              v-for="item in dataRoles"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+      </div>
+      <div class="flex justify-end w-[calc(100%-600px)] items-center">
+        <!--  -->
+        <div class="grid grid-cols-3 gap-3">
+          <div class="w-[300px] md:flex-0 shrink-0">
+            <div
+              class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
+            >
+              <div class="flex-auto p-3 text-center">
+                <h1
+                  class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
+                >
+                  <span id="status1">AI Pending</span>
+                </h1>
+                <h6 class="mb-0 font-bold text-black text-xl">120.200.111</h6>
+              </div>
+            </div>
+          </div>
+          <div class="w-[300px] md:flex-0 shrink-0">
+            <div
+              class="hover:bg-slate-200 border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
+            >
+              <div class="flex-auto p-3 text-center">
+                <h1
+                  class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
+                >
+                  <span id="status1">AI Rejected</span>
+                </h1>
+                <h6 class="mb-0 font-bold text-black text-xl">120.200.111</h6>
+              </div>
+            </div>
+          </div>
+          <div class="w-[300px] md:flex-0 shrink-0">
+            <div
+              class="hover:bg-slate-200 border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
+            >
+              <div class="flex-auto p-3 text-center">
+                <h1
+                  class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
+                >
+                  <span id="status1">AI Approved</span>
+                </h1>
+                <h6 class="mb-0 font-bold text-black text-xl">120.200.111</h6>
+              </div>
+            </div>
+          </div>
+          <div class="w-[300px] md:flex-0 shrink-0">
+            <div
+              class="hover:bg-slate-200 border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
+            >
+              <div class="flex-auto p-3 text-center">
+                <h1
+                  class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
+                >
+                  <span id="status1">AI Approved</span>
+                </h1>
+                <h6 class="mb-0 font-bold text-black text-xl">120.200.111</h6>
+              </div>
+            </div>
+          </div>
+          <div class="w-[300px] md:flex-0 shrink-0">
+            <div
+              class="hover:bg-slate-200 border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
+            >
+              <div class="flex-auto p-3 text-center">
+                <h1
+                  class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
+                >
+                  <span id="status1">AI Approved</span>
+                </h1>
+                <h6 class="mb-0 font-bold text-black text-xl">120.200.111</h6>
+              </div>
+            </div>
+          </div>
+          <div class="w-[300px] md:flex-0 shrink-0">
+            <div
+              class="hover:bg-slate-200 border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
+            >
+              <div class="flex-auto p-3 text-center">
+                <h1
+                  class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
+                >
+                  <span id="status1">AI Approved</span>
+                </h1>
+                <h6 class="mb-0 font-bold text-black text-xl">120.200.111</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- Search -->
 
-    <div class="flex justify-between items-center flex-col sm:flex-row mb-4">
-      <div class="relative md:w-[500px]">
-        <div
-          class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
-        >
-          <svg
-            class="w-4 h-4 text-gray-500 dark:text-gray-400"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 20 20"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-            />
-          </svg>
-        </div>
-        <input
-          type="search"
-          id="default-search"
-          class="block search-text w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Search Mockups, Logos..."
-          required
-        />
-      </div>
+    <div class="flex justify-between items-center pt-5 pb-5">
+      <button
+        type="button"
+        class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+      >
+        Quick Action
+      </button>
 
-      <div class="flex items-center gap-2">
-        <button
-          type="button"
-          class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-        >
-          Disable account
-        </button>
-        <button
-          type="button"
-          class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-        >
-          Delete all
-        </button>
-      </div>
+      <button
+        type="button"
+        class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+      >
+        History
+      </button>
     </div>
 
     <!-- Table -->
 
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table
-        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+    <div>
+      <el-table
+        :data="listUser"
+        :default-sort="{ prop: 'date', order: 'descending' }"
+        style="width: 100%"
       >
-        <thead
-          class="text-xs text-white uppercase bg-gray-700 dark:bg-gray-700 dark:text-gray-400"
-        >
-          <tr>
-            <th scope="col" class="px-6 py-3">STT</th>
-            <th scope="col" class="px-6 py-3">Date</th>
-            <th scope="col" class="px-6 py-3">Full name</th>
-            <th scope="col" class="px-6 py-3">Avatar</th>
-            <th scope="col" class="px-6 py-3">Status hand check</th>
-            <th scope="col" class="px-6 py-3">Status AI check</th>
-            <th scope="col" class="px-6 py-3">AI scores</th>
-            <th scope="col" class="px-6 py-3 text-center">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(item, index) in listUser"
-            :key="index"
-            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-          >
-            <td class="px-6 py-4">
-              <div class="flex items-center justify-start">{{ index }}</div>
-            </td>
-            <td class="px-6 py-4">
-              <el-tooltip
-                class="box-item rounded-md shadow-md"
-                effect="light"
-                placement="top"
-              >
-                {{ convertDate(item.createBy).formattedDate }}
-                <template #content>
-                  <div>{{ convertDate(item.createBy).formattedTime }}</div>
-                </template>
-              </el-tooltip>
-            </td>
-            <th
-              scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              <div class="w-[100px] truncate" :title="item.fullname">
-                {{ item.fullname }}
-              </div>
-            </th>
-            <td class="px-6 py-4">
-              <div class="flex items-center justify-start relative">
-                <el-tooltip
-                  class="box-item rounded-md shadow-md"
-                  effect="light"
-                  placement="right"
-                >
-                  <div class="flex items-center justify-start relative">
-                    <div
-                      class="w-16 h-16 p-1 rounded-full bg-avatar-default"
-                      :style="`background-image:url(${
-                        item.avatarUsers[0].avatarDetails !== null
-                          ? item.avatarUsers[0].avatarDetails
-                          : avatarDefault
-                      })`"
-                    />
-                    <div
-                      class="top-0 flex justify-center items-center left-12 text-white absolute w-[25px] h-[25px] text-center bg-red-600 border-2 border-white dark:border-gray-800 rounded-full"
-                    >
-                      <span class="text-xs">+9</span>
-                    </div>
-                  </div>
-                  <template #content> <div>9 image</div> </template>
-                </el-tooltip>
-              </div>
-            </td>
+        <el-table-column prop="date" label="Images" sortable width="180" />
+        <el-table-column prop="name" label="Username" width="180" />
+        <el-table-column prop="name" label="Reviewer Status" width="180" />
+        <el-table-column prop="name" label="AI Status" width="180" />
+        <el-table-column prop="name" label="AI Score" width="180" />
+        <el-table-column prop="name" label="Last Update" width="180" />
+        <el-table-column prop="name" label="Ai Reason" width="180" />
 
-            <td class="px-6 py-4">
-              <div class="flex items-center gap-2">
-                <el-tooltip
-                  class="box-item rounded-md shadow-md"
-                  effect="light"
-                  placement="right"
-                >
-                  <div class="flex items-center gap-2">
-                    <img
-                      src="../../assets/icon_svg/ic_pending.svg"
-                      width="18"
-                      alt=""
-                    />
-                    <div class="text-sm">Pending</div>
-                  </div>
-                  <template #content>
-                    <div class="p-1 gap-2 grid">
-                      <div class="flex justify-between items-center w-full">
-                        <div class="flex items-center gap-2">
-                          <img
-                            src="../../assets/icon_svg/ic_pending.svg"
-                            width="18"
-                            alt=""
-                          />
-                          <div class="text-sm">Pending</div>
-                        </div>
-                        <div class="text-sm">: 5</div>
-                      </div>
-                      <div class="flex justify-between items-center w-full">
-                        <div class="flex items-center gap-2">
-                          <img
-                            src="../../assets/icon_svg/ic_approved.svg"
-                            width="18"
-                            alt=""
-                          />
-                          <div class="text-sm">Approved</div>
-                        </div>
-                        <div class="text-sm">: 5</div>
-                      </div>
-                      <div class="flex justify-between items-center w-full">
-                        <div class="flex items-center gap-2">
-                          <img
-                            src="../../assets/icon_svg/ic_disapprove.svg"
-                            width="18"
-                            alt=""
-                          />
-                          <div class="text-sm">Disapprove</div>
-                        </div>
-                        <div class="text-sm">: 5</div>
-                      </div>
-                    </div>
-                  </template>
-                </el-tooltip>
-              </div>
-            </td>
-            <td class="px-6 py-4">
-              <div class="flex items-center gap-2">
-                <el-tooltip
-                  class="box-item rounded-md shadow-md"
-                  effect="light"
-                  placement="right"
-                >
-                  <div class="flex items-center gap-2">
-                    <img
-                      src="../../assets/icon_svg/ic_pending.svg"
-                      width="18"
-                      alt=""
-                    />
-                    <div class="text-sm">Pending</div>
-                  </div>
-                  <template #content>
-                    <div class="p-1 gap-2 grid">
-                      <div class="flex justify-between items-center w-full">
-                        <div class="flex items-center gap-2">
-                          <img
-                            src="../../assets/icon_svg/ic_pending.svg"
-                            width="18"
-                            alt=""
-                          />
-                          <div class="text-sm">Pending</div>
-                        </div>
-                        <div class="text-sm">: 5</div>
-                      </div>
-                      <div class="flex justify-between items-center w-full">
-                        <div class="flex items-center gap-2">
-                          <img
-                            src="../../assets/icon_svg/ic_approved.svg"
-                            width="18"
-                            alt=""
-                          />
-                          <div class="text-sm">Approved</div>
-                        </div>
-                        <div class="text-sm">: 5</div>
-                      </div>
-                      <div class="flex justify-between items-center w-full">
-                        <div class="flex items-center gap-2">
-                          <img
-                            src="../../assets/icon_svg/ic_disapprove.svg"
-                            width="18"
-                            alt=""
-                          />
-                          <div class="text-sm">Disapprove</div>
-                        </div>
-                        <div class="text-sm">: 5</div>
-                      </div>
-                    </div>
-                  </template>
-                </el-tooltip>
-              </div>
-            </td>
-            <td class="px-6 py-4">100</td>
-
-            <td class="px-6 py-4">
-              <div class="gap-2 flex justify-center">
-                <button
-                  @click="onClickView()"
-                  class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  View
-                </button>
-                <button
-                  @click="onClickEdit(item)"
-                  class="font-medium text-green-500 dark:text-blue-500 hover:underline"
-                >
-                  Edit
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <nav
-        class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"
-        aria-label="Table navigation"
-      >
-        <span
-          class="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto"
-          >Showing
-          <span class="font-semibold text-gray-900 dark:text-white">1-10</span>
-          of
-          <span class="font-semibold text-gray-900 dark:text-white"
-            >1000</span
-          ></span
-        >
-        <ul
-          class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8 gap-3"
-        >
-          <li>
-            <a
-              href="#"
-              class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >Previous</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >1</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >2</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              aria-current="page"
-              class="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-              >3</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >4</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >5</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >Next</a
-            >
-          </li>
-        </ul>
-      </nav>
+        <el-table-column prop="action" label="Action" :formatter="formatter" />
+      </el-table>
     </div>
   </div>
 </template>
@@ -386,5 +236,9 @@ export default {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+.search-text:focus-visible {
+  outline: none;
 }
 </style>

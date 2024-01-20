@@ -117,9 +117,7 @@ export default {
       this.$emit("onChangeAddNew", true);
     },
 
-    onClickDeleteAll() {
-      debugger;
-    },
+    onClickDeleteAll() {},
   },
 };
 </script>

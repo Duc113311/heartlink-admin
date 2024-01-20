@@ -1,7 +1,7 @@
 <template>
   <aside
     id="sidebar-multi-level-sidebar"
-    class="sidebar w-64 md:shadow transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in bg-gray-800"
+    class="sidebar w-64 transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in bg-gray-800"
   >
     <div class="sidebar-header flex items-center justify-center py-4">
       <div class="inline-flex">
