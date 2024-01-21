@@ -69,13 +69,13 @@
             <div
               class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
             >
-              <div class="flex-auto p-3 text-center">
+              <div class="flex-auto p-2 text-center">
                 <h1
                   class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
                 >
                   <span id="status1">AI Pending</span>
                 </h1>
-                <h6 class="mb-0 font-bold text-black text-xl">120.200.111</h6>
+                <h6 class="mb-0 font-bold text-black text-lg">120.200.111</h6>
               </div>
             </div>
           </div>
@@ -83,13 +83,13 @@
             <div
               class="hover:bg-slate-200 border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
             >
-              <div class="flex-auto p-3 text-center">
+              <div class="flex-auto p-2 text-center">
                 <h1
                   class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
                 >
                   <span id="status1">AI Rejected</span>
                 </h1>
-                <h6 class="mb-0 font-bold text-black text-xl">120.200.111</h6>
+                <h6 class="mb-0 font-bold text-black text-lg">120.200.111</h6>
               </div>
             </div>
           </div>
@@ -97,13 +97,13 @@
             <div
               class="hover:bg-slate-200 border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
             >
-              <div class="flex-auto p-3 text-center">
+              <div class="flex-auto p-2 text-center">
                 <h1
                   class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
                 >
                   <span id="status1">AI Approved</span>
                 </h1>
-                <h6 class="mb-0 font-bold text-black text-xl">120.200.111</h6>
+                <h6 class="mb-0 font-bold text-black text-lg">120.200.111</h6>
               </div>
             </div>
           </div>
@@ -111,13 +111,13 @@
             <div
               class="hover:bg-slate-200 border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
             >
-              <div class="flex-auto p-3 text-center">
+              <div class="flex-auto p-2 text-center">
                 <h1
                   class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
                 >
                   <span id="status1">AI Approved</span>
                 </h1>
-                <h6 class="mb-0 font-bold text-black text-xl">120.200.111</h6>
+                <h6 class="mb-0 font-bold text-black text-lg">120.200.111</h6>
               </div>
             </div>
           </div>
@@ -125,13 +125,13 @@
             <div
               class="hover:bg-slate-200 border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
             >
-              <div class="flex-auto p-3 text-center">
+              <div class="flex-auto p-2 text-center">
                 <h1
                   class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
                 >
                   <span id="status1">AI Approved</span>
                 </h1>
-                <h6 class="mb-0 font-bold text-black text-xl">120.200.111</h6>
+                <h6 class="mb-0 font-bold text-black text-lg">120.200.111</h6>
               </div>
             </div>
           </div>
@@ -139,13 +139,13 @@
             <div
               class="hover:bg-slate-200 border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
             >
-              <div class="flex-auto p-3 text-center">
+              <div class="flex-auto p-2 text-center">
                 <h1
                   class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
                 >
                   <span id="status1">AI Approved</span>
                 </h1>
-                <h6 class="mb-0 font-bold text-black text-xl">120.200.111</h6>
+                <h6 class="mb-0 font-bold text-black text-lg">120.200.111</h6>
               </div>
             </div>
           </div>
@@ -156,6 +156,7 @@
 
     <div class="flex justify-between items-center pt-5 pb-5">
       <button
+        @click="drawerView = true"
         type="button"
         class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       >
@@ -163,6 +164,7 @@
       </button>
 
       <button
+        @click="drawer = true"
         type="button"
         class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       >
@@ -171,35 +173,277 @@
     </div>
 
     <!-- Table -->
-
     <div>
-      <el-table
-        :data="listUser"
-        :default-sort="{ prop: 'date', order: 'descending' }"
-        style="width: 100%"
-      >
-        <el-table-column prop="date" label="Images" sortable width="180" />
-        <el-table-column prop="name" label="Username" width="180" />
-        <el-table-column prop="name" label="Reviewer Status" width="180" />
-        <el-table-column prop="name" label="AI Status" width="180" />
-        <el-table-column prop="name" label="AI Score" width="180" />
-        <el-table-column prop="name" label="Last Update" width="180" />
-        <el-table-column prop="name" label="Ai Reason" width="180" />
+      <el-table :data="listUser" style="width: 100%">
+        <el-table-column prop="date" label="STT" width="80">
+          <template v-slot="{ row }">
+            <el-checkbox
+              :size="10"
+              :id="row.id"
+              style="width: 20px; height: 20px !important"
+            ></el-checkbox>
+          </template>
+        </el-table-column>
+        <el-table-column prop="date" label="Images" sortable>
+          <template v-slot="{ row }">
+            <div
+              class="imageAvatar"
+              :id="row"
+              :style="`background-image:url(${avatarDefault})`"
+            ></div>
+          </template>
+        </el-table-column>
 
-        <el-table-column prop="action" label="Action" :formatter="formatter" />
+        <el-table-column prop="name" label="Username" sortable>
+          <template v-slot="{ row }">
+            <div class="font-medium text-gray-900 whitespace-nowrap">
+              <span :id="row" class="w-[100px]">Nguyễn Văn Đức</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="name" label="Reviewer Status" sortable>
+          <template v-slot="{ row }">
+            <div class="flex items-center gap-2" :id="row">
+              <img
+                src="../../assets/icon_svg/ic_pending.svg"
+                width="18"
+                alt=""
+              />
+              <div class="text-base">Pending</div>
+            </div>
+          </template>
+        </el-table-column>
+
+        <el-table-column prop="name" label="AI Status" sortable>
+          <template v-slot="{ row }">
+            <div class="flex items-center gap-2" :id="row">
+              <img
+                src="../../assets/icon_svg/ic_pending.svg"
+                width="18"
+                alt=""
+              />
+              <div class="text-base">Pending</div>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="name" label="AI Score" sortable>
+          <template v-slot>
+            <div class="text-base font-medium">100</div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="name" label="Last Update" sortable>
+          <template v-slot>
+            <div class="text-base font-medium">08/01/2024</div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="name" label="Ai Reason" sortable>
+          <template v-slot>
+            <div class="text-base font-medium">Bạo lực, Khỏa thân</div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="action" label="Action" :formatter="formatter">
+          <template v-slot>
+            <div class="gap-2 flex justify-center">
+              <a
+                href="#"
+                class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                >View</a
+              >
+              <a
+                href="#"
+                class="font-medium text-green-500 dark:text-blue-500 hover:underline"
+                >Approve</a
+              >
+              <a
+                href="#"
+                class="font-medium text-gray-800 dark:text-blue-500 hover:underline"
+                >Deject</a
+              >
+            </div>
+          </template>
+        </el-table-column>
       </el-table>
+      <div class="example-pagination-block">
+        <el-pagination
+          v-model:current-page="currentPage2"
+          v-model:page-size="pageSize2"
+          :page-sizes="[100, 200, 300, 400]"
+          :background="true"
+          layout="sizes, prev, pager, next"
+          :total="1000"
+        />
+      </div>
     </div>
+
+    <el-drawer v-model="drawer" :with-header="false" size="80%">
+      <template v-slot>
+        <div class="w-full h-full text-black text-left">
+          <div class="text-xl font-bold text-blue-300 pt-2 pb-2">
+            Review History
+          </div>
+          <div class="table-view w-full h-full">
+            <div>
+              <el-table :data="listUser" style="width: 100%">
+                <el-table-column prop="date" label="STT" width="80">
+                  <template v-slot="{ row }">
+                    <el-checkbox
+                      :size="10"
+                      :id="row.id"
+                      style="width: 20px; height: 20px !important"
+                    ></el-checkbox>
+                  </template>
+                </el-table-column>
+                <!--  -->
+                <el-table-column
+                  prop="date"
+                  label="Images"
+                  sortable
+                  width="100"
+                >
+                  <template v-slot="{ row }">
+                    <div
+                      class="imageAvatar"
+                      :id="row"
+                      :style="`background-image:url(${avatarDefault})`"
+                    ></div>
+                  </template>
+                </el-table-column>
+                <!--  -->
+                <el-table-column prop="name" label="Username" sortable>
+                  <template v-slot="{ row }">
+                    <div class="font-medium text-gray-900 whitespace-nowrap">
+                      <span :id="row" class="w-[100px]">Nguyễn Văn Đức</span>
+                    </div>
+                  </template>
+                </el-table-column>
+                <!--  -->
+                <el-table-column prop="name" label="Reviewer Status" sortable>
+                  <template v-slot="{ row }">
+                    <div class="flex items-center gap-2" :id="row">
+                      <img
+                        src="../../assets/icon_svg/ic_pending.svg"
+                        width="18"
+                        alt=""
+                      />
+                      <div class="text-base">Pending</div>
+                    </div>
+                  </template>
+                </el-table-column>
+                <!--  -->
+                <el-table-column prop="name" label="AI Status" sortable>
+                  <template v-slot="{ row }">
+                    <div class="flex items-center gap-2" :id="row">
+                      <img
+                        src="../../assets/icon_svg/ic_pending.svg"
+                        width="18"
+                        alt=""
+                      />
+                      <div class="text-base">Pending</div>
+                    </div>
+                  </template>
+                </el-table-column>
+                <!--  -->
+                <el-table-column
+                  prop="name"
+                  label="AI Score"
+                  sortable
+                  width="120"
+                >
+                  <template v-slot>
+                    <div class="text-base font-medium">100</div>
+                  </template>
+                </el-table-column>
+                <!--  -->
+                <el-table-column prop="name" label="Last Update" sortable>
+                  <template v-slot>
+                    <div class="text-base font-medium">08/01/2024</div>
+                  </template>
+                </el-table-column>
+                <!--  -->
+                <el-table-column prop="name" label="Ai Reason" sortable>
+                  <template v-slot>
+                    <div class="text-base font-medium">Bạo lực, Khỏa thân</div>
+                  </template>
+                </el-table-column>
+                <!--  -->
+                <el-table-column
+                  prop="action"
+                  label="Action"
+                  :formatter="formatter"
+                >
+                  <template v-slot>
+                    <div class="gap-2 flex justify-center">
+                      <a
+                        href="#"
+                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                        >View</a
+                      >
+                      <a
+                        href="#"
+                        class="font-medium text-green-500 dark:text-blue-500 hover:underline"
+                        >Approve</a
+                      >
+                      <a
+                        href="#"
+                        class="font-medium text-gray-800 dark:text-blue-500 hover:underline"
+                        >Deject</a
+                      >
+                    </div>
+                  </template>
+                </el-table-column>
+                <!--  -->
+              </el-table>
+            </div>
+          </div>
+        </div>
+      </template>
+    </el-drawer>
+
+    <el-drawer
+      v-model="drawerView"
+      title="Check verify image"
+      :with-header="true"
+      size="100%"
+    >
+      <!--  -->
+      <cms-slider></cms-slider>
+      <!--  -->
+    </el-drawer>
+    <!--  -->
   </div>
 </template>
 
 <script>
+import { ref } from "vue";
 import funValidation from "../../middleware/validation";
+import CmsSlider from "../cms/cms-slider.vue";
 export default {
   name: "censorship-page",
 
+  components: { CmsSlider },
   data() {
     return {
       avatarDefault: require("@/assets/icon_svg/avatar.jpg"),
+      checked2: false,
+    };
+  },
+
+  setup() {
+    const currentPage2 = ref(5);
+    const pageSize2 = ref(100);
+    const small = ref(false);
+    const background = ref(false);
+    const disabled = ref(false);
+    const drawer = ref(false);
+    const drawerView = ref(true);
+    return {
+      currentPage2,
+      pageSize2,
+      small,
+      background,
+      disabled,
+      drawer,
+      drawerView,
     };
   },
 
@@ -240,5 +484,14 @@ export default {
 
 .search-text:focus-visible {
   outline: none;
+}
+
+.imageAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 70px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 </style>

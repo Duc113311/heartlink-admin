@@ -1,4 +1,4 @@
-.el-table th.el-table__cell {
+/* .el-table th.el-table__cell {
   background-color: #3c145b !important;
 }
 .el-table .el-table__cell {
@@ -10,4 +10,22 @@
 .el-table__header-wrapper {
   border-top-right-radius: 15px !important;
   border-top-left-radius: 15px !important;
+} */
+
+/* Select */
+
+.el-checkbox__inner {
+  width: 20px !important;
+  height: 20px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.el-checkbox__inner::after {
+  left: 6px !important;
+  width: 4px !important;
+  height: 11px !important;
+}
+.el-drawer__header {
+  margin-bottom: 0px !important;
 }

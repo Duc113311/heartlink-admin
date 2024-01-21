@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-row min-h-screen bg-gray-100 text-white"
+    class="flex flex-row min-h-screen bg-orange-50 text-white"
     v-loading="loading"
   >
     <Sidebar></Sidebar>
