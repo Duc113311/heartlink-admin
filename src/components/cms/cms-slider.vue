@@ -61,7 +61,7 @@
               </span>
             </button>
             <button
-              @click="onNextImage(currentSlideIndex++)"
+              @click="onNextImage()"
               type="button"
               class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
               data-carousel-next
@@ -102,6 +102,7 @@
           <div class="w-full flex justify-between">
             <div class="flex items-center gap-2">
               <div
+                v-loading="loading"
                 class="image-avatar"
                 :style="`background-image:url(${
                   renderImage().profiles.avatars.url
@@ -290,6 +291,7 @@ export default {
       avatarDefault: require("@/assets/icon_svg/avatar.jpg"),
       avatarDefault01: require("@/assets/icon_svg/avatar01.jpg"),
       currentSlideIndex: 0,
+      loading: false,
     };
   },
 
@@ -313,7 +315,27 @@ export default {
           return "Pending";
       }
     },
-    onNextImage() {},
+    async onNextImage() {
+      this.loading = true;
+      const itemUser = this.renderImage().profiles.avatars.id;
+      const objectImage = {
+        imageId: itemUser,
+        objectImage: {
+          status: 1,
+        },
+      };
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
+      await this.putApproveImage(objectImage).then((data) => {
+        debugger;
+        console.log(data);
+
+        this.renderImage().profiles.avatars.status = 1;
+        this.successNotification();
+        this.currentSlideIndex++;
+      });
+    },
 
     async onPrewImage() {},
 
@@ -340,12 +362,16 @@ export default {
           status: 2,
         },
       };
+
       await this.putApproveImage(objectImage).then((data) => {
         debugger;
         console.log(data);
         this.renderImage().profiles.avatars.status = 2;
         this.successNotification();
-
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+        }, 500);
         this.currentSlideIndex++;
       });
     },
@@ -366,6 +392,9 @@ export default {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  overflow: hidden;
 }
 
 .overlay {
