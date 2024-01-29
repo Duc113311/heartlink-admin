@@ -417,6 +417,7 @@
 import { ref } from "vue";
 import funValidation from "../../middleware/validation";
 import CmsSlider from "../cms/cms-slider.vue";
+import { mapActions } from "vuex";
 export default {
   name: "censorship-page",
 
@@ -453,9 +454,18 @@ export default {
     },
   },
 
+  async created() {
+    debugger;
+    await this.getListImageCMS({
+      currentPage: 0,
+      pageSize: 50,
+    });
+  },
+
   mounted() {},
 
   methods: {
+    ...mapActions(["getListImageCMS"]),
     convertDate(val) {
       const resultDate = funValidation.convertDateTime(val);
       return resultDate;

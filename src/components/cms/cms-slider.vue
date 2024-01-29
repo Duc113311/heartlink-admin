@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full flex">
+  <div class="w-full h-full flex" v-if="renderImage()">
     <!--  -->
     <div class="w-4/6 bg-slate-400 h-full">
       <div class="w-full h-full bg-slate-500 p-5">
@@ -16,76 +16,80 @@
           <!-- Carousel wrapper -->
           <div class="relative h-full overflow-hidden rounded-lg">
             <!-- Item 1 -->
-            <div class="duration-700 ease-in-out">
-              <div
-                :style="`background-image:url(${avatarDefault})`"
-                class="imageDetail absolute"
+
+            <div
+              class="duration-700 ease-in-out flex justify-center relative overflow-hidden w-full h-full"
+            >
+              <img
+                v-lazy="renderImage().profiles.avatars.url"
+                alt="Image"
+                class="imageDetail absolute object-contain"
               />
+
+              <!-- <div
+                :style="`background-image:url(${renderImage()})`"
+                class="imageDetail absolute"
+              /> -->
               <div class="overlay absolute w-full h-full"></div>
             </div>
 
-            <div class="duration-700 ease-in-out">
-              <div
-                :style="`background-image:url(${avatarDefault01})`"
-                class="imageDetail absolute"
-              />
-              <div class="overlay absolute w-full h-full"></div>
-            </div>
+            <button
+              @click="onPrewImage(currentSlideIndex--)"
+              type="button"
+              class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+              data-carousel-prev
+            >
+              <span
+                class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+              >
+                <svg
+                  class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 1 1 5l4 4"
+                  />
+                </svg>
+                <span class="sr-only">Previous</span>
+              </span>
+            </button>
+            <button
+              @click="onNextImage(currentSlideIndex++)"
+              type="button"
+              class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+              data-carousel-next
+            >
+              <span
+                class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+              >
+                <svg
+                  class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 9 4-4-4-4"
+                  />
+                </svg>
+                <span class="sr-only">Next</span>
+              </span>
+            </button>
           </div>
 
           <!-- Slider controls -->
-          <button
-            type="button"
-            class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-            data-carousel-prev
-          >
-            <span
-              class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
-            >
-              <svg
-                class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 6 10"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 1 1 5l4 4"
-                />
-              </svg>
-              <span class="sr-only">Previous</span>
-            </span>
-          </button>
-          <button
-            type="button"
-            class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-            data-carousel-next
-          >
-            <span
-              class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
-            >
-              <svg
-                class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 6 10"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m1 9 4-4-4-4"
-                />
-              </svg>
-              <span class="sr-only">Next</span>
-            </span>
-          </button>
         </div>
       </div>
 
@@ -99,10 +103,14 @@
             <div class="flex items-center gap-2">
               <div
                 class="image-avatar"
-                :style="`background-image:url(${avatarDefault})`"
+                :style="`background-image:url(${
+                  renderImage().profiles.avatars.url
+                })`"
               ></div>
               <div class="text-left">
-                <div class="text-base font-bold">NGUYỄN VĂN ĐỨC</div>
+                <div class="text-base font-bold">
+                  {{ renderImage().fullname }}
+                </div>
                 <div>Số lần vi phạm: 01</div>
               </div>
             </div>
@@ -122,7 +130,12 @@
             <div
               class="mb-2 text-base font-semibold text-gray-900 dark:text-white"
             >
-              Reviewer Status : <span class="text-blue-700"> Pending</span>
+              Reviewer Status :
+              <span class="text-blue-700">
+                {{
+                  renderStatusImage(renderImage().profiles.avatars.status)
+                }}</span
+              >
             </div>
             <ul
               class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400"
@@ -191,6 +204,7 @@
             </div>
             <div class="w-full justify-center flex items-center">
               <button
+                @click="onClickReject(renderImage().profiles.avatars.id)"
                 type="button"
                 class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-10 py-2.5 text-center me-2 mb-2"
               >
@@ -203,6 +217,7 @@
       <div class="w-full right-footer h-[110px] bg-slate-100 p-5">
         <div class="flex justify-center items-center w-full h-full">
           <button
+            @click="onClickApprove(renderImage().profiles.avatars.id)"
             type="button"
             class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-semibold rounded-lg text-lg px-10 py-2.5 text-center me-2 mb-2"
           >
@@ -219,13 +234,21 @@
 
 <script>
 import { ref } from "vue";
+import { mapActions } from "vuex";
+import { ElNotification } from "element-plus";
 
 export default {
   name: "cms-slider",
 
   setup() {
     const value2 = ref([]);
-
+    const successNotification = () => {
+      ElNotification({
+        title: "Success",
+        message: "Image updated successfully",
+        type: "success",
+      });
+    };
     const options = [
       {
         value: "Option1",
@@ -251,7 +274,14 @@ export default {
     return {
       options,
       value2,
+      successNotification,
     };
+  },
+
+  computed: {
+    listCMS() {
+      return this.$store.state.cmsModule.listImageCMS;
+    },
   },
 
   data() {
@@ -259,12 +289,67 @@ export default {
       textarea: "",
       avatarDefault: require("@/assets/icon_svg/avatar.jpg"),
       avatarDefault01: require("@/assets/icon_svg/avatar01.jpg"),
+      currentSlideIndex: 0,
     };
   },
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    ...mapActions(["putApproveImage"]),
+    renderImage() {
+      const listImgs = this.listCMS[this.currentSlideIndex];
+      debugger;
+      return listImgs;
+    },
+
+    renderStatusImage(val) {
+      switch (val) {
+        case 1:
+          return "Approve";
+        case 2:
+          return "Reject";
+        default:
+          return "Pending";
+      }
+    },
+    onNextImage() {},
+
+    async onPrewImage() {},
+
+    async onClickApprove(val) {
+      const objectImage = {
+        imageId: val,
+        objectImage: {
+          status: 1,
+        },
+      };
+      await this.putApproveImage(objectImage).then((data) => {
+        debugger;
+        console.log(data);
+        this.renderImage().profiles.avatars.status = 1;
+        this.successNotification();
+
+        this.currentSlideIndex++;
+      });
+    },
+    async onClickReject(val) {
+      const objectImage = {
+        imageId: val,
+        objectImage: {
+          status: 2,
+        },
+      };
+      await this.putApproveImage(objectImage).then((data) => {
+        debugger;
+        console.log(data);
+        this.renderImage().profiles.avatars.status = 2;
+        this.successNotification();
+
+        this.currentSlideIndex++;
+      });
+    },
+  },
 };
 </script>
 
@@ -272,9 +357,6 @@ export default {
 .imageDetail {
   width: 100%;
   height: 100%;
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
 }
 
 .image-avatar {
@@ -287,7 +369,7 @@ export default {
 }
 
 .overlay {
-  background: linear-gradient(to left, rgba(0, 0, 0, 0.3), transparent 30%),
-    linear-gradient(to right, rgba(0, 0, 0, 0.3), transparent 30%);
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.5), transparent 50%),
+    linear-gradient(to right, rgba(0, 0, 0, 0.5), transparent 50%);
 }
 </style>

@@ -47,8 +47,6 @@ export default {
     }
   },
   mounted() {
-    debugger;
-
     const userLocal = localStorage.getItem("user");
 
     console.log(JSON.parse(userLocal));

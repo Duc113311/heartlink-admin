@@ -1,3 +1,5 @@
+import { http_mongo } from "../../configs/http-mongo";
+
 const state = {
   listDataAvatar: [
     {
@@ -261,13 +263,61 @@ const state = {
       createBy: "2023-04-12T08:27:47.617+00:00",
     },
   ],
+
+  listImageCMS: [],
 };
 
 const getters = {};
 
-const mutations = {};
+const mutations = {
+  setListImagesCMS(state, data) {
+    debugger;
+    state.listImageCMS = data.list_data;
+  },
+};
 
-const actions = {};
+const actions = {
+  async getListImageCMS({ commit }, data) {
+    await http_mongo
+      .get(
+        `api/avatars/need-confirm-images?currentPage=${data.currentPage}&pageSize=${data.pageSize}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          commit("setListImagesCMS", response.data.data);
+        }
+      })
+      .catch((error) => {});
+  },
+
+  async putApproveImage({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .put(
+          `api/avatars/${data.imageId}/update-avatar-status`,
+          data.objectImage,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Unlock successful", response);
+          }
+        })
+        .catch((error) => {
+          reject("validation error", error);
+        });
+    });
+  },
+};
 
 export default {
   state,

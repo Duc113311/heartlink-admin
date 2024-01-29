@@ -11,6 +11,8 @@ import store from "./stores/data";
 
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
+import "vue3-carousel/dist/carousel.css";
+import VueLazyload from "vue-lazyload";
 
 const messages = {
   en: {
@@ -32,6 +34,7 @@ const i18n = createI18n({
 const app = createApp(App);
 
 app.use(ElementPlus);
+app.use(VueLazyload);
 
 app.use(router);
 app.use(store);
