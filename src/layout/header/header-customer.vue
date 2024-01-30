@@ -5,7 +5,7 @@
         <div class="hidden md:flex relative">
           <form action="https://formbold.com/s/unique_form_id" method="POST">
             <div class="relative">
-              <button class="absolute top-1/2 left-0 -translate-y-1/2">
+              <button class="absolute top-1/2 left-2 -translate-y-1/2">
                 <svg
                   class="h-6 w-6 text-gray-500"
                   fill="none"

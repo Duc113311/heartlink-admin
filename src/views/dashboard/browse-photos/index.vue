@@ -12,26 +12,26 @@
   </div>
 
   <!-- Main modal -->
-  <bh-model @onHideModel="onHideModel" v-show="isModelCheckImage">
+  <!-- <bh-model @onHideModel="onHideModel" v-show="isModelCheckImage">
     <CheckImage :imageDetail="imageDetail"></CheckImage>
-  </bh-model>
+  </bh-model> -->
 </template>
 
 <script>
-import CheckImage from "../../../components/form/check-image";
-import BhModel from "@/control/model/bh-model.vue";
+// import CheckImage from "../../../components/form/check-image";
+// import BhModel from "@/control/model/bh-model.vue";
 import CensorshipPage from "../../../components/check-photo/censorship-page";
 export default {
   components: {
-    CheckImage,
+    // CheckImage,
     CensorshipPage,
-    BhModel,
+    // BhModel,
   },
   name: "browse-photos-view",
 
   data() {
     return {
-      isModelCheckImage: false,
+      isModelCheckImage: true,
       imageDetail: {},
     };
   },

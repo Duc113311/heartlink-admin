@@ -1,72 +1,76 @@
 <template>
   <div class="w-full h-full">
-    <!-- header -->
-    <div class="flex w-full">
-      <div class="flex items-start w-[600px]">
-        <div class="text-center flex items-center">
-          <div class="relative">
-            <div
-              class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+    <!-- Title -->
+    <TitlePage></TitlePage>
+
+    <!-- Search -->
+
+    <div class="flex justify-between items-center flex-col sm:flex-row mb-4">
+      <div class="flex items-center">
+        <div class="relative md:w-[300px]">
+          <div
+            class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+          >
+            <svg
+              class="w-4 h-4 text-gray-500 dark:text-gray-400"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 20 20"
             >
-              <svg
-                class="w-4 h-4 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                />
-              </svg>
-            </div>
-            <input
-              type="search"
-              id="default-search"
-              v-model="inputSearch"
-              class="block search-text w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Search key, name"
-              @input="onChangeSearch(inputSearch)"
-              required
-            />
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+              />
+            </svg>
           </div>
-          <el-select
-            v-model="valueRoles"
-            class="m-2 w-[170px] rounded-lg"
-            placeholder="Please select role"
-            size="large"
-          >
-            <el-option
-              v-for="item in dataRoles"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-          <el-select
-            v-model="valueRoles"
-            class="m-2 w-[170px] rounded-lg"
-            placeholder="Please select role"
-            size="large"
-          >
-            <el-option
-              v-for="item in dataRoles"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
+          <input
+            type="search"
+            id="default-search"
+            v-model="inputSearch"
+            class="block search-text w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Search key, name"
+            @input="onChangeSearch(inputSearch)"
+            required
+          />
         </div>
+        <el-select
+          v-model="valueReviewer"
+          class="m-2 w-[200px] rounded-lg"
+          placeholder="Select reviewer status"
+          size="large"
+        >
+          <el-option
+            v-for="item in listReviewerStatus"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+
+        <el-select
+          v-model="valueAI"
+          class="m-2 w-[200px] rounded-lg"
+          placeholder="Select AI status "
+          size="large"
+        >
+          <el-option
+            v-for="item in listAIStatus"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
       </div>
-      <div class="flex justify-end w-[calc(100%-600px)] items-center">
-        <!--  -->
+
+      <div class="flex items-center gap-2">
         <div class="grid grid-cols-3 gap-3">
-          <div class="w-[300px] md:flex-0 shrink-0">
+          <div class="w-[250px] md:flex-0 shrink-0">
             <div
+              @click="onClickAI(0)"
               class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
             >
               <div class="flex-auto p-2 text-center">
@@ -79,9 +83,10 @@
               </div>
             </div>
           </div>
-          <div class="w-[300px] md:flex-0 shrink-0">
+          <div class="w-[250px] md:flex-0 shrink-0">
             <div
-              class="hover:bg-slate-200 border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
+              @click="onClickAI(2)"
+              class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
             >
               <div class="flex-auto p-2 text-center">
                 <h1
@@ -93,9 +98,10 @@
               </div>
             </div>
           </div>
-          <div class="w-[300px] md:flex-0 shrink-0">
+          <div class="w-[250px] md:flex-0 shrink-0">
             <div
-              class="hover:bg-slate-200 border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
+              @click="onClickAI(1)"
+              class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
             >
               <div class="flex-auto p-2 text-center">
                 <h1
@@ -107,43 +113,46 @@
               </div>
             </div>
           </div>
-          <div class="w-[300px] md:flex-0 shrink-0">
+          <div class="w-[250px] md:flex-0 shrink-0">
             <div
-              class="hover:bg-slate-200 border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
+              @click="onClickReviewer(0)"
+              class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
             >
               <div class="flex-auto p-2 text-center">
                 <h1
                   class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
                 >
-                  <span id="status1">AI Approved</span>
+                  <span id="status1">Reviewer Pending</span>
                 </h1>
                 <h6 class="mb-0 font-bold text-black text-lg">120.200.111</h6>
               </div>
             </div>
           </div>
-          <div class="w-[300px] md:flex-0 shrink-0">
+          <div class="w-[250px] md:flex-0 shrink-0">
             <div
-              class="hover:bg-slate-200 border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
+              @click="onClickReviewer(1)"
+              class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
             >
               <div class="flex-auto p-2 text-center">
                 <h1
                   class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
                 >
-                  <span id="status1">AI Approved</span>
+                  <span id="status1">Reviewer Approved</span>
                 </h1>
                 <h6 class="mb-0 font-bold text-black text-lg">120.200.111</h6>
               </div>
             </div>
           </div>
-          <div class="w-[300px] md:flex-0 shrink-0">
+          <div class="w-[250px] md:flex-0 shrink-0">
             <div
-              class="hover:bg-slate-200 border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
+              @click="onClickReviewer(2)"
+              class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
             >
               <div class="flex-auto p-2 text-center">
                 <h1
                   class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
                 >
-                  <span id="status1">AI Approved</span>
+                  <span id="status1">Reviewer Rejected</span>
                 </h1>
                 <h6 class="mb-0 font-bold text-black text-lg">120.200.111</h6>
               </div>
@@ -152,9 +161,9 @@
         </div>
       </div>
     </div>
-    <!-- Search -->
 
-    <div class="flex justify-between items-center pt-5 pb-5">
+    <!-- Button -->
+    <div class="flex justify-between items-center flex-col sm:flex-row mb-4">
       <button
         @click="drawerView = true"
         type="button"
@@ -173,108 +182,9 @@
     </div>
 
     <!-- Table -->
-    <div>
-      <el-table :data="listUser" style="width: 100%">
-        <el-table-column prop="date" label="STT" width="80">
-          <template v-slot="{ row }">
-            <el-checkbox
-              :size="10"
-              :id="row.id"
-              style="width: 20px; height: 20px !important"
-            ></el-checkbox>
-          </template>
-        </el-table-column>
-        <el-table-column prop="date" label="Images" sortable>
-          <template v-slot="{ row }">
-            <div
-              class="imageAvatar"
-              :id="row"
-              :style="`background-image:url(${avatarDefault})`"
-            ></div>
-          </template>
-        </el-table-column>
+    <TableCms></TableCms>
 
-        <el-table-column prop="name" label="Username" sortable>
-          <template v-slot="{ row }">
-            <div class="font-medium text-gray-900 whitespace-nowrap">
-              <span :id="row" class="w-[100px]">Nguyễn Văn Đức</span>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column prop="name" label="Reviewer Status" sortable>
-          <template v-slot="{ row }">
-            <div class="flex items-center gap-2" :id="row">
-              <img
-                src="../../assets/icon_svg/ic_pending.svg"
-                width="18"
-                alt=""
-              />
-              <div class="text-base">Pending</div>
-            </div>
-          </template>
-        </el-table-column>
-
-        <el-table-column prop="name" label="AI Status" sortable>
-          <template v-slot="{ row }">
-            <div class="flex items-center gap-2" :id="row">
-              <img
-                src="../../assets/icon_svg/ic_pending.svg"
-                width="18"
-                alt=""
-              />
-              <div class="text-base">Pending</div>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column prop="name" label="AI Score" sortable>
-          <template v-slot>
-            <div class="text-base font-medium">100</div>
-          </template>
-        </el-table-column>
-        <el-table-column prop="name" label="Last Update" sortable>
-          <template v-slot>
-            <div class="text-base font-medium">08/01/2024</div>
-          </template>
-        </el-table-column>
-        <el-table-column prop="name" label="Ai Reason" sortable>
-          <template v-slot>
-            <div class="text-base font-medium">Bạo lực, Khỏa thân</div>
-          </template>
-        </el-table-column>
-        <el-table-column prop="action" label="Action" :formatter="formatter">
-          <template v-slot>
-            <div class="gap-2 flex justify-center">
-              <a
-                href="#"
-                class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >View</a
-              >
-              <a
-                href="#"
-                class="font-medium text-green-500 dark:text-blue-500 hover:underline"
-                >Approve</a
-              >
-              <a
-                href="#"
-                class="font-medium text-gray-800 dark:text-blue-500 hover:underline"
-                >Deject</a
-              >
-            </div>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="example-pagination-block">
-        <el-pagination
-          v-model:current-page="currentPage2"
-          v-model:page-size="pageSize2"
-          :page-sizes="[100, 200, 300, 400]"
-          :background="true"
-          layout="sizes, prev, pager, next"
-          :total="1000"
-        />
-      </div>
-    </div>
-
+    <!-- History -->
     <el-drawer v-model="drawer" :with-header="false" size="80%">
       <template v-slot>
         <div class="w-full h-full text-black text-left">
@@ -399,21 +309,24 @@
       </template>
     </el-drawer>
 
-    <el-drawer
-      v-model="drawerView"
-      title="Check verify image"
-      :with-header="true"
-      size="100%"
-    >
+    <!-- Quick action -->
+    <el-drawer v-model="drawerView" :with-header="true" size="100%">
+      <template #title>
+        <div class="text-lg text-slate-600 font-semibold">
+          Check verify image
+          <!-- You can add additional HTML content here for the title -->
+        </div>
+      </template>
       <!--  -->
       <cms-slider></cms-slider>
       <!--  -->
     </el-drawer>
-    <!--  -->
   </div>
 </template>
 
 <script>
+import TableCms from "../profile/table/table-cms";
+import TitlePage from "../profile/title/title-page";
 import { ref } from "vue";
 import funValidation from "../../middleware/validation";
 import CmsSlider from "../cms/cms-slider.vue";
@@ -421,11 +334,18 @@ import { mapActions } from "vuex";
 export default {
   name: "censorship-page",
 
-  components: { CmsSlider },
+  components: {
+    TableCms,
+    TitlePage,
+    CmsSlider,
+  },
   data() {
     return {
+      inputSearch: "",
       avatarDefault: require("@/assets/icon_svg/avatar.jpg"),
       checked2: false,
+      valueReviewer: "",
+      valueAI: "",
     };
   },
 
@@ -436,7 +356,7 @@ export default {
     const background = ref(false);
     const disabled = ref(false);
     const drawer = ref(false);
-    const drawerView = ref(true);
+    const drawerView = ref(false);
     return {
       currentPage2,
       pageSize2,
@@ -452,13 +372,20 @@ export default {
     listUser() {
       return this.$store.state.cmsModule.listDataAvatar;
     },
+
+    listReviewerStatus() {
+      return this.$store.state.cmsModule.listReview;
+    },
+
+    listAIStatus() {
+      return this.$store.state.cmsModule.listAI;
+    },
   },
 
   async created() {
-    debugger;
     await this.getListImageCMS({
       currentPage: 0,
-      pageSize: 50,
+      pageSize: 10,
     });
   },
 
@@ -466,6 +393,10 @@ export default {
 
   methods: {
     ...mapActions(["getListImageCMS"]),
+
+    onChangeSearch() {
+      debugger;
+    },
     convertDate(val) {
       const resultDate = funValidation.convertDateTime(val);
       return resultDate;
@@ -480,6 +411,33 @@ export default {
         data: item,
         status: true,
       });
+    },
+
+    onClickAI(val) {
+      switch (val) {
+        case 1:
+          this.valueAI = "Approved";
+          break;
+        case 2:
+          this.valueAI = "Rejected";
+          break;
+        default:
+          this.valueAI = "Pending";
+      }
+    },
+
+    onClickReviewer(val) {
+      debugger;
+      switch (val) {
+        case 1:
+          this.valueReviewer = "Approved";
+          break;
+        case 2:
+          this.valueReviewer = "Rejected";
+          break;
+        default:
+          this.valueReviewer = "Pending";
+      }
     },
   },
 };

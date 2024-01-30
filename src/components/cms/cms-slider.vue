@@ -24,6 +24,7 @@
                 v-lazy="renderImage().profiles.avatars.url"
                 alt="Image"
                 class="imageDetail absolute object-contain"
+                loading="lazy"
               />
 
               <!-- <div
@@ -40,10 +41,10 @@
               data-carousel-prev
             >
               <span
-                class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+                class="inline-flex items-center justify-center w-[100px] h-[100px] rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
               >
                 <svg
-                  class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+                  class="w-14 h-14 text-white dark:text-gray-800 rtl:rotate-180"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -67,10 +68,10 @@
               data-carousel-next
             >
               <span
-                class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+                class="inline-flex items-center justify-center w-[100px] h-[100px] rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
               >
                 <svg
-                  class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+                  class="w-14 h-14 text-slate-50 dark:text-gray-800 rtl:rotate-180"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -115,13 +116,21 @@
                 <div>Số lần vi phạm: 01</div>
               </div>
             </div>
-
-            <button
-              type="button"
-              class="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-semibold rounded-lg text-base px-5 py-1 text-center me-2 mb-2"
+            <el-popover
+              placement="top"
+              title="Coming soon..."
+              :width="200"
+              trigger="hover"
             >
-              Xử lý account
-            </button>
+              <template #reference>
+                <button
+                  type="button"
+                  class="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-semibold rounded-lg text-base px-5 py-1 text-center me-2 mb-2"
+                >
+                  Xử lý account
+                </button>
+              </template>
+            </el-popover>
           </div>
         </div>
       </div>
@@ -132,9 +141,14 @@
               class="mb-2 text-base font-semibold text-gray-900 dark:text-white"
             >
               Reviewer Status :
-              <span class="text-blue-700">
-                {{
+              <span
+                :class="
                   renderStatusImage(renderImage().profiles.avatars.status)
+                    .colorText
+                "
+              >
+                {{
+                  renderStatusImage(renderImage().profiles.avatars.status).name
                 }}</span
               >
             </div>
@@ -169,10 +183,11 @@
             <div class="">
               <div class="text-lg font-semibold p-2">Chose option violate:</div>
               <el-select
-                v-model="value2"
+                v-model="valueViolate"
                 multiple
+                value-key="id"
                 collapse-tags
-                placeholder="Select"
+                placeholder="Select violate"
                 style="width: 240px"
               >
                 <el-option
@@ -194,9 +209,9 @@
             <div class="w-full pt-5 pb-5 justify-center flex items-center">
               <div class="w-[500px]">
                 <el-input
-                  v-model="textarea"
+                  v-model="textNote"
                   maxlength="30"
-                  class="w-full h-full"
+                  class="w-full h-full rounded-lg"
                   placeholder="Please enter the reason for the report"
                   type="textarea"
                   :autosize="{ minRows: 6, maxRows: 4 }"
@@ -207,7 +222,7 @@
               <button
                 @click="onClickReject(renderImage().profiles.avatars.id)"
                 type="button"
-                class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-10 py-2.5 text-center me-2 mb-2"
+                class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-semibold rounded-lg text-lg px-10 py-2.5 text-center me-2 mb-2"
               >
                 Reject
               </button>
@@ -242,7 +257,7 @@ export default {
   name: "cms-slider",
 
   setup() {
-    const value2 = ref([]);
+    const valueViolate = ref([]);
     const successNotification = () => {
       ElNotification({
         title: "Success",
@@ -253,28 +268,45 @@ export default {
     const options = [
       {
         value: "Option1",
-        label: "Option1",
+        label: "Máu me, bạo lực",
       },
       {
         value: "Option2",
-        label: "Option2",
+        label: "Trẻ em",
       },
       {
         value: "Option3",
-        label: "Option3",
+        label: "Logo quyền sở hữu trí tuệ",
       },
       {
         value: "Option4",
-        label: "Option4",
+        label: "Hình ảnh chứa chủ yếu là văn bản",
       },
       {
         value: "Option5",
-        label: "Option5",
+        label: "Vũ khí",
+      },
+      {
+        value: "Option6",
+        label: "Hình ảnh chứa QR code, URL",
+      },
+      {
+        value: "Option7",
+        label: "Hình ảnh meme",
+      },
+      {
+        value: "Option8",
+        label: "Hình ảnh khỏa thân, tình dục",
+      },
+      {
+        value: "Option5",
+        label: "Vũ khí",
       },
     ];
+
     return {
       options,
-      value2,
+      valueViolate,
       successNotification,
     };
   },
@@ -287,10 +319,11 @@ export default {
 
   data() {
     return {
-      textarea: "",
+      textNote: "",
       avatarDefault: require("@/assets/icon_svg/avatar.jpg"),
       avatarDefault01: require("@/assets/icon_svg/avatar01.jpg"),
       currentSlideIndex: 0,
+      currentPage: 0,
       loading: false,
     };
   },
@@ -298,7 +331,13 @@ export default {
   mounted() {},
 
   methods: {
-    ...mapActions(["putApproveImage"]),
+    ...mapActions(["putApproveImage", "getListImageCMS"]),
+
+    onChangeViolate(val) {
+      debugger;
+      console.log(val);
+    },
+
     renderImage() {
       const listImgs = this.listCMS[this.currentSlideIndex];
       debugger;
@@ -306,14 +345,24 @@ export default {
     },
 
     renderStatusImage(val) {
+      const objectStatus = {
+        name: "Pending",
+        colorText: "text-blue-700",
+      };
+
       switch (val) {
         case 1:
-          return "Approve";
+          objectStatus.name = "Approved";
+          objectStatus.colorText = "text-yellow-500";
+          break;
         case 2:
-          return "Reject";
-        default:
-          return "Pending";
+          objectStatus.name = "Reject";
+          objectStatus.colorText = "text-red-500";
+          break;
+        // No need for a default case, as it already returns the default objectStatus
       }
+
+      return objectStatus;
     },
     async onNextImage() {
       this.loading = true;
@@ -335,6 +384,13 @@ export default {
         this.successNotification();
         this.currentSlideIndex++;
       });
+
+      if (this.currentSlideIndex >= parseInt(this.listCMS.length - 1)) {
+        this.getListImageCMS({
+          currentPage: this.currentPage++,
+          pageSize: 5,
+        });
+      }
     },
 
     async onPrewImage() {},
@@ -354,6 +410,13 @@ export default {
 
         this.currentSlideIndex++;
       });
+
+      if (this.currentSlideIndex >= parseInt(this.listCMS.length - 1)) {
+        this.getListImageCMS({
+          currentPage: this.currentPage++,
+          pageSize: 5,
+        });
+      }
     },
     async onClickReject(val) {
       const objectImage = {
@@ -362,7 +425,7 @@ export default {
           status: 2,
         },
       };
-
+      debugger;
       await this.putApproveImage(objectImage).then((data) => {
         debugger;
         console.log(data);
@@ -374,6 +437,13 @@ export default {
         }, 500);
         this.currentSlideIndex++;
       });
+
+      if (this.currentSlideIndex >= parseInt(this.listCMS.length - 1)) {
+        this.getListImageCMS({
+          currentPage: this.currentPage++,
+          pageSize: 5,
+        });
+      }
     },
   },
 };

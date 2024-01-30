@@ -55,6 +55,9 @@ const routes = [
         path: "browse-photos",
         name: "browse-photos-view",
         component: BrowsePhoto,
+        meta: {
+          nameTitle: "CMS Avatar",
+        },
       },
       // Profile
       {
