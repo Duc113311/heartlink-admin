@@ -377,9 +377,6 @@ export default {
         this.loading = false;
       }, 500);
       await this.putApproveImage(objectImage).then((data) => {
-        debugger;
-        console.log(data);
-
         this.renderImage().profiles.avatars.status = 1;
         this.successNotification();
         this.currentSlideIndex++;

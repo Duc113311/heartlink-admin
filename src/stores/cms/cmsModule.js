@@ -64,6 +64,9 @@ const state = {
       label: "Rejected",
     },
   ],
+
+  listCMSTable: [],
+  limitPage: {},
 };
 
 const getters = {};
@@ -71,11 +74,20 @@ const getters = {};
 const mutations = {
   setListImagesCMS(state, data) {
     debugger;
+    state.listImageCMS = data.list_data;
+  },
 
-    if (state.listImageCMS.length !== 0) {
-      state.listImageCMS = [...state.listImageCMS, ...data.list_data];
-    } else {
-      state.listImageCMS = data.list_data;
+  setListCMSTable(state, data) {
+    state.listCMSTable = data.list_data;
+    state.limitPage.currentPage = data.currentPage;
+    state.limitPage.limit = data.limit;
+    state.limitPage.total = data.total;
+  },
+
+  setListRemoveTable(state, id) {
+    const index = state.listCMSTable.findIndex((item) => item._id === id);
+    if (index !== -1) {
+      state.listCMSTable.splice(index, 1);
     }
   },
 };
@@ -83,17 +95,16 @@ const mutations = {
 const actions = {
   async getListImageCMS({ commit }, data) {
     await http_mongo
-      .get(
-        `api/avatars/need-confirm-images?currentPage=${data.currentPage}&pageSize=${data.pageSize}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
+      .get(`api/avatars/need-confirm-images`, {
+        params: data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           commit("setListImagesCMS", response.data.data);
+          commit("setListCMSTable", response.data.data);
         }
       })
       .catch((error) => {});

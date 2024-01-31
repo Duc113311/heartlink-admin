@@ -5,7 +5,9 @@
 
     <!-- Search -->
 
-    <div class="flex justify-between items-center flex-col sm:flex-row mb-4">
+    <div
+      class="h-[160px] flex justify-between items-center flex-col sm:flex-row mb-4"
+    >
       <div class="flex items-center">
         <div class="relative md:w-[300px]">
           <div
@@ -43,6 +45,7 @@
           placeholder="Select reviewer status"
           size="large"
         >
+          <!-- <el-option label="Select reviewer status" value="all" /> -->
           <el-option
             v-for="item in listReviewerStatus"
             :key="item.value"
@@ -57,6 +60,7 @@
           placeholder="Select AI status "
           size="large"
         >
+          <!-- <el-option label="Select AI status" value="all" /> -->
           <el-option
             v-for="item in listAIStatus"
             :key="item.value"
@@ -163,7 +167,9 @@
     </div>
 
     <!-- Button -->
-    <div class="flex justify-between items-center flex-col sm:flex-row mb-4">
+    <div
+      class="h-[50px] flex justify-between items-center flex-col sm:flex-row mb-4"
+    >
       <button
         @click="drawerView = true"
         type="button"
@@ -182,7 +188,12 @@
     </div>
 
     <!-- Table -->
-    <TableCms></TableCms>
+    <TableCms
+      :loading="isLoading"
+      @onChangeApproved="onChangeApproved"
+      @onChangeRejected="onChangeRejected"
+      @onChangeLimitNext="onChangeLimitNext"
+    ></TableCms>
 
     <!-- History -->
     <el-drawer v-model="drawer" :with-header="false" size="80%">
@@ -310,7 +321,12 @@
     </el-drawer>
 
     <!-- Quick action -->
-    <el-drawer v-model="drawerView" :with-header="true" size="100%">
+    <el-drawer
+      @close="onCloseModel()"
+      v-model="drawerView"
+      :with-header="true"
+      size="100%"
+    >
       <template #title>
         <div class="text-lg text-slate-600 font-semibold">
           Check verify image
@@ -318,7 +334,7 @@
         </div>
       </template>
       <!--  -->
-      <cms-slider></cms-slider>
+      <cms-slider ref="cmsSlider"></cms-slider>
       <!--  -->
     </el-drawer>
   </div>
@@ -330,7 +346,9 @@ import TitlePage from "../profile/title/title-page";
 import { ref } from "vue";
 import funValidation from "../../middleware/validation";
 import CmsSlider from "../cms/cms-slider.vue";
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
+import { ElNotification } from "element-plus";
+
 export default {
   name: "censorship-page",
 
@@ -346,6 +364,7 @@ export default {
       checked2: false,
       valueReviewer: "",
       valueAI: "",
+      isLoading: false,
     };
   },
 
@@ -357,6 +376,14 @@ export default {
     const disabled = ref(false);
     const drawer = ref(false);
     const drawerView = ref(false);
+
+    const successNotification = () => {
+      ElNotification({
+        title: "Success",
+        message: "Image updated successfully",
+        type: "success",
+      });
+    };
     return {
       currentPage2,
       pageSize2,
@@ -365,6 +392,7 @@ export default {
       disabled,
       drawer,
       drawerView,
+      successNotification,
     };
   },
 
@@ -383,20 +411,83 @@ export default {
   },
 
   async created() {
+    this.isLoading = true;
     await this.getListImageCMS({
       currentPage: 0,
-      pageSize: 10,
+      pageSize: 100,
     });
+
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
   },
 
   mounted() {},
 
   methods: {
-    ...mapActions(["getListImageCMS"]),
+    ...mapMutations(["setListRemoveTable"]),
 
-    onChangeSearch() {
+    ...mapActions(["getListImageCMS", "putApproveImage"]),
+    async onChangeLimitNext(val) {
       debugger;
+      this.isLoading = true;
+      await this.getListImageCMS({
+        currentPage: val.currentPage,
+        pageSize: val.pageSize,
+      });
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
     },
+    async onChangeRejected(val) {
+      debugger;
+      const objectImage = {
+        imageId: val.profiles.avatars.id,
+        objectImage: {
+          status: 2,
+        },
+      };
+
+      await this.putApproveImage(objectImage).then(async (data) => {
+        debugger;
+        this.successNotification();
+        this.setListRemoveTable(val._id);
+      });
+    },
+
+    async onChangeApproved(val) {
+      const objectImage = {
+        imageId: val.profiles.avatars.id,
+        objectImage: {
+          status: 1,
+        },
+      };
+
+      await this.putApproveImage(objectImage).then(async (data) => {
+        console.log(data);
+
+        this.successNotification();
+
+        this.setListRemoveTable(val._id);
+      });
+    },
+
+    async onChangeSearch(val) {
+      await this.getListImageCMS({
+        currentPage: 0,
+        pageSize: 100,
+        filters: [
+          {
+            columnName: "fullname",
+            value: val,
+            operation: "contains",
+            dataType: "text",
+          },
+        ],
+      });
+    },
+
     convertDate(val) {
       const resultDate = funValidation.convertDateTime(val);
       return resultDate;
@@ -438,6 +529,14 @@ export default {
         default:
           this.valueReviewer = "Pending";
       }
+    },
+
+    async onCloseModel() {
+      debugger;
+      await this.getListImageCMS({
+        currentPage: 0,
+        pageSize: 100,
+      });
     },
   },
 };
