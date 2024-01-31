@@ -3,7 +3,7 @@
     class="h-[calc(100vh-438px)] relative shadow-md rounded-xl overflow-hidden sm:rounded-lg"
     v-if="listDataTable"
   >
-    <div class="overflow-x-auto h-[calc(100%-60px)]">
+    <div class="show-scroll h-[calc(100%-60px)]">
       <table
         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
       >
@@ -326,5 +326,21 @@ export default {
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s;
+}
+
+.show-scroll {
+  overflow-y: scroll;
+}
+.show-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+.show-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.show-scroll::-webkit-scrollbar-thumb {
+  background: #888;
+}
+.show-scroll::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 </style>

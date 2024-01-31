@@ -22,7 +22,7 @@
               <input
                 type="text"
                 placeholder="Type to search..."
-                class="w-full bg-transparent pr-4 pl-9 focus:outline-none text-black"
+                class="w-full bg-transparent pr-4 pl-9 focus:outline-none text-black border-0"
               />
             </div>
           </form>

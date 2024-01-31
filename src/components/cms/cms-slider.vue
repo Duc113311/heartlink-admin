@@ -333,6 +333,9 @@ export default {
   methods: {
     ...mapActions(["putApproveImage", "getListImageCMS"]),
 
+    setDefault() {
+      this.currentSlideIndex = 0;
+    },
     onChangeViolate(val) {
       debugger;
       console.log(val);

@@ -330,7 +330,6 @@
       <template #title>
         <div class="text-lg text-slate-600 font-semibold">
           Check verify image
-          <!-- You can add additional HTML content here for the title -->
         </div>
       </template>
       <!--  -->
@@ -533,6 +532,13 @@ export default {
 
     async onCloseModel() {
       debugger;
+      console.log("hello", this.$refs.cmsSlider.setDefault);
+      if (this.$refs.cmsSlider) {
+        // Đảm bảo component con đã được mount
+        this.$refs.cmsSlider.setDefault();
+
+        console.log("hello", this.$refs.cmsSlider.currentSlideIndex);
+      }
       await this.getListImageCMS({
         currentPage: 0,
         pageSize: 100,
