@@ -45,7 +45,7 @@
           placeholder="Select reviewer status"
           size="large"
         >
-          <!-- <el-option label="Select reviewer status" value="all" /> -->
+          <el-option label="Select all" value="all" />
           <el-option
             v-for="item in listReviewerStatus"
             :key="item.value"
@@ -60,7 +60,7 @@
           placeholder="Select AI status "
           size="large"
         >
-          <!-- <el-option label="Select AI status" value="all" /> -->
+          <el-option label="Select all" value="all" />
           <el-option
             v-for="item in listAIStatus"
             :key="item.value"
@@ -329,7 +329,7 @@
     >
       <template #title>
         <div class="text-lg text-slate-600 font-semibold">
-          Check verify image
+          CHECK VERIFY IMAGE
         </div>
       </template>
       <!--  -->
@@ -377,11 +377,16 @@ export default {
     const drawerView = ref(false);
 
     const successNotification = () => {
-      ElNotification({
+      const notificationInstance = ElNotification({
         title: "Success",
         message: "Image updated successfully",
         type: "success",
       });
+
+      // Close the notification after 1000ms (1 second)
+      setTimeout(() => {
+        notificationInstance.close();
+      }, 1000);
     };
     return {
       currentPage2,
@@ -424,7 +429,7 @@ export default {
   mounted() {},
 
   methods: {
-    ...mapMutations(["setListRemoveTable"]),
+    ...mapMutations(["setListRemoveTable", "getListImageCMSPush"]),
 
     ...mapActions(["getListImageCMS", "putApproveImage"]),
     async onChangeLimitNext(val) {
@@ -453,6 +458,15 @@ export default {
         this.successNotification();
         this.setListRemoveTable(val._id);
       });
+
+      const totalCMSTable = this.$store.state.cmsModule.listCMSTable.length;
+
+      if (totalCMSTable === 90) {
+        await this.getListImageCMSPush({
+          currentPage: 0,
+          pageSize: 100,
+        });
+      }
     },
 
     async onChangeApproved(val) {
@@ -470,6 +484,15 @@ export default {
 
         this.setListRemoveTable(val._id);
       });
+
+      const totalCMSTable = this.$store.state.cmsModule.listCMSTable.length;
+
+      if (totalCMSTable === 90) {
+        await this.getListImageCMSPush({
+          currentPage: 0,
+          pageSize: 100,
+        });
+      }
     },
 
     async onChangeSearch(val) {
@@ -539,10 +562,15 @@ export default {
 
         console.log("hello", this.$refs.cmsSlider.currentSlideIndex);
       }
+      this.isLoading = true;
       await this.getListImageCMS({
         currentPage: 0,
         pageSize: 100,
       });
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
     },
   },
 };

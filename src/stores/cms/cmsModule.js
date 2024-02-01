@@ -82,6 +82,7 @@ const mutations = {
     state.limitPage.currentPage = data.currentPage;
     state.limitPage.limit = data.limit;
     state.limitPage.total = data.total;
+    state.limitPage.count = data.count;
   },
 
   setListRemoveTable(state, id) {
@@ -89,6 +90,14 @@ const mutations = {
     if (index !== -1) {
       state.listCMSTable.splice(index, 1);
     }
+  },
+
+  setListImagesCMSPush(state, data) {
+    state.listCMSTable = [...state.listCMSTable, ...data.list_data];
+  },
+
+  setListImagesQuickPush(state, data) {
+    state.listImageCMS = [...state.listImageCMS, ...data.list_data];
   },
 };
 
@@ -105,6 +114,38 @@ const actions = {
         if (response.status === 200) {
           commit("setListImagesCMS", response.data.data);
           commit("setListCMSTable", response.data.data);
+        }
+      })
+      .catch((error) => {});
+  },
+
+  async getListImageCMSPush({ commit }, data) {
+    await http_mongo
+      .get(`api/avatars/need-confirm-images`, {
+        params: data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          commit("setListImagesQuickPush", response.data.data);
+        }
+      })
+      .catch((error) => {});
+  },
+
+  async getListImageQuickPush({ commit }, data) {
+    await http_mongo
+      .get(`api/avatars/need-confirm-images`, {
+        params: data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          commit("setListImagesCMSPush", response.data.data);
         }
       })
       .catch((error) => {});

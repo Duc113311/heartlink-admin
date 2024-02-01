@@ -98,7 +98,7 @@
     </div>
 
     <div class="w-4/12 bg-orange-100 h-full text-black p-5">
-      <div class="w-full right-header h-[110px] bg-slate-400 p-5">
+      <div class="w-full right-header h-[110px] bg-slate-100 p-5">
         <div class="flex justify-center items-center w-full h-full">
           <div class="w-full flex justify-between">
             <div class="flex items-center gap-2">
@@ -134,7 +134,7 @@
           </div>
         </div>
       </div>
-      <div class="w-full right-body h-[calc(100%-220px)] bg-slate-300 p-5">
+      <div class="w-full right-body h-[calc(100%-220px)] bg-slate-200 p-5">
         <div class="flex w-full justify-between items-center pb-5">
           <div class="text-left">
             <div
@@ -259,12 +259,18 @@ export default {
   setup() {
     const valueViolate = ref([]);
     const successNotification = () => {
-      ElNotification({
+      const notificationInstance = ElNotification({
         title: "Success",
         message: "Image updated successfully",
         type: "success",
       });
+
+      // Close the notification after 1000ms (1 second)
+      setTimeout(() => {
+        notificationInstance.close();
+      }, 1000);
     };
+
     const options = [
       {
         value: "Option1",
@@ -331,7 +337,11 @@ export default {
   mounted() {},
 
   methods: {
-    ...mapActions(["putApproveImage", "getListImageCMS"]),
+    ...mapActions([
+      "putApproveImage",
+      "getListImageCMS",
+      "getListImageQuickPush",
+    ]),
 
     setDefault() {
       this.currentSlideIndex = 0;
@@ -382,13 +392,14 @@ export default {
       await this.putApproveImage(objectImage).then((data) => {
         this.renderImage().profiles.avatars.status = 1;
         this.successNotification();
+
         this.currentSlideIndex++;
       });
 
       if (this.currentSlideIndex >= parseInt(this.listCMS.length - 1)) {
-        this.getListImageCMS({
+        this.getListImageQuickPush({
           currentPage: this.currentPage++,
-          pageSize: 5,
+          pageSize: 100,
         });
       }
     },
@@ -412,9 +423,9 @@ export default {
       });
 
       if (this.currentSlideIndex >= parseInt(this.listCMS.length - 1)) {
-        this.getListImageCMS({
+        this.getListImageQuickPush({
           currentPage: this.currentPage++,
-          pageSize: 5,
+          pageSize: 100,
         });
       }
     },

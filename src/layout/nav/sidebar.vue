@@ -15,9 +15,13 @@
         class="flex flex-col justify-between h-full px-[10px] space-y-[10px]"
       >
         <ul class="flex flex-col w-full">
+          <!-- Dashboard -->
           <li class="my-px" v-if="roleAdmin === 'admin'">
             <div
-              @click="onClickRouterDashboard()"
+              @click="onClickRouterDashboard('Dashboard')"
+              :class="{
+                'bg-gray-100 text-gray-700': activeTab === 'Dashboard',
+              }"
               class="inline-flex relative items-center px-[10px] py-[10px] w-full text-base font-medium rounded-md border-gray-200 hover:bg-gray-100 hover:text-gray-700 transition duration-400 ease-in-out"
             >
               <span
@@ -32,7 +36,7 @@
               <span class="ml-3">Dashboard</span>
             </div>
           </li>
-
+          <!-- Manager account -->
           <li
             class="my-px"
             v-if="roleAdmin === 'reporter' || roleAdmin === 'admin'"
@@ -48,7 +52,10 @@
               <ul id="dropdown-example" class="py-2 space-y-2 pl-3">
                 <li class="my-px">
                   <a
-                    @click="onClickRouterAccount()"
+                    :class="{
+                      'bg-gray-100 text-gray-700': activeTab === 'Account',
+                    }"
+                    @click="onClickRouterAccount('Account')"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <span
@@ -74,6 +81,7 @@
               </ul>
             </div>
           </li>
+          <!-- Manager customer -->
           <li class="my-px">
             <button class="flex items-center justify-between w-full">
               <span
@@ -86,9 +94,11 @@
               <ul id="dropdown-example" class="py-2 space-y-2 pl-3">
                 <li class="my-px">
                   <a
-                    @click="onClickRouterUser()"
-                    href="#"
-                    class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                    @click="onClickRouterUser('Customer')"
+                    :class="{
+                      'bg-gray-100 text-gray-700': activeTab === 'Customer',
+                    }"
+                    class="active: flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <span
                       class="flex items-center justify-center text-lg text-gray-400"
@@ -112,8 +122,10 @@
                 </li>
                 <li class="my-px">
                   <a
-                    @click="onClickRouterBrowse()"
-                    href="#"
+                    @click="onClickRouterBrowse('Avatar')"
+                    :class="{
+                      'bg-gray-100 text-gray-700': activeTab === 'Avatar',
+                    }"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <span
@@ -139,6 +151,7 @@
               </ul>
             </div>
           </li>
+          <!-- Reports activity -->
           <li class="my-px">
             <button
               class="flex items-center justify-between w-full px-4 my-4"
@@ -174,7 +187,9 @@
               <ul id="dropdown-example" class="py-2 space-y-2 pl-3">
                 <li class="my-px">
                   <a
-                    href="#"
+                    :class="{
+                      'bg-gray-100 text-gray-700': activeTab === 'Activity',
+                    }"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <span
@@ -199,7 +214,9 @@
                 </li>
                 <li class="my-px">
                   <a
-                    href="#"
+                    :class="{
+                      'bg-gray-100 text-gray-700': activeTab === 'Payments',
+                    }"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <span
@@ -225,6 +242,7 @@
               </ul>
             </div>
           </li>
+          <!-- Manager profile -->
           <li class="my-px">
             <button
               class="flex items-center justify-between w-full px-4 my-4"
@@ -261,7 +279,10 @@
               <ul id="dropdown-example" class="py-2 space-y-2 pl-3">
                 <li class="my-px">
                   <a
-                    @click="onClickRouterInterest()"
+                    @click="onClickRouterInterest('Interest')"
+                    :class="{
+                      'bg-gray-100 text-gray-700': activeTab === 'Interest',
+                    }"
                     class="flex flex-row items-center cursor-pointer h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <span
@@ -286,10 +307,13 @@
                 </li>
                 <li class="my-px">
                   <a
+                    :class="{
+                      'bg-gray-100 text-gray-700': activeTab === 'Sexual',
+                    }"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <button
-                      @click="onClickRouterSexual()"
+                      @click="onClickRouterSexual('Sexual')"
                       class="flex flex-row items-center"
                     >
                       <span
@@ -315,7 +339,10 @@
                 </li>
                 <li class="my-px">
                   <a
-                    @click="onClickRouterGender()"
+                    :class="{
+                      'bg-gray-100 text-gray-700': activeTab === 'Genders',
+                    }"
+                    @click="onClickRouterGender('Genders')"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <span
@@ -340,7 +367,10 @@
                 </li>
                 <li class="my-px">
                   <a
-                    @click="onClickRouterSchool()"
+                    :class="{
+                      'bg-gray-100 text-gray-700': activeTab === 'Schools',
+                    }"
+                    @click="onClickRouterSchool('Schools')"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <span
@@ -365,7 +395,10 @@
                 </li>
                 <li class="my-px">
                   <a
-                    @click="onClickRouterLanguage()"
+                    :class="{
+                      'bg-gray-100 text-gray-700': activeTab === 'Languages',
+                    }"
+                    @click="onClickRouterLanguage('Languages')"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <span
@@ -391,7 +424,10 @@
 
                 <li class="my-px">
                   <a
-                    @click="onClickRouterPackage()"
+                    :class="{
+                      'bg-gray-100 text-gray-700': activeTab === 'Packages',
+                    }"
+                    @click="onClickRouterPackage('Packages')"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <span
@@ -416,7 +452,10 @@
                 </li>
                 <li class="my-px">
                   <a
-                    @click="onClickRouterLocation()"
+                    :class="{
+                      'bg-gray-100 text-gray-700': activeTab === 'Locations',
+                    }"
+                    @click="onClickRouterLocation('Locations')"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
                     <span
@@ -482,6 +521,7 @@ export default {
       selected: "",
       selectedProfile: "",
       isShow: 1,
+      activeTab: null,
     };
   },
 
@@ -501,53 +541,64 @@ export default {
   mounted() {},
 
   methods: {
-    onClickRouterDashboard() {
+    onClickRouterDashboard(val) {
+      this.activeTab = val;
       this.$router.push({ path: "/dashboard" }).catch(() => {});
     },
 
-    onClickRouterAccount() {
+    onClickRouterAccount(val) {
+      this.activeTab = val;
       this.$router.push({ path: "/dashboard/account" }).catch(() => {});
     },
 
-    onClickRouterBrowse() {
+    onClickRouterBrowse(val) {
+      this.activeTab = val;
       this.$router.push({ path: "/dashboard/browse-photos" }).catch(() => {});
     },
 
-    onClickRouterUser() {
+    onClickRouterUser(val) {
+      this.activeTab = val;
       this.$router.push({ path: "/dashboard/list-user" }).catch(() => {});
     },
 
-    onClickRouterInterest() {
+    onClickRouterInterest(val) {
+      this.activeTab = val;
       this.$router
         .push({ path: "/dashboard/profile/interest" })
         .catch(() => {});
     },
 
-    onClickRouterSexual() {
+    onClickRouterSexual(val) {
+      this.activeTab = val;
       this.$router.push({ path: "/dashboard/profile/sexual" }).catch(() => {});
     },
 
-    onClickRouterGender() {
+    onClickRouterGender(val) {
+      this.activeTab = val;
       this.$router.push({ path: "/dashboard/profile/gender" }).catch(() => {});
     },
 
-    onClickRouterLanguage() {
+    onClickRouterLanguage(val) {
+      this.activeTab = val;
       this.$router
         .push({ path: "/dashboard/profile/language" })
         .catch(() => {});
     },
 
-    onClickRouterPackage() {
+    onClickRouterPackage(val) {
+      this.activeTab = val;
       this.$router.push({ path: "/dashboard/profile/package" }).catch(() => {});
     },
 
-    onClickRouterLocation() {
+    onClickRouterLocation(val) {
+      this.activeTab = val;
       this.$router
         .push({ path: "/dashboard/profile/location" })
         .catch(() => {});
     },
 
-    onClickRouterSchool() {
+    onClickRouterSchool(val) {
+      this.activeTab = val;
       this.$router.push({ path: "/dashboard/profile/school" }).catch(() => {});
     },
     toggleDrop() {
