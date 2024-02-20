@@ -128,7 +128,9 @@
                 >
                   <span id="status1">Reviewer Pending</span>
                 </h1>
-                <h6 class="mb-0 font-bold text-black text-lg">120.200.111</h6>
+                <h6 class="mb-0 font-bold text-black text-lg">
+                  {{ totalImage.totalPending }}
+                </h6>
               </div>
             </div>
           </div>
@@ -143,7 +145,9 @@
                 >
                   <span id="status1">Reviewer Approved</span>
                 </h1>
-                <h6 class="mb-0 font-bold text-black text-lg">120.200.111</h6>
+                <h6 class="mb-0 font-bold text-black text-lg">
+                  {{ totalImage.totalApprove }}
+                </h6>
               </div>
             </div>
           </div>
@@ -158,7 +162,9 @@
                 >
                   <span id="status1">Reviewer Rejected</span>
                 </h1>
-                <h6 class="mb-0 font-bold text-black text-lg">120.200.111</h6>
+                <h6 class="mb-0 font-bold text-black text-lg">
+                  {{ totalImage.totalReject }}
+                </h6>
               </div>
             </div>
           </div>
@@ -412,6 +418,10 @@ export default {
     listAIStatus() {
       return this.$store.state.cmsModule.listAI;
     },
+
+    totalImage() {
+      return this.$store.state.cmsModule.totalImage;
+    },
   },
 
   async created() {
@@ -420,6 +430,8 @@ export default {
       currentPage: 0,
       pageSize: 100,
     });
+
+    await this.getTotalImages();
 
     setTimeout(() => {
       this.isLoading = false;
@@ -431,7 +443,7 @@ export default {
   methods: {
     ...mapMutations(["setListRemoveTable", "getListImageCMSPush"]),
 
-    ...mapActions(["getListImageCMS", "putApproveImage"]),
+    ...mapActions(["getListImageCMS", "putApproveImage", "getTotalImages"]),
     async onChangeLimitNext(val) {
       debugger;
       this.isLoading = true;

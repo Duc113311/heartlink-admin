@@ -67,6 +67,8 @@ const state = {
 
   listCMSTable: [],
   limitPage: {},
+
+  totalImage: {},
 };
 
 const getters = {};
@@ -98,6 +100,12 @@ const mutations = {
 
   setListImagesQuickPush(state, data) {
     state.listImageCMS = [...state.listImageCMS, ...data.list_data];
+  },
+
+  setTotalImages(state, data) {
+    state.totalImage.totalPending = data.totalPending;
+    state.totalImage.totalApprove = data.totalApprove;
+    state.totalImage.totalReject = data.totalReject;
   },
 };
 
@@ -166,6 +174,25 @@ const actions = {
         .then((response) => {
           if (response.status === 200) {
             resolve("Unlock successful", response);
+          }
+        })
+        .catch((error) => {
+          reject("validation error", error);
+        });
+    });
+  },
+
+  async getTotalImages({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .put(`api/total-images`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            commit("setTotalImages", response.data.data);
           }
         })
         .catch((error) => {
