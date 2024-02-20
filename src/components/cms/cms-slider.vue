@@ -189,6 +189,7 @@
                 collapse-tags
                 placeholder="Select violate"
                 style="width: 240px"
+                @change="onChangeViolate"
               >
                 <el-option
                   v-for="item in options"
@@ -197,6 +198,9 @@
                   :value="item.value"
                 />
               </el-select>
+            </div>
+            <div v-for="(item, index) in valueViolates" :key="index">
+              {{ item.label }}
             </div>
           </div>
         </div>
@@ -331,6 +335,8 @@ export default {
       currentSlideIndex: 0,
       currentPage: 0,
       loading: false,
+
+      valueViolates: [],
     };
   },
 
@@ -348,7 +354,14 @@ export default {
     },
     onChangeViolate(val) {
       debugger;
-      console.log(val);
+      this.valueViolates = [];
+      console.log("valueViolate", this.valueViolate);
+      console.log("new", val);
+      for (let index = 0; index < val.length; index++) {
+        const element = val[index];
+        const findData = this.options.find((x) => x.value === element);
+        this.valueViolates.push(findData);
+      }
     },
 
     renderImage() {

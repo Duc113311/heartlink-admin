@@ -30,7 +30,8 @@
   margin-bottom: 0px !important;
 }
 
-[type="text"]:focus {
+[type="text"]:focus,
+[type="password"]:focus {
   box-shadow: none !important;
 }
 .el-textarea__inner {

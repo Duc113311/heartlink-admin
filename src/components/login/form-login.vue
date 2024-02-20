@@ -20,6 +20,7 @@
           <input
             @input="handelAccount"
             v-model="password"
+            type="password"
             placeholder="Password"
           />
         </div>
