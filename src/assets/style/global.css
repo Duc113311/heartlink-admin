@@ -40,3 +40,6 @@
 .carousel__slide {
   height: 57rem !important;
 }
+.example-showcase .el-loading-mask {
+  z-index: 9;
+}

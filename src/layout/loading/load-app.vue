@@ -1,17 +1,13 @@
 <template>
   <div
-    class="absolute z-50 top-0 left-0 img-app items-center flex w-full h-full justify-center"
+    class="loading-app absolute top-0 left-0 w-full h-full"
+    :style="`background: ${bgColorParam}`"
   >
-    <div
-      class="loading-app absolute top-0 left-0 w-full h-full"
-      :style="`background: ${bgColorParam}`"
-    >
-      <div class="w-full h-full flex justify-center items-center">
-        <div
-          class="img-filter"
-          :style="`background-image: url('${urlImageParam}')`"
-        ></div>
-      </div>
+    <div class="w-full h-full flex justify-center items-center">
+      <div
+        class="img-filter"
+        :style="`background-image: url('${urlImageParam}')`"
+      ></div>
     </div>
   </div>
 </template>
@@ -47,7 +43,7 @@ export default {
 
 <style lang="scss" scoped>
 .loading-app {
-  z-index: 2100;
+  z-index: 2300;
 }
 .img-filter {
   width: 60px;

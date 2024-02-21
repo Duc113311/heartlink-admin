@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col gap-3 h-[50px] sm:flex-row sm:items-center sm:justify-between"
+    class="flex flex-col gap-3 h-[40px] sm:flex-row sm:items-center sm:justify-between"
   >
     <h2 class="text-xl font-bold text-black">{{ nameTitle }}</h2>
 

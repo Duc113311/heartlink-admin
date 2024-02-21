@@ -35,7 +35,13 @@
             </div>
 
             <button
-              @click="onPrewImage(currentSlideIndex--)"
+              @click="
+                onPrewImage(
+                  currentSlideIndex !== 0
+                    ? currentSlideIndex--
+                    : currentSlideIndex
+                )
+              "
               type="button"
               class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
               data-carousel-prev
@@ -135,12 +141,12 @@
         </div>
       </div>
       <div class="w-full right-body h-[calc(100%-220px)] bg-slate-200 p-5">
-        <div class="flex w-full justify-between items-center pb-5">
+        <div class="w-full pb-5">
           <div class="text-left">
             <div
-              class="mb-2 text-base font-semibold text-gray-900 dark:text-white"
+              class="mb-2 text-base flex font-semibold text-gray-900 dark:text-white"
             >
-              Reviewer Status :
+              <div class="w-[140px]">Reviewer Status :</div>
               <span
                 :class="
                   renderStatusImage(renderImage().profiles.avatars.status)
@@ -152,32 +158,31 @@
                 }}</span
               >
             </div>
-            <ul
-              class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400"
-            >
-              <li>Liên quan trẻ em</li>
-              <li>Tôn giáo, chính trị</li>
-              <li>Súng đạn</li>
-            </ul>
           </div>
-          <div class="text-left">
+          <div class="text-left w-full flex justify-between">
             <div
-              class="mb-2 text-base font-semibold text-gray-900 dark:text-white"
+              class="mb-2 text-base flex font-semibold text-gray-900 dark:text-white"
             >
-              Reviewer AI : <span class="text-blue-700"> Pending</span>
+              <div class="w-[130px]">Reviewer AI</div>
+              <span class="text-blue-700">: Pending</span>
             </div>
-            <ul
-              class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400"
-            >
-              <li>Liên quan trẻ em</li>
-              <li>Tôn giáo, chính trị</li>
-              <li>Súng đạn</li>
-            </ul>
+            <div>
+              <div class="font-semibold text-gray-900 dark:text-white">
+                Reason for violation
+              </div>
+              <ul
+                class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400"
+              >
+                <li>Liên quan trẻ em</li>
+                <li>Tôn giáo, chính trị</li>
+                <li>Súng đạn</li>
+              </ul>
+            </div>
           </div>
         </div>
 
         <div
-          class="flex w-full justify-center items-center border-t-2 pt-5 pb-5"
+          class="flex w-full justify-center items-center border-t-2 pt-3 pb-5"
         >
           <div class="w-full">
             <div class="">
@@ -199,8 +204,14 @@
                 />
               </el-select>
             </div>
-            <div v-for="(item, index) in valueViolates" :key="index">
-              {{ item.label }}
+            <div class="grid grid-cols-4 gap-2 mt-3">
+              <div
+                class="border p-2 rounded-lg bg-slate-100"
+                v-for="(item, index) in valueViolates"
+                :key="index"
+              >
+                {{ item.label }}
+              </div>
             </div>
           </div>
         </div>
@@ -321,11 +332,11 @@ export default {
     };
   },
 
-  computed: {
-    listCMS() {
-      return this.$store.state.cmsModule.listImageCMS;
-    },
-  },
+  // watch: {
+  //   textNote(newValue, oldValue) {
+  //     return newValue;
+  //   },
+  // },
 
   data() {
     return {
@@ -337,10 +348,16 @@ export default {
       loading: false,
 
       valueViolates: [],
+      keyViolate: [],
     };
   },
 
   mounted() {},
+  computed: {
+    listCMS() {
+      return this.$store.state.cmsModule.listImageCMS;
+    },
+  },
 
   methods: {
     ...mapActions([
@@ -355,6 +372,7 @@ export default {
     onChangeViolate(val) {
       debugger;
       this.valueViolates = [];
+      this.keyViolate = val;
       console.log("valueViolate", this.valueViolate);
       console.log("new", val);
       for (let index = 0; index < val.length; index++) {
@@ -393,6 +411,12 @@ export default {
     async onNextImage() {
       this.loading = true;
       const itemUser = this.renderImage().profiles.avatars.id;
+
+      this.textNote = "";
+      this.keyViolate = [];
+      this.valueViolate = [];
+      this.valueViolates = [];
+
       const objectImage = {
         imageId: itemUser,
         objectImage: {
@@ -408,16 +432,32 @@ export default {
 
         this.currentSlideIndex++;
       });
+      this.onPrewImage(this.currentSlideIndex);
 
       if (this.currentSlideIndex >= parseInt(this.listCMS.length - 1)) {
         this.getListImageQuickPush({
           currentPage: this.currentPage++,
-          pageSize: 100,
+          pageSize: 500,
         });
       }
     },
 
-    async onPrewImage() {},
+    async onPrewImage(val) {
+      debugger;
+      const valueImage = this.renderImage().profiles.avatars;
+
+      if (valueImage.status === 2) {
+        console.log(valueImage);
+        this.textNote = valueImage.comment;
+        this.valueViolate = valueImage.optionViolate;
+        this.onChangeViolate(valueImage.optionViolate);
+      } else {
+        this.textNote = "";
+        this.keyViolate = [];
+        this.valueViolate = [];
+        this.valueViolates = [];
+      }
+    },
 
     async onClickApprove(val) {
       const objectImage = {
@@ -434,38 +474,49 @@ export default {
 
         this.currentSlideIndex++;
       });
+      this.onPrewImage(this.currentSlideIndex);
 
       if (this.currentSlideIndex >= parseInt(this.listCMS.length - 1)) {
         this.getListImageQuickPush({
           currentPage: this.currentPage++,
-          pageSize: 100,
+          pageSize: 500,
         });
       }
     },
     async onClickReject(val) {
+      debugger;
       const objectImage = {
         imageId: val,
         objectImage: {
           status: 2,
+          optionViolate: this.keyViolate,
+          comment: this.textNote,
         },
       };
-      debugger;
       await this.putApproveImage(objectImage).then((data) => {
-        debugger;
-        console.log(data);
         this.renderImage().profiles.avatars.status = 2;
+        this.renderImage().profiles.avatars.comment = this.textNote;
+
+        this.renderImage().profiles.avatars.optionViolate = this.keyViolate;
+
         this.successNotification();
         this.loading = true;
         setTimeout(() => {
           this.loading = false;
         }, 500);
         this.currentSlideIndex++;
+        this.textNote = "";
+        this.keyViolate = [];
+        this.valueViolate = [];
+        this.valueViolates = [];
       });
+
+      this.onPrewImage(this.currentSlideIndex);
 
       if (this.currentSlideIndex >= parseInt(this.listCMS.length - 1)) {
         this.getListImageCMS({
           currentPage: this.currentPage++,
-          pageSize: 5,
+          pageSize: 500,
         });
       }
     },

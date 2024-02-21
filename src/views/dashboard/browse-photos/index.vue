@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 // import CheckImage from "../../../components/form/check-image";
 // import BhModel from "@/control/model/bh-model.vue";
 import CensorshipPage from "../../../components/check-photo/censorship-page";
@@ -36,9 +37,19 @@ export default {
     };
   },
 
-  mounted() {},
+  async mounted() {
+    await this.getTotalImages();
+  },
+
+  async created() {
+    await this.getListHistoryImage({
+      currentPage: 0,
+      pageSize: 100,
+    });
+  },
 
   methods: {
+    ...mapActions(["getTotalImages", "getListHistoryImage"]),
     onChangeEditImage(val) {
       this.isModelCheckImage = val.status;
       this.imageDetail = val.data;

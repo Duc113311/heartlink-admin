@@ -44,8 +44,9 @@
           class="m-2 w-[200px] rounded-lg"
           placeholder="Select reviewer status"
           size="large"
+          @change="onChangeReviewer"
         >
-          <el-option label="Select all" value="all" />
+          <el-option label="Select all" value="-1" />
           <el-option
             v-for="item in listReviewerStatus"
             :key="item.value"
@@ -72,7 +73,7 @@
 
       <div class="flex items-center gap-2">
         <div class="grid grid-cols-3 gap-3">
-          <div class="w-[250px] md:flex-0 shrink-0">
+          <!-- <div class="w-[250px] md:flex-0 shrink-0">
             <div
               @click="onClickAI(0)"
               class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
@@ -116,7 +117,7 @@
                 <h6 class="mb-0 font-bold text-black text-lg">120.200.111</h6>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="w-[250px] md:flex-0 shrink-0">
             <div
               @click="onClickReviewer(0)"
@@ -208,120 +209,13 @@
           <div class="text-xl font-bold text-blue-300 pt-2 pb-2">
             Review History
           </div>
-          <div class="table-view w-full h-full">
-            <div>
-              <el-table :data="listUser" style="width: 100%">
-                <el-table-column prop="date" label="STT" width="80">
-                  <template v-slot="{ row }">
-                    <el-checkbox
-                      :size="10"
-                      :id="row.id"
-                      style="width: 20px; height: 20px !important"
-                    ></el-checkbox>
-                  </template>
-                </el-table-column>
-                <!--  -->
-                <el-table-column
-                  prop="date"
-                  label="Images"
-                  sortable
-                  width="100"
-                >
-                  <template v-slot="{ row }">
-                    <div
-                      class="imageAvatar"
-                      :id="row"
-                      :style="`background-image:url(${avatarDefault})`"
-                    ></div>
-                  </template>
-                </el-table-column>
-                <!--  -->
-                <el-table-column prop="name" label="Username" sortable>
-                  <template v-slot="{ row }">
-                    <div class="font-medium text-gray-900 whitespace-nowrap">
-                      <span :id="row" class="w-[100px]">Nguyễn Văn Đức</span>
-                    </div>
-                  </template>
-                </el-table-column>
-                <!--  -->
-                <el-table-column prop="name" label="Reviewer Status" sortable>
-                  <template v-slot="{ row }">
-                    <div class="flex items-center gap-2" :id="row">
-                      <img
-                        src="../../assets/icon_svg/ic_pending.svg"
-                        width="18"
-                        alt=""
-                      />
-                      <div class="text-base">Pending</div>
-                    </div>
-                  </template>
-                </el-table-column>
-                <!--  -->
-                <el-table-column prop="name" label="AI Status" sortable>
-                  <template v-slot="{ row }">
-                    <div class="flex items-center gap-2" :id="row">
-                      <img
-                        src="../../assets/icon_svg/ic_pending.svg"
-                        width="18"
-                        alt=""
-                      />
-                      <div class="text-base">Pending</div>
-                    </div>
-                  </template>
-                </el-table-column>
-                <!--  -->
-                <el-table-column
-                  prop="name"
-                  label="AI Score"
-                  sortable
-                  width="120"
-                >
-                  <template v-slot>
-                    <div class="text-base font-medium">100</div>
-                  </template>
-                </el-table-column>
-                <!--  -->
-                <el-table-column prop="name" label="Last Update" sortable>
-                  <template v-slot>
-                    <div class="text-base font-medium">08/01/2024</div>
-                  </template>
-                </el-table-column>
-                <!--  -->
-                <el-table-column prop="name" label="Ai Reason" sortable>
-                  <template v-slot>
-                    <div class="text-base font-medium">Bạo lực, Khỏa thân</div>
-                  </template>
-                </el-table-column>
-                <!--  -->
-                <el-table-column
-                  prop="action"
-                  label="Action"
-                  :formatter="formatter"
-                >
-                  <template v-slot>
-                    <div class="gap-2 flex justify-center">
-                      <a
-                        href="#"
-                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                        >View</a
-                      >
-                      <a
-                        href="#"
-                        class="font-medium text-green-500 dark:text-blue-500 hover:underline"
-                        >Approve</a
-                      >
-                      <a
-                        href="#"
-                        class="font-medium text-gray-800 dark:text-blue-500 hover:underline"
-                        >Deject</a
-                      >
-                    </div>
-                  </template>
-                </el-table-column>
-                <!--  -->
-              </el-table>
-            </div>
-          </div>
+
+          <TableHistory
+            :loading="isLoadingHistory"
+            @onChangeApproved="onChangeApproved"
+            @onChangeLimitNext="onChangeLimitNext"
+            @onChangeRejected="onChangeRejected"
+          ></TableHistory>
         </div>
       </template>
     </el-drawer>
@@ -346,6 +240,7 @@
 </template>
 
 <script>
+import TableHistory from "../profile/table/table-history";
 import TableCms from "../profile/table/table-cms";
 import TitlePage from "../profile/title/title-page";
 import { ref } from "vue";
@@ -358,6 +253,7 @@ export default {
   name: "censorship-page",
 
   components: {
+    TableHistory,
     TableCms,
     TitlePage,
     CmsSlider,
@@ -367,9 +263,10 @@ export default {
       inputSearch: "",
       avatarDefault: require("@/assets/icon_svg/avatar.jpg"),
       checked2: false,
-      valueReviewer: "",
+      valueReviewer: "Pending",
       valueAI: "",
       isLoading: false,
+      isLoadingHistory: false,
     };
   },
 
@@ -408,7 +305,7 @@ export default {
 
   computed: {
     listUser() {
-      return this.$store.state.cmsModule.listDataAvatar;
+      return this.$store.state.cmsModule.listHistory;
     },
 
     listReviewerStatus() {
@@ -429,21 +326,43 @@ export default {
     await this.getListImageCMS({
       currentPage: 0,
       pageSize: 100,
+      statusReview: 0,
     });
-
-    await this.getTotalImages();
 
     setTimeout(() => {
       this.isLoading = false;
-    }, 1000);
+    }, 500);
   },
 
   mounted() {},
 
   methods: {
-    ...mapMutations(["setListRemoveTable", "getListImageCMSPush"]),
+    ...mapMutations([
+      "setListRemoveTable",
+      "getListImageCMSPush",
+      "setTotalStoreImage",
+    ]),
 
-    ...mapActions(["getListImageCMS", "putApproveImage", "getTotalImages"]),
+    ...mapActions([
+      "getListImageCMS",
+      "putApproveImage",
+      "getTotalImages",
+      "getListHistoryImage",
+    ]),
+
+    async onChangeReviewer(val) {
+      debugger;
+      this.isLoading = true;
+      await this.getListImageCMS({
+        currentPage: 0,
+        pageSize: 100,
+        statusReview: parseInt(val),
+      });
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 500);
+    },
+
     async onChangeLimitNext(val) {
       debugger;
       this.isLoading = true;
@@ -464,13 +383,13 @@ export default {
           status: 2,
         },
       };
-
       await this.putApproveImage(objectImage).then(async (data) => {
         debugger;
         this.successNotification();
         this.setListRemoveTable(val._id);
       });
-
+      const valueStatus = 2;
+      this.setTotalStoreImage(valueStatus);
       const totalCMSTable = this.$store.state.cmsModule.listCMSTable.length;
 
       if (totalCMSTable === 90) {
@@ -479,6 +398,14 @@ export default {
           pageSize: 100,
         });
       }
+      this.isLoadingHistory = true;
+      setTimeout(() => {
+        this.isLoadingHistory = false;
+      }, 500);
+      await this.getListHistoryImage({
+        currentPage: 0,
+        pageSize: 100,
+      });
     },
 
     async onChangeApproved(val) {
@@ -488,7 +415,6 @@ export default {
           status: 1,
         },
       };
-
       await this.putApproveImage(objectImage).then(async (data) => {
         console.log(data);
 
@@ -496,7 +422,8 @@ export default {
 
         this.setListRemoveTable(val._id);
       });
-
+      const valueStatus = 1;
+      this.setTotalStoreImage(valueStatus);
       const totalCMSTable = this.$store.state.cmsModule.listCMSTable.length;
 
       if (totalCMSTable === 90) {
@@ -505,9 +432,18 @@ export default {
           pageSize: 100,
         });
       }
+      this.isLoadingHistory = true;
+      setTimeout(() => {
+        this.isLoadingHistory = false;
+      }, 500);
+      await this.getListHistoryImage({
+        currentPage: 0,
+        pageSize: 100,
+      });
     },
 
     async onChangeSearch(val) {
+      debugger;
       await this.getListImageCMS({
         currentPage: 0,
         pageSize: 100,
@@ -519,6 +455,12 @@ export default {
             dataType: "text",
           },
         ],
+        statusReview:
+          this.valueReviewer === "Pending"
+            ? 0
+            : this.valueReviewer === "Approved"
+            ? 1
+            : 2,
       });
     },
 
@@ -563,6 +505,8 @@ export default {
         default:
           this.valueReviewer = "Pending";
       }
+
+      this.onChangeReviewer(val);
     },
 
     async onCloseModel() {

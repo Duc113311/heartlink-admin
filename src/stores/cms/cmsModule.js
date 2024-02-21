@@ -38,29 +38,29 @@ const state = {
 
   listReview: [
     {
-      value: "review-pending",
+      value: 0,
       label: "Pending",
     },
     {
-      value: "review-approved",
+      value: 1,
       label: "Approved",
     },
     {
-      value: "review-rejected",
+      value: 2,
       label: "Rejected",
     },
   ],
   listAI: [
     {
-      value: "ai-pending",
+      value: 0,
       label: "Pending",
     },
     {
-      value: "ai-approved",
+      value: 1,
       label: "Approved",
     },
     {
-      value: "ai-rejected",
+      value: 2,
       label: "Rejected",
     },
   ],
@@ -69,6 +69,9 @@ const state = {
   limitPage: {},
 
   totalImage: {},
+
+  listHistory: [],
+  limitPageHistory: {},
 };
 
 const getters = {};
@@ -107,12 +110,32 @@ const mutations = {
     state.totalImage.totalApprove = data.totalApprove;
     state.totalImage.totalReject = data.totalReject;
   },
+
+  setTotalStoreImage(state, status) {
+    state.totalImage.totalPending--;
+    if (status === 1) {
+      state.totalImage.totalApprove++;
+    } else {
+      state.totalImage.totalReject++;
+    }
+  },
+
+  setHistoryImages(state, data) {
+    state.listHistory = data.list_data;
+  },
+
+  setListHistoryTable(state, data) {
+    state.limitPageHistory.currentPage = data.currentPage;
+    state.limitPageHistory.limit = data.limit;
+    state.limitPageHistory.total = data.total;
+    state.limitPageHistory.count = data.count;
+  },
 };
 
 const actions = {
   async getListImageCMS({ commit }, data) {
     await http_mongo
-      .get(`api/avatars/need-confirm-images`, {
+      .get(`api/avatars/need-confirm-images-test`, {
         params: data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -163,7 +186,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       http_mongo
         .put(
-          `api/avatars/${data.imageId}/update-avatar-status`,
+          `api/avatars/${data.imageId}/update-avatar-status-test`,
           data.objectImage,
           {
             headers: {
@@ -185,7 +208,7 @@ const actions = {
   async getTotalImages({ commit }, data) {
     return new Promise((resolve, reject) => {
       http_mongo
-        .put(`api/total-images`, {
+        .get(`api/total-images`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -193,6 +216,27 @@ const actions = {
         .then((response) => {
           if (response.status === 200) {
             commit("setTotalImages", response.data.data);
+          }
+        })
+        .catch((error) => {
+          reject("validation error", error);
+        });
+    });
+  },
+
+  async getListHistoryImage({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .get(`api/avatars/history-user`, {
+          params: data,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            commit("setHistoryImages", response.data.data);
+            commit("setListHistoryTable", response.data.data);
           }
         })
         .catch((error) => {

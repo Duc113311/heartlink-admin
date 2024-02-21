@@ -59,7 +59,12 @@
         </div>
       </form>
       <div class="flex ml-auto">
-        <el-popover placement="bottom" :width="200" trigger="click">
+        <el-popover
+          placement="bottom"
+          :width="200"
+          trigger="click"
+          :auto-close="numberTime"
+        >
           <template #reference>
             <div
               class="flex items-center justify-start space-x-4 cursor-pointer"
@@ -131,7 +136,9 @@ export default {
   name: "header-customer",
 
   data() {
-    return {};
+    return {
+      numberTime: 0,
+    };
   },
 
   computed: {
@@ -157,6 +164,7 @@ export default {
 
   methods: {
     onClickLogout() {
+      this.numberTime = 1;
       this.$emit("onChangeLogout", false);
     },
   },

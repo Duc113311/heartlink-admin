@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="flex flex-row min-h-screen bg-orange-50 text-white"
-    v-loading="loading"
-  >
+  <div class="flex flex-row min-h-screen bg-orange-50 text-white">
     <Sidebar></Sidebar>
     <main
       class="main flex flex-col flex-grow -ml-64 md:ml-0 transition-all duration-150 ease-in"
@@ -22,9 +19,21 @@
       <FooterAdmin></FooterAdmin>
     </main>
   </div>
+
+  <div
+    v-show="isShowIconApp"
+    class="absolute z-50 top-0 left-0 img-app items-center flex w-full h-full justify-center"
+  >
+    <LoadApp
+      :urlImage="icUrlApp"
+      :codeColor="colorApp"
+      :bgColor="bgColorApp"
+    ></LoadApp>
+  </div>
 </template>
 
 <script>
+import LoadApp from "../../layout/loading/load-app";
 import Sidebar from "../../layout/nav/sidebar";
 import FooterAdmin from "../../layout/footer/footer-admin";
 import HeaderCustomer from "../../layout/header/header-customer";
@@ -32,6 +41,7 @@ import { mapActions } from "vuex";
 
 export default {
   components: {
+    LoadApp,
     Sidebar,
     FooterAdmin,
     HeaderCustomer,
@@ -41,10 +51,17 @@ export default {
   data() {
     return {
       loading: false,
+      isShowIconApp: true,
+      icUrlApp: require("@/assets/icon_svg/ic_logo.svg"),
+      colorApp: "#FF828A",
+      bgColorApp: "linear-gradient(#4D85D4,#06278A)",
     };
   },
 
   mounted() {
+    setTimeout(() => {
+      this.isShowIconApp = false;
+    }, 2000);
     this.getListCardUsers(50);
   },
 
@@ -53,11 +70,12 @@ export default {
 
     onChangeLogout() {
       debugger;
+      this.isShowIconApp = true;
       setTimeout(() => {
-        this.loading = false;
+        this.isShowIconApp = false;
         localStorage.clear();
         this.$router.push({ path: "/" }).catch(() => {});
-      }, 2000);
+      }, 1000);
     },
   },
 };

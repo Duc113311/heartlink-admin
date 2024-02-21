@@ -1,7 +1,7 @@
 <template>
   <div
     v-loading="isLoading"
-    class="h-[calc(100vh-438px)] relative shadow-md rounded-xl overflow-hidden sm:rounded-lg"
+    class="h-[calc(100vh-308px)] mt-10 relative shadow-md rounded-xl overflow-hidden sm:rounded-lg"
     v-if="listDataTable"
   >
     <div class="show-scroll h-[calc(100%-60px)]">
@@ -9,7 +9,7 @@
         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
       >
         <thead
-          class="sticky z-10 top-0 text-xs text-white uppercase bg-gray-700 dark:bg-gray-700 dark:text-gray-400"
+          class="sticky z-10 top-0 text-xs text-white uppercase bg-blue-400 dark:bg-gray-700 dark:text-gray-400"
         >
           <tr>
             <th scope="col" class="px-6 py-3">STT</th>
@@ -17,9 +17,8 @@
             <th scope="col" class="px-6 py-3">Image</th>
             <th scope="col" class="px-6 py-3">FullName</th>
             <th scope="col" class="px-6 py-3">Reviewer Status</th>
-            <th scope="col" class="px-6 py-3">AI Status</th>
-            <th scope="col" class="px-6 py-3">AI Score</th>
-            <th scope="col" class="px-6 py-3">AI Reason</th>
+            <th scope="col" class="px-6 py-3">Option Violate</th>
+            <th scope="col" class="px-6 py-3">Comment</th>
             <th scope="col" class="px-6 py-3 text-center">Action</th>
           </tr>
         </thead>
@@ -40,9 +39,16 @@
                 effect="light"
                 placement="top"
               >
-                {{ convertDate(item.dob).formattedDate }}
+                {{
+                  convertDate(item.profiles.avatars.verified.when).formattedDate
+                }}
                 <template #content>
-                  <div>{{ convertDate(item.dob).formattedTime }}</div>
+                  <div>
+                    {{
+                      convertDate(item.profiles.avatars.verified.when)
+                        .formattedTime
+                    }}
+                  </div>
                 </template>
               </el-tooltip>
             </td>
@@ -63,39 +69,16 @@
                 {{ renderReviewStatus(item.profiles.avatars.status).name }}
               </div>
             </td>
+
             <td class="px-6 py-4">
-              <!-- <div
-                :class="`${
-                  renderReviewStatus(item.profiles.avatars.status).colorText
-                }`"
-              >
-                {{ renderReviewStatus(item.profiles.avatars.status).name }}
-              </div> -->
+              <div class="w-[120px]">
+                {{ renderViolate(item.profiles.avatars.optionViolate) }}
+              </div>
             </td>
-            <td class="px-6 py-4">100</td>
-            <td class="px-6 py-4">Bạo lưc</td>
+            <td class="px-6 py-4">{{ item.profiles.avatars.comment }}</td>
 
             <td class="px-6 py-4">
               <div class="gap-2 flex justify-center">
-                <el-popover
-                  placement="top"
-                  :width="200"
-                  trigger="click"
-                  content="Coming soon"
-                >
-                  <template #reference>
-                    <button
-                      @click="onClickView(item)"
-                      class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
-                    >
-                      <span
-                        class="relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-opacity-0"
-                      >
-                        View
-                      </span>
-                    </button>
-                  </template>
-                </el-popover>
                 <button
                   @click="onClickApproved(item)"
                   class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800"
@@ -192,12 +175,56 @@
 import funValidation from "../../../middleware/validation";
 
 export default {
-  name: "table-cms",
+  name: "table-history",
 
   data() {
     return {
       currentPage: 1,
       totalPages: 10,
+    };
+  },
+
+  setup() {
+    const options = [
+      {
+        value: "Option1",
+        label: "Máu me, bạo lực",
+      },
+      {
+        value: "Option2",
+        label: "Trẻ em",
+      },
+      {
+        value: "Option3",
+        label: "Logo quyền sở hữu trí tuệ",
+      },
+      {
+        value: "Option4",
+        label: "Hình ảnh chứa chủ yếu là văn bản",
+      },
+      {
+        value: "Option5",
+        label: "Vũ khí",
+      },
+      {
+        value: "Option6",
+        label: "Hình ảnh chứa QR code, URL",
+      },
+      {
+        value: "Option7",
+        label: "Hình ảnh meme",
+      },
+      {
+        value: "Option8",
+        label: "Hình ảnh khỏa thân, tình dục",
+      },
+      {
+        value: "Option5",
+        label: "Vũ khí",
+      },
+    ];
+    return {
+      options,
     };
   },
 
@@ -214,11 +241,11 @@ export default {
     },
 
     listDataTable() {
-      return this.$store.state.cmsModule.listCMSTable;
+      return this.$store.state.cmsModule.listHistory;
     },
 
     limitPage() {
-      const limitData = this.$store.state.cmsModule.limitPage;
+      const limitData = this.$store.state.cmsModule.limitPageHistory;
 
       return limitData;
     },
@@ -258,6 +285,17 @@ export default {
   mounted() {},
 
   methods: {
+    renderViolate(val) {
+      let resultString = [];
+      for (let index = 0; index < val.length; index++) {
+        const element = val[index];
+        const findData = this.options.find((x) => x.value === element);
+
+        resultString.push(findData.label);
+      }
+      return resultString.toString().replace(/,/g, ", ");
+    },
+
     renderReviewStatus(val) {
       const objectStatus = {
         name: "Pending",
