@@ -17,6 +17,7 @@ import PackageView from "../views/dashboard/profile/package-page/index.vue";
 import SexualView from "../views/dashboard/profile/sexual-page/index.vue";
 import SchoolView from "../views/dashboard/profile/school-page/index.vue";
 import AccountView from "../views/dashboard/account/index.vue";
+import TemplateView from "../views/dashboard/template/index.vue";
 
 const routes = [
   {
@@ -139,6 +140,15 @@ const routes = [
         component: AccountView,
         meta: {
           nameTitle: "Account",
+        },
+      },
+
+      {
+        path: "template",
+        name: "Template-view",
+        component: TemplateView,
+        meta: {
+          nameTitle: "Template",
         },
       },
     ],

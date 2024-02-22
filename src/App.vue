@@ -75,12 +75,26 @@ nav {
     }
   }
 }
-
+body {
+  position: relative;
+  margin: 0px;
+  height: 100%;
+  background-color: #42b983;
+  font-family: Inter, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  --tw-text-opacity: 1;
+  color: black;
+}
 .body-app {
   left: 0;
   position: fixed;
   right: 0;
   top: 0;
   z-index: 999;
+  height: 100%;
+  min-height: 100vh;
+  flex-direction: column;
 }
 </style>

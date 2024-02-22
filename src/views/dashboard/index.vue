@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row min-h-screen bg-orange-50 text-white">
+  <div class="flex flex-row min-h-screen text-white">
     <Sidebar></Sidebar>
     <main
       class="main flex flex-col flex-grow -ml-64 md:ml-0 transition-all duration-150 ease-in"
@@ -82,6 +82,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.min-h-screen {
+  background-color: #f2f6f9;
+}
 .form-control {
   display: block;
   width: 100%;
