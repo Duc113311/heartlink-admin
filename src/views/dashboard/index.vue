@@ -9,8 +9,8 @@
         class="main-content flex flex-col overflow-hidden flex-grow p-[20px] h-[calc(100vh-130px)] show-scroll overflow-y-auto"
       >
         <router-view></router-view>
+        <FooterAdmin></FooterAdmin>
       </div>
-      <FooterAdmin></FooterAdmin>
     </main>
   </div>
 

@@ -32,8 +32,8 @@
     </div>
 
     <!-- Thống kê -->
-    <div class="grid grid-cols-12 2xl:grid-cols-12 gap-x-5 pt-3 pb-3">
-      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 md:mb-4 mb-0">
+    <div class="grid grid-cols-12 2xl:grid-cols-12 gap-x-5 pt-4">
+      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 md:mb-4 mb-4">
         <div class="md:flex-0 shrink-0">
           <div
             class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
@@ -51,7 +51,7 @@
         </div>
       </div>
 
-      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 md:mb-2 mb-0">
+      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 md:mb-4 mb-4">
         <div class="md:flex-0 shrink-0">
           <div
             class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
@@ -69,7 +69,7 @@
         </div>
       </div>
 
-      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 md:mb-2 mb-0">
+      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 md:mb-4 mb-4">
         <div class="md:flex-0 shrink-0">
           <div
             class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
@@ -87,7 +87,7 @@
         </div>
       </div>
 
-      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 md:mb-2 mb-0">
+      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 md:mb-4 mb-4">
         <div class="md:flex-0 shrink-0">
           <div
             class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
@@ -105,7 +105,7 @@
         </div>
       </div>
 
-      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 md:mb-2 mb-0">
+      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 md:mb-4 mb-4">
         <div class="md:flex-0 shrink-0">
           <div
             class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
@@ -123,7 +123,7 @@
         </div>
       </div>
 
-      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 md:mb-2 mb-0">
+      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 md:mb-4 mb-4">
         <div class="md:flex-0 shrink-0">
           <div
             class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
