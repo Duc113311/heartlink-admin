@@ -2,18 +2,12 @@
   <div class="flex flex-row min-h-screen text-white">
     <Sidebar></Sidebar>
     <main
-      class="main flex flex-col flex-grow -ml-64 md:ml-0 transition-all duration-150 ease-in"
+      class="main flex flex-col flex-grow -ml-64 md:ml-0 transition-all duration-150 ease-in w-[calc(100%-16rem)]"
     >
       <HeaderCustomer @onChangeLogout="onChangeLogout"></HeaderCustomer>
       <div
         class="main-content flex flex-col overflow-hidden flex-grow p-[20px] h-[calc(100vh-130px)] show-scroll overflow-y-auto"
       >
-        <!-- <h1 class="font-bold text-2xl text-gray-700">Dashboard</h1>
-
-        <div class="border border-gray-300 rounded-md p-[20px] h-full">
-          <div class="w-full h-full bg-orange-300 overflow-y-auto">
-          </div>
-        </div> -->
         <router-view></router-view>
       </div>
       <FooterAdmin></FooterAdmin>
