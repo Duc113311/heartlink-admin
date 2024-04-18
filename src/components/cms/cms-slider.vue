@@ -517,6 +517,7 @@ export default {
         this.getListImageCMS({
           currentPage: this.currentPage++,
           pageSize: 500,
+          statusAI: 1,
         });
       }
     },

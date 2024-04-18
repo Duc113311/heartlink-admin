@@ -13,7 +13,6 @@
         >
           <tr>
             <th scope="col" class="px-6 py-3">STT</th>
-            <th scope="col" class="px-6 py-3">Last update</th>
             <th scope="col" class="px-6 py-3">Image</th>
             <th scope="col" class="px-6 py-3">FullName</th>
             <th scope="col" class="px-6 py-3">Reviewer Status</th>
@@ -34,7 +33,7 @@
             <td class="px-6 py-4">
               <div class="flex items-center justify-start">{{ index }}</div>
             </td>
-            <td class="px-6 py-4">
+            <!-- <td class="px-6 py-4">
               <el-tooltip
                 class="box-item rounded-md shadow-md"
                 effect="light"
@@ -45,22 +44,22 @@
                   <div>{{ convertDate(item.dob).formattedTime }}</div>
                 </template>
               </el-tooltip>
-            </td>
+            </td> -->
             <td class="px-6 py-4">
               <img
                 class="w-14 h-14 rounded-full ring-1 ring-gray-300 dark:ring-gray-500"
-                :src="`${item.profiles.avatars.url}`"
+                :src="`${item.avatars.meta.url}`"
               />
             </td>
-            <td class="px-6 py-4">{{ item.fullname }}</td>
+            <td class="px-6 py-4">{{ item.profiles[0].fullname }}</td>
             <td class="px-6 py-4">
               <div
                 class="font-semibold"
                 :class="`${
-                  renderReviewStatus(item.profiles.avatars.status).colorText
+                  renderReviewStatus(item.avatars.reviewerStatus).colorText
                 }`"
               >
-                {{ renderReviewStatus(item.profiles.avatars.status).name }}
+                {{ renderReviewStatus(item.avatars.reviewerStatus).name }}
               </div>
             </td>
             <td class="px-6 py-4">

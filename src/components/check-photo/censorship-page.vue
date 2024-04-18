@@ -5,9 +5,7 @@
 
     <!-- Search -->
 
-    <div
-      class="h-[160px] flex justify-between items-center flex-col sm:flex-row mb-4"
-    >
+    <div class="h-[160px] md:flex md:justify-between md:flex-col mb-4">
       <div class="flex items-center">
         <div class="relative md:w-[300px]">
           <div
@@ -327,6 +325,8 @@ export default {
       currentPage: 0,
       pageSize: 100,
       statusReview: 0,
+      statusAI: 0,
+      nameQuery: "",
     });
 
     setTimeout(() => {

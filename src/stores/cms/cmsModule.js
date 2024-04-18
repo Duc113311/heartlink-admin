@@ -135,7 +135,7 @@ const mutations = {
 const actions = {
   async getListImageCMS({ commit }, data) {
     await http_mongo
-      .get(`api/avatars/need-confirm-images-test`, {
+      .get(`api/avatars/card-images`, {
         params: data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
