@@ -37,7 +37,7 @@
 
             <button
               @click="
-                onPrewImage(
+                onPreviousImage(
                   currentSlideIndex !== 0
                     ? currentSlideIndex--
                     : currentSlideIndex
@@ -202,8 +202,8 @@
                 value-key="id"
                 collapse-tags
                 placeholder="Select violate"
-                style="width: 240px;"
-                @change="onChangeViolate"
+                style="width: 240px"
+                @change="onChangeViolate()"
               >
                 <el-option
                   v-for="item in options"
@@ -244,7 +244,7 @@
             </div>
             <div class="w-full justify-center flex items-center">
               <button
-                @click="onClickReject(renderImage().avatars.id)"
+                @click="onClickReject(renderImage())"
                 type="button"
                 class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-semibold rounded-lg text-lg px-10 py-2.5 text-center me-2 mb-2"
               >
@@ -257,7 +257,7 @@
       <div class="w-full right-footer h-[110px] bg-slate-100 p-5">
         <div class="flex justify-center items-center w-full h-full">
           <button
-            @click="onClickApprove(renderImage().avatars.id)"
+            @click="onClickApprove(renderImage())"
             type="button"
             class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-semibold rounded-lg text-lg px-10 py-2.5 text-center me-2 mb-2"
           >
@@ -297,39 +297,39 @@ export default {
 
     const options = [
       {
-        value: "Option1",
+        value: "item_1",
         label: "Máu me, bạo lực",
       },
       {
-        value: "Option2",
+        value: "item_2",
         label: "Trẻ em",
       },
       {
-        value: "Option3",
+        value: "item_3",
         label: "Logo quyền sở hữu trí tuệ",
       },
       {
-        value: "Option4",
+        value: "item_4",
         label: "Hình ảnh chứa chủ yếu là văn bản",
       },
       {
-        value: "Option5",
+        value: "item_5",
         label: "Vũ khí",
       },
       {
-        value: "Option6",
+        value: "item_6",
         label: "Hình ảnh chứa QR code, URL",
       },
       {
-        value: "Option7",
+        value: "item_7",
         label: "Hình ảnh meme",
       },
       {
-        value: "Option8",
+        value: "item_8",
         label: "Hình ảnh khỏa thân, tình dục",
       },
       {
-        value: "Option5",
+        value: "item_9",
         label: "Vũ khí",
       },
     ];
@@ -418,8 +418,9 @@ export default {
       return objectStatus;
     },
     async onNextImage() {
+      debugger;
       this.loading = true;
-      const itemUser = this.renderImage().profiles.avatars.id;
+      const itemUser = this.renderImage().avatars.id;
 
       this.textNote = "";
       this.keyViolate = [];
@@ -429,19 +430,22 @@ export default {
       const objectImage = {
         imageId: itemUser,
         objectImage: {
-          status: 1,
+          imageId: this.renderImage()._id,
+          reviewerStatus: 2,
+          comment: "",
+          reviewerViolateOption: [],
         },
       };
       setTimeout(() => {
         this.loading = false;
       }, 500);
       await this.putApproveImage(objectImage).then((data) => {
-        this.renderImage().profiles.avatars.status = 1;
+        this.renderImage().avatars.reviewerStatus = 1;
         this.successNotification();
 
         this.currentSlideIndex++;
       });
-      this.onPrewImage(this.currentSlideIndex);
+      this.onPreviousImage(this.currentSlideIndex);
 
       if (this.currentSlideIndex >= parseInt(this.listCMS.length - 1)) {
         this.getListImageQuickPush({
@@ -451,15 +455,15 @@ export default {
       }
     },
 
-    async onPrewImage(val) {
+    async onPreviousImage(val) {
       debugger;
-      const valueImage = this.renderImage().profiles.avatars;
+      const valueImage = this.renderImage().avatars;
 
-      if (valueImage.status === 2) {
+      if (valueImage.reviewerStatus === 2) {
         console.log(valueImage);
         this.textNote = valueImage.comment;
-        this.valueViolate = valueImage.optionViolate;
-        this.onChangeViolate(valueImage.optionViolate);
+        this.valueViolate = valueImage.reviewerViolateOption;
+        this.onChangeViolate(valueImage.reviewerViolateOption);
       } else {
         this.textNote = "";
         this.keyViolate = [];
@@ -470,20 +474,23 @@ export default {
 
     async onClickApprove(val) {
       const objectImage = {
-        imageId: val,
+        imageId: val.avatars.id,
         objectImage: {
-          status: 1,
+          imageId: val._id,
+          reviewerStatus: 1,
+          comment: this.textNote,
+          reviewerViolateOption: [],
         },
       };
       await this.putApproveImage(objectImage).then((data) => {
         debugger;
         console.log(data);
-        this.renderImage().profiles.avatars.status = 1;
+        this.renderImage().avatars.reviewerStatus = 1;
         this.successNotification();
 
         this.currentSlideIndex++;
       });
-      this.onPrewImage(this.currentSlideIndex);
+      this.onPreviousImage(this.currentSlideIndex);
 
       if (this.currentSlideIndex >= parseInt(this.listCMS.length - 1)) {
         this.getListImageQuickPush({
@@ -495,18 +502,19 @@ export default {
     async onClickReject(val) {
       debugger;
       const objectImage = {
-        imageId: val,
+        imageId: val.avatars.id,
         objectImage: {
-          status: 2,
-          optionViolate: this.keyViolate,
-          comment: this.textNote,
+          imageId: val._id,
+          reviewerStatus: 2,
+          comment: "",
+          reviewerViolateOption: [],
         },
       };
       await this.putApproveImage(objectImage).then((data) => {
-        this.renderImage().profiles.avatars.status = 2;
-        this.renderImage().profiles.avatars.comment = this.textNote;
+        this.renderImage().avatars.reviewerStatus = 2;
+        this.renderImage().avatars.comment = this.textNote;
 
-        this.renderImage().profiles.avatars.optionViolate = this.keyViolate;
+        this.renderImage().avatars.reviewerViolateOption = this.keyViolate;
 
         this.successNotification();
         this.loading = true;
@@ -520,7 +528,7 @@ export default {
         this.valueViolates = [];
       });
 
-      this.onPrewImage(this.currentSlideIndex);
+      this.onPreviousImage(this.currentSlideIndex);
 
       if (this.currentSlideIndex >= parseInt(this.listCMS.length - 1)) {
         this.getListImageCMS({
