@@ -1,3 +1,4 @@
+<!-- eslint-disable prettier/prettier -->
 <template>
   <div
     v-loading="isLoading"
@@ -27,7 +28,7 @@
             v-for="(item, index) in listDataTable"
             :key="index"
             :id="item._id"
-            style="transition: all 0.3s ease"
+            style="transition: all 0.3s ease;"
             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
           >
             <td class="px-6 py-4">
@@ -63,16 +64,16 @@
               </div>
             </td>
             <td class="px-6 py-4">
-              <!-- <div
+              <div
                 :class="`${
-                  renderReviewStatus(item.profiles.avatars.status).colorText
+                  renderReviewStatus(item.avatars.aiStatus).colorText
                 }`"
               >
-                {{ renderReviewStatus(item.profiles.avatars.status).name }}
-              </div> -->
+                {{ renderReviewStatus(item.avatars.aiStatus).name }}
+              </div>
             </td>
-            <td class="px-6 py-4">100</td>
-            <td class="px-6 py-4">Bạo lưc</td>
+            <td class="px-6 py-4">{{ item.avatars.aiPoint }}}</td>
+            <td class="px-6 py-4">{{ item.avatars.comment }}</td>
 
             <td class="px-6 py-4">
               <div class="gap-2 flex justify-center">

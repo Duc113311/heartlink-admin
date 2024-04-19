@@ -45,6 +45,7 @@ export default {
     await this.getListHistoryImage({
       currentPage: 0,
       pageSize: 100,
+      nameQuery: "",
     });
   },
 

@@ -68,7 +68,14 @@ const state = {
   listCMSTable: [],
   limitPage: {},
 
-  totalImage: {},
+  totalImage: {
+    totalPendingReviewer: 0,
+    totalApproveReviewer: 0,
+    totalRejectReviewer: 0,
+    totalPendingAI: 0,
+    totalApproveAI: 0,
+    totalRejectAI: 0,
+  },
 
   listHistory: [],
   limitPageHistory: {},
@@ -106,9 +113,12 @@ const mutations = {
   },
 
   setTotalImages(state, data) {
-    state.totalImage.totalPending = data.totalPending;
-    state.totalImage.totalApprove = data.totalApprove;
-    state.totalImage.totalReject = data.totalReject;
+    state.totalImage.totalPendingReviewer = data.totalPendingReviewer;
+    state.totalImage.totalApproveReviewer = data.totalApproveReviewer;
+    state.totalImage.totalRejectReviewer = data.totalRejectReviewer;
+    state.totalImage.totalPendingAI = data.totalPendingAI;
+    state.totalImage.totalApproveAI = data.totalApproveAI;
+    state.totalImage.totalRejectAI = data.totalRejectAI;
   },
 
   setTotalStoreImage(state, status) {
@@ -186,7 +196,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       http_mongo
         .put(
-          `api/avatars/${data.imageId}/update-avatar-status-test`,
+          `api/avatars/${data.imageId}/update-avatar-status`,
           data.objectImage,
           {
             headers: {
@@ -208,7 +218,7 @@ const actions = {
   async getTotalImages({ commit }, data) {
     return new Promise((resolve, reject) => {
       http_mongo
-        .get(`api/total-images`, {
+        .get(`api/avatars/total`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -227,7 +237,7 @@ const actions = {
   async getListHistoryImage({ commit }, data) {
     return new Promise((resolve, reject) => {
       http_mongo
-        .get(`api/avatars/history-user`, {
+        .get(`api/avatars/history-images`, {
           params: data,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

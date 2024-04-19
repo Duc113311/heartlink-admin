@@ -1,3 +1,4 @@
+<!-- eslint-disable prettier/prettier -->
 <template>
   <div class="w-full h-full flex" v-if="renderImage()">
     <!--  -->
@@ -21,7 +22,7 @@
               class="duration-700 ease-in-out flex justify-center relative overflow-hidden w-full h-full"
             >
               <img
-                v-lazy="renderImage().profiles.avatars.url"
+                v-lazy="renderImage().avatars.meta.url"
                 alt="Image"
                 class="imageDetail absolute object-contain"
                 loading="lazy"
@@ -112,12 +113,12 @@
                 v-loading="loading"
                 class="image-avatar"
                 :style="`background-image:url(${
-                  renderImage().profiles.avatars.url
+                  renderImage().avatars.meta.url
                 })`"
               ></div>
               <div class="text-left">
                 <div class="text-base font-bold">
-                  {{ renderImage().fullname }}
+                  {{ renderImage().profiles.fullname }}
                 </div>
                 <div>Số lần vi phạm: 01</div>
               </div>
@@ -149,12 +150,12 @@
               <div class="w-[140px]">Reviewer Status :</div>
               <span
                 :class="
-                  renderStatusImage(renderImage().profiles.avatars.status)
+                  renderStatusImage(renderImage().avatars.reviewerStatus)
                     .colorText
                 "
               >
                 {{
-                  renderStatusImage(renderImage().profiles.avatars.status).name
+                  renderStatusImage(renderImage().avatars.reviewerStatus).name
                 }}</span
               >
             </div>
@@ -164,11 +165,19 @@
               class="mb-2 text-base flex font-semibold text-gray-900 dark:text-white"
             >
               <div class="w-[130px]">Reviewer AI</div>
-              <span class="text-blue-700">: Pending</span>
+              <span
+                :class="
+                  renderStatusImage(renderImage().avatars.aiStatus).colorText
+                "
+              >
+                {{
+                  renderStatusImage(renderImage().avatars.aiStatus).name
+                }}</span
+              >
             </div>
             <div>
               <div class="font-semibold text-gray-900 dark:text-white">
-                Reason for violation
+                {{ renderImage().avatars.comment }}
               </div>
               <ul
                 class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400"
@@ -193,7 +202,7 @@
                 value-key="id"
                 collapse-tags
                 placeholder="Select violate"
-                style="width: 240px"
+                style="width: 240px;"
                 @change="onChangeViolate"
               >
                 <el-option
@@ -235,7 +244,7 @@
             </div>
             <div class="w-full justify-center flex items-center">
               <button
-                @click="onClickReject(renderImage().profiles.avatars.id)"
+                @click="onClickReject(renderImage().avatars.id)"
                 type="button"
                 class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-semibold rounded-lg text-lg px-10 py-2.5 text-center me-2 mb-2"
               >
@@ -248,7 +257,7 @@
       <div class="w-full right-footer h-[110px] bg-slate-100 p-5">
         <div class="flex justify-center items-center w-full h-full">
           <button
-            @click="onClickApprove(renderImage().profiles.avatars.id)"
+            @click="onClickApprove(renderImage().avatars.id)"
             type="button"
             class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-semibold rounded-lg text-lg px-10 py-2.5 text-center me-2 mb-2"
           >

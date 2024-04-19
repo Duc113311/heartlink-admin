@@ -1,3 +1,4 @@
+<!-- eslint-disable prettier/prettier -->
 <template>
   <div
     v-loading="isLoading"
@@ -27,7 +28,7 @@
             v-for="(item, index) in listDataTable"
             :key="index"
             :id="item._id"
-            style="transition: all 0.3s ease"
+            style="transition: all 0.3s ease;"
             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
           >
             <td class="px-6 py-4">
@@ -39,15 +40,10 @@
                 effect="light"
                 placement="top"
               >
-                {{
-                  convertDate(item.profiles.avatars.verified.when).formattedDate
-                }}
+                {{ convertDate(item.avatars.update.when).formattedDate }}
                 <template #content>
                   <div>
-                    {{
-                      convertDate(item.profiles.avatars.verified.when)
-                        .formattedTime
-                    }}
+                    {{ convertDate(item.avatars.update.when).formattedTime }}
                   </div>
                 </template>
               </el-tooltip>
@@ -55,27 +51,27 @@
             <td class="px-6 py-4">
               <img
                 class="w-14 h-14 rounded-full ring-1 ring-gray-300 dark:ring-gray-500"
-                :src="`${item.profiles.avatars.url}`"
+                :src="`${item.avatars.meta.url}`"
               />
             </td>
-            <td class="px-6 py-4">{{ item.fullname }}</td>
+            <td class="px-6 py-4">{{ item.profiles[0].fullname }}</td>
             <td class="px-6 py-4">
               <div
                 class="font-semibold"
                 :class="`${
-                  renderReviewStatus(item.profiles.avatars.status).colorText
+                  renderReviewStatus(item.avatars.reviewerStatus).colorText
                 }`"
               >
-                {{ renderReviewStatus(item.profiles.avatars.status).name }}
+                {{ renderReviewStatus(item.avatars.reviewerStatus).name }}
               </div>
             </td>
 
             <td class="px-6 py-4">
               <div class="w-[120px]">
-                {{ renderViolate(item.profiles.avatars.optionViolate) }}
+                {{ renderViolate(item.avatars.reviewerViolateOption) }}
               </div>
             </td>
-            <td class="px-6 py-4">{{ item.profiles.avatars.comment }}</td>
+            <td class="px-6 py-4">{{ item.avatars.comment }}</td>
 
             <td class="px-6 py-4">
               <div class="gap-2 flex justify-center">
@@ -187,39 +183,39 @@ export default {
   setup() {
     const options = [
       {
-        value: "Option1",
+        value: "item_1",
         label: "Máu me, bạo lực",
       },
       {
-        value: "Option2",
+        value: "item_2",
         label: "Trẻ em",
       },
       {
-        value: "Option3",
+        value: "item_3",
         label: "Logo quyền sở hữu trí tuệ",
       },
       {
-        value: "Option4",
+        value: "item_4",
         label: "Hình ảnh chứa chủ yếu là văn bản",
       },
       {
-        value: "Option5",
+        value: "item_5",
         label: "Vũ khí",
       },
       {
-        value: "Option6",
+        value: "item_6",
         label: "Hình ảnh chứa QR code, URL",
       },
       {
-        value: "Option7",
+        value: "item_7",
         label: "Hình ảnh meme",
       },
       {
-        value: "Option8",
+        value: "item_8",
         label: "Hình ảnh khỏa thân, tình dục",
       },
       {
-        value: "Option5",
+        value: "item_9",
         label: "Vũ khí",
       },
     ];

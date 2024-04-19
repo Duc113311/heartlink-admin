@@ -5,7 +5,7 @@
 
     <!-- Search -->
 
-    <div class="h-[160px] md:flex md:justify-between md:flex-col mb-4">
+    <div class="2xl:flex xl:justify-between mb-4 w-full">
       <div class="flex items-center">
         <div class="relative md:w-[300px]">
           <div
@@ -58,6 +58,7 @@
           class="m-2 w-[200px] rounded-lg"
           placeholder="Select AI status "
           size="large"
+          @change="onChangeAI"
         >
           <el-option label="Select all" value="all" />
           <el-option
@@ -69,9 +70,9 @@
         </el-select>
       </div>
 
-      <div class="flex items-center gap-2">
-        <div class="grid grid-cols-3 gap-3">
-          <!-- <div class="w-[250px] md:flex-0 shrink-0">
+      <div class="flex items-center gap-2 w-full">
+        <div class="grid grid-cols-3 gap-3 w-full">
+          <div class="md:flex-0 shrink-0">
             <div
               @click="onClickAI(0)"
               class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
@@ -82,11 +83,13 @@
                 >
                   <span id="status1">AI Pending</span>
                 </h1>
-                <h6 class="mb-0 font-bold text-black text-lg">120.200.111</h6>
+                <h6 class="mb-0 font-bold text-black text-lg">
+                  {{ totalImage.totalPendingAI }}
+                </h6>
               </div>
             </div>
           </div>
-          <div class="w-[250px] md:flex-0 shrink-0">
+          <div class="md:flex-0 shrink-0">
             <div
               @click="onClickAI(2)"
               class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
@@ -95,13 +98,15 @@
                 <h1
                   class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
                 >
-                  <span id="status1">AI Rejected</span>
+                  <span id="status1">AI Approved </span>
                 </h1>
-                <h6 class="mb-0 font-bold text-black text-lg">120.200.111</h6>
+                <h6 class="mb-0 font-bold text-black text-lg">
+                  {{ totalImage.totalApproveAI }}
+                </h6>
               </div>
             </div>
           </div>
-          <div class="w-[250px] md:flex-0 shrink-0">
+          <div class="md:flex-0 shrink-0">
             <div
               @click="onClickAI(1)"
               class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
@@ -110,13 +115,15 @@
                 <h1
                   class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
                 >
-                  <span id="status1">AI Approved</span>
+                  <span id="status1">AI Rejected</span>
                 </h1>
-                <h6 class="mb-0 font-bold text-black text-lg">120.200.111</h6>
+                <h6 class="mb-0 font-bold text-black text-lg">
+                  {{ totalImage.totalRejectAI }}
+                </h6>
               </div>
             </div>
-          </div> -->
-          <div class="w-[250px] md:flex-0 shrink-0">
+          </div>
+          <div class="md:flex-0 shrink-0">
             <div
               @click="onClickReviewer(0)"
               class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
@@ -128,12 +135,12 @@
                   <span id="status1">Reviewer Pending</span>
                 </h1>
                 <h6 class="mb-0 font-bold text-black text-lg">
-                  {{ totalImage.totalPending }}
+                  {{ totalImage.totalPendingReviewer }}
                 </h6>
               </div>
             </div>
           </div>
-          <div class="w-[250px] md:flex-0 shrink-0">
+          <div class="md:flex-0 shrink-0">
             <div
               @click="onClickReviewer(1)"
               class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
@@ -145,12 +152,12 @@
                   <span id="status1">Reviewer Approved</span>
                 </h1>
                 <h6 class="mb-0 font-bold text-black text-lg">
-                  {{ totalImage.totalApprove }}
+                  {{ totalImage.totalApproveReviewer }}
                 </h6>
               </div>
             </div>
           </div>
-          <div class="w-[250px] md:flex-0 shrink-0">
+          <div class="md:flex-0 shrink-0">
             <div
               @click="onClickReviewer(2)"
               class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
@@ -162,7 +169,7 @@
                   <span id="status1">Reviewer Rejected</span>
                 </h1>
                 <h6 class="mb-0 font-bold text-black text-lg">
-                  {{ totalImage.totalReject }}
+                  {{ totalImage.totalRejectReviewer }}
                 </h6>
               </div>
             </div>
@@ -172,9 +179,7 @@
     </div>
 
     <!-- Button -->
-    <div
-      class="h-[50px] flex justify-between items-center flex-col sm:flex-row mb-4"
-    >
+    <div class="h-[50px] flex justify-between items-center mb-4">
       <button
         @click="drawerView = true"
         type="button"
@@ -262,9 +267,11 @@ export default {
       avatarDefault: require("@/assets/icon_svg/avatar.jpg"),
       checked2: false,
       valueReviewer: "Pending",
-      valueAI: "",
+      valueAI: "Pending",
       isLoading: false,
       isLoadingHistory: false,
+      keyReviewer: 0,
+      keyAI: 0,
     };
   },
 
@@ -353,10 +360,28 @@ export default {
     async onChangeReviewer(val) {
       debugger;
       this.isLoading = true;
+      this.keyReviewer = val;
       await this.getListImageCMS({
         currentPage: 0,
         pageSize: 100,
-        statusReview: parseInt(val),
+        statusReview: val,
+        statusAI: this.keyAI,
+        nameQuery: this.inputSearch,
+      });
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 500);
+    },
+
+    async onChangeAI(val) {
+      this.isLoading = true;
+      this.keyAI = val;
+      await this.getListImageCMS({
+        currentPage: 0,
+        pageSize: 100,
+        statusReview: this.keyReviewer,
+        statusAI: val,
+        nameQuery: this.inputSearch,
       });
       setTimeout(() => {
         this.isLoading = false;
@@ -369,6 +394,9 @@ export default {
       await this.getListImageCMS({
         currentPage: val.currentPage,
         pageSize: val.pageSize,
+        statusReview: this.keyReviewer,
+        statusAI: this.keyAI,
+        nameQuery: this.inputSearch,
       });
 
       setTimeout(() => {
@@ -378,9 +406,12 @@ export default {
     async onChangeRejected(val) {
       debugger;
       const objectImage = {
-        imageId: val.profiles.avatars.id,
+        imageId: val.avatars.id,
         objectImage: {
-          status: 2,
+          imageId: val._id,
+          reviewerStatus: 2,
+          comment: "",
+          reviewerViolateOption: [],
         },
       };
       await this.putApproveImage(objectImage).then(async (data) => {
@@ -405,14 +436,18 @@ export default {
       await this.getListHistoryImage({
         currentPage: 0,
         pageSize: 100,
+        nameQuery: "",
       });
     },
 
     async onChangeApproved(val) {
       const objectImage = {
-        imageId: val.profiles.avatars.id,
+        imageId: val.avatars.id,
         objectImage: {
-          status: 1,
+          imageId: val._id,
+          reviewerStatus: 1,
+          comment: "",
+          reviewerViolateOption: [],
         },
       };
       await this.putApproveImage(objectImage).then(async (data) => {
@@ -439,29 +474,23 @@ export default {
       await this.getListHistoryImage({
         currentPage: 0,
         pageSize: 100,
+        nameQuery: "",
       });
     },
 
     async onChangeSearch(val) {
       debugger;
+      this.isLoading = true;
       await this.getListImageCMS({
         currentPage: 0,
         pageSize: 100,
-        filters: [
-          {
-            columnName: "fullname",
-            value: val,
-            operation: "contains",
-            dataType: "text",
-          },
-        ],
-        statusReview:
-          this.valueReviewer === "Pending"
-            ? 0
-            : this.valueReviewer === "Approved"
-            ? 1
-            : 2,
+        statusReview: this.keyReviewer,
+        statusAI: this.keyAI,
+        nameQuery: this.inputSearch,
       });
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
     },
 
     convertDate(val) {
