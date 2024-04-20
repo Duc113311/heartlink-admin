@@ -1,9 +1,35 @@
 <template>
-  <div class="w-full h-full">
-    <!-- Title -->
-    <TitlePage></TitlePage>
+  <div class="w-full h-full p-[10px]">
+    <!-- header title -->
 
-    <!-- Search -->
+    <div class="block justify-between md:flex">
+      <div>
+        <h3
+          class="text-gray-700 text-left hover:text-gray-900 dark:text-white dark:hover:text-white text-2xl font-medium"
+        >
+          Danh sách avatar
+        </h3>
+      </div>
+
+      <ol class="flex items-center whitespace-nowrap min-w-0">
+        <li class="text-sm">
+          <a
+            class="flex items-center font-semibold text-blue-500 hover:text-primary dark:text-primary truncate"
+          >
+            Tổng quan
+
+            <span> &nbsp; / &nbsp;</span>
+          </a>
+        </li>
+
+        <li
+          class="text-sm text-gray-500 hover:text-primary dark:text-white/70"
+          aria-current="page"
+        >
+          Danh sách
+        </li>
+      </ol>
+    </div>
 
     <!-- Thống kê -->
     <div class="grid grid-cols-12 2xl:grid-cols-12 gap-x-5 mt-4">
@@ -129,6 +155,7 @@
     </div>
 
     <!-- Search -->
+
     <div class="xl:flex justify-between items-center mt-4">
       <div class="flex items-center">
         <div class="relative md:w-[300px]">
@@ -217,14 +244,8 @@
     </div>
 
     <!-- Table -->
-    <div class="mt-4 w-full">
-      <!-- <TableCms
-        :loading="isLoading"
-        @onChangeApproved="onChangeApproved"
-        @onChangeRejected="onChangeRejected"
-        @onChangeLimitNext="onChangeLimitNext"
-      ></TableCms> -->
 
+    <div class="mt-4 w-full">
       <TableCommon
         :loading="isLoading"
         @onChangeApproved="onChangeApproved"
@@ -232,26 +253,18 @@
         @onChangeLimitNext="onChangeLimitNext"
       ></TableCommon>
     </div>
+    <!--  -->
 
-    <!-- History -->
     <el-drawer v-model="drawer" :with-header="false" size="80%">
       <template v-slot>
         <div class="w-full h-full text-black text-left">
           <div class="text-xl font-bold text-blue-300 pt-2 pb-2">
             Review History
           </div>
-
-          <TableHistory
-            :loading="isLoadingHistory"
-            @onChangeApproved="onChangeApproved"
-            @onChangeLimitNext="onChangeLimitNext"
-            @onChangeRejected="onChangeRejected"
-          ></TableHistory>
         </div>
       </template>
     </el-drawer>
 
-    <!-- Quick action -->
     <el-drawer
       @close="onCloseModel()"
       v-model="drawerView"
@@ -263,34 +276,21 @@
           CHECK VERIFY IMAGE
         </div>
       </template>
-      <!--  -->
-      <cms-slider ref="cmsSlider"></cms-slider>
-      <!--  -->
     </el-drawer>
   </div>
 </template>
 
 <script>
-import TableCommon from "../profile/table/table-common";
-import TableHistory from "../profile/table/table-history";
-// import TableCms from "../profile/table/table-cms";
-import TitlePage from "../profile/title/title-page";
 import { ref } from "vue";
-import funValidation from "../../middleware/validation";
-import CmsSlider from "../cms/cms-slider.vue";
-import { mapActions, mapMutations } from "vuex";
 import { ElNotification } from "element-plus";
+import { mapActions, mapMutations } from "vuex";
+import funValidation from "../../middleware/validation";
 
+import TableCommon from "../profile/table/table-common";
 export default {
-  name: "censorship-page",
+  components: { TableCommon },
+  name: "cms-dashboard",
 
-  components: {
-    TableCommon,
-    TableHistory,
-    // TableCms,
-    TitlePage,
-    CmsSlider,
-  },
   data() {
     return {
       inputSearch: "",
@@ -336,39 +336,6 @@ export default {
       drawerView,
       successNotification,
     };
-  },
-
-  computed: {
-    listUser() {
-      return this.$store.state.cmsModule.listHistory;
-    },
-
-    listReviewerStatus() {
-      return this.$store.state.cmsModule.listReview;
-    },
-
-    listAIStatus() {
-      return this.$store.state.cmsModule.listAI;
-    },
-
-    totalImage() {
-      return this.$store.state.cmsModule.totalImage;
-    },
-  },
-
-  async created() {
-    this.isLoading = true;
-    await this.getListImageCMS({
-      currentPage: 0,
-      pageSize: 100,
-      statusReview: 0,
-      statusAI: 0,
-      nameQuery: "",
-    });
-
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 500);
   },
 
   mounted() {},
@@ -481,8 +448,6 @@ export default {
         },
       };
       await this.putApproveImage(objectImage).then(async (data) => {
-        console.log(data);
-
         this.successNotification();
 
         this.setListRemoveTable(val._id);

@@ -9,7 +9,7 @@
         class="main-content flex flex-col overflow-hidden flex-grow p-[20px] h-[calc(100vh-130px)] show-scroll overflow-y-auto"
       >
         <router-view></router-view>
-        <FooterAdmin></FooterAdmin>
+        <!-- <FooterAdmin></FooterAdmin> -->
       </div>
     </main>
   </div>
@@ -29,7 +29,7 @@
 <script>
 import LoadApp from "../../layout/loading/load-app";
 import Sidebar from "../../layout/nav/sidebar";
-import FooterAdmin from "../../layout/footer/footer-admin";
+// import FooterAdmin from "../../layout/footer/footer-admin";
 import HeaderCustomer from "../../layout/header/header-customer";
 import { mapActions } from "vuex";
 
@@ -37,7 +37,7 @@ export default {
   components: {
     LoadApp,
     Sidebar,
-    FooterAdmin,
+    // FooterAdmin,
     HeaderCustomer,
   },
   name: "dashboard-view",

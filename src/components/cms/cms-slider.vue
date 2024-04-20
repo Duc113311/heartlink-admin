@@ -164,7 +164,9 @@
             <div
               class="mb-2 text-base flex font-semibold text-gray-900 dark:text-white"
             >
-              <div class="w-[130px]">Reviewer AI</div>
+              <div class="w-[140px]">
+                Reviewer AI &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+              </div>
               <span
                 :class="
                   renderStatusImage(renderImage().avatars.aiStatus).colorText
@@ -202,8 +204,8 @@
                 value-key="id"
                 collapse-tags
                 placeholder="Select violate"
-                style="width: 240px"
-                @change="onChangeViolate()"
+                style="width: 240px;"
+                @change="onChangeViolate"
               >
                 <el-option
                   v-for="item in options"
