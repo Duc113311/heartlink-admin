@@ -59,30 +59,28 @@
                 {{ renderReviewStatus(item.avatars.aiStatus).name }}
               </div>
             </td>
-            <td class="px-6 py-4">{{ item.avatars.aiPoint }}}</td>
-            <td class="px-6 py-4">{{ item.avatars.aiViolateOption }}</td>
+            <td class="px-6 py-4">{{ item.avatars.aiPoint }}</td>
+            <td class="px-6 py-4">
+              {{
+                item.avatars.aiViolateOption.length !== 0
+                  ? item.avatars.aiViolateOption.length
+                  : ""
+              }}
+            </td>
 
             <td class="px-6 py-4">
               <div class="gap-2 flex justify-center">
-                <el-popover
-                  placement="top"
-                  :width="200"
-                  trigger="click"
-                  content="Coming soon"
+                <button
+                  @click="onClickView(item)"
+                  class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
                 >
-                  <template #reference>
-                    <button
-                      @click="onClickView(item)"
-                      class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
-                    >
-                      <span
-                        class="relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-opacity-0"
-                      >
-                        View
-                      </span>
-                    </button>
-                  </template>
-                </el-popover>
+                  <span
+                    class="relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-opacity-0"
+                  >
+                    View
+                  </span>
+                </button>
+
                 <button
                   @click="onClickApproved(item)"
                   class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800"
@@ -232,6 +230,9 @@ export default {
   mounted() {},
 
   methods: {
+    onClickView(val) {
+      this.$emit("onShowViewImage", val);
+    },
     // Next page
     goToPage(page) {
       if (page >= 1 && page <= this.limitPage.total) {

@@ -1,3 +1,4 @@
+<!-- eslint-disable prettier/prettier -->
 <template>
   <div class="w-full h-full">
     <!-- Title -->
@@ -14,7 +15,7 @@
           >
             <div class="flex-auto p-2 text-center">
               <h1
-                class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
+                class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
                 <span id="status1">Total reviewer photo pending</span>
               </h1>
@@ -34,7 +35,7 @@
           >
             <div class="flex-auto p-2 text-center">
               <h1
-                class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
+                class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
                 <span id="status1">Total reviewer photo approved</span>
               </h1>
@@ -54,7 +55,7 @@
           >
             <div class="flex-auto p-2 text-center">
               <h1
-                class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
+                class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
                 <span id="status1">Total reviewer photo reject</span>
               </h1>
@@ -74,7 +75,7 @@
           >
             <div class="flex-auto p-2 text-center">
               <h1
-                class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
+                class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
                 <span id="status1">Total AI photo pending</span>
               </h1>
@@ -94,7 +95,7 @@
           >
             <div class="flex-auto p-2 text-center">
               <h1
-                class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
+                class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
                 <span id="status1">Total AI photo approved</span>
               </h1>
@@ -114,7 +115,7 @@
           >
             <div class="flex-auto p-2 text-center">
               <h1
-                class="relative z-10 text-base text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
+                class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
                 <span id="status1">Total AI photo reject</span>
               </h1>
@@ -230,6 +231,7 @@
         @onChangeApproved="onChangeApproved"
         @onChangeRejected="onChangeRejected"
         @onChangeLimitNext="onChangeLimitNext"
+        @onShowViewImage="onShowViewImage"
       ></TableCommon>
     </div>
 
@@ -267,10 +269,29 @@
       <cms-slider ref="cmsSlider"></cms-slider>
       <!--  -->
     </el-drawer>
+
+    <el-dialog
+      v-model="isShowViewImage"
+      width="30%"
+      @close="closeDialog"
+      draggable
+    >
+      <template #title>
+        <div class="text-lg font-semibold text-slate-500">
+          View detail image
+        </div>
+      </template>
+      <ViewImage
+        :objectImageValue="objectImage"
+        @onChangeApprove="onChangeApproveSave"
+        @onChangeReject="onChangeRejectSave"
+      ></ViewImage>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import ViewImage from "../profile/detail-cms/view-image";
 import TableCommon from "../profile/table/table-common";
 import TableHistory from "../profile/table/table-history";
 // import TableCms from "../profile/table/table-cms";
@@ -285,6 +306,7 @@ export default {
   name: "censorship-page",
 
   components: {
+    ViewImage,
     TableCommon,
     TableHistory,
     // TableCms,
@@ -302,6 +324,8 @@ export default {
       isLoadingHistory: false,
       keyReviewer: 0,
       keyAI: 0,
+      isShowViewImage: false,
+      objectImage: {},
     };
   },
 
@@ -386,6 +410,53 @@ export default {
       "getTotalImages",
       "getListHistoryImage",
     ]),
+
+    onShowViewImage(val) {
+      this.isShowViewImage = true;
+      this.objectImage = val;
+    },
+
+    async onChangeApproveSave(val) {
+      await this.putApproveImage(val).then(async (data) => {
+        console.log(data);
+
+        this.successNotification();
+
+        this.setListRemoveTable(val.objectImage.imageId);
+      });
+
+      const valueStatus = 1;
+      this.setTotalStoreImage(valueStatus);
+      const totalCMSTable = this.$store.state.cmsModule.listCMSTable.length;
+
+      if (totalCMSTable === 90) {
+        await this.getListImageCMSPush({
+          currentPage: 0,
+          pageSize: 100,
+        });
+      }
+
+      this.isShowViewImage = false;
+    },
+
+    async onChangeRejectSave(val) {
+      await this.putApproveImage(val).then(async (data) => {
+        this.successNotification();
+        this.setListRemoveTable(val.objectImage.imageId);
+      });
+      const valueStatus = 2;
+      this.setTotalStoreImage(valueStatus);
+      const totalCMSTable = this.$store.state.cmsModule.listCMSTable.length;
+      if (totalCMSTable === 90) {
+        await this.getListImageCMSPush({
+          currentPage: 0,
+          pageSize: 100,
+        });
+      }
+      this.isShowViewImage = false;
+    },
+
+    closeDialog() {},
 
     async onChangeReviewer(val) {
       debugger;

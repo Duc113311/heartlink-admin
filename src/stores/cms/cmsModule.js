@@ -122,11 +122,11 @@ const mutations = {
   },
 
   setTotalStoreImage(state, status) {
-    state.totalImage.totalPending--;
+    state.totalImage.totalPendingReviewer--;
     if (status === 1) {
-      state.totalImage.totalApprove++;
+      state.totalImage.totalApproveReviewer++;
     } else {
-      state.totalImage.totalReject++;
+      state.totalImage.totalRejectReviewer++;
     }
   },
 
