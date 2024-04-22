@@ -157,7 +157,7 @@
             type="search"
             id="default-search"
             v-model="inputSearch"
-            class="block search-text w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            class="block search-text w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-sm bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Search key, name"
             @input="onChangeSearch(inputSearch)"
             required
@@ -345,10 +345,10 @@ export default {
         type: "success",
       });
 
-      // Close the notification after 1000ms (1 second)
+      // Close the notification after 500ms (1 second)
       setTimeout(() => {
         notificationInstance.close();
-      }, 1000);
+      }, 500);
     };
     return {
       currentPage2,
@@ -432,7 +432,7 @@ export default {
       if (totalCMSTable === 90) {
         await this.getListImageCMSPush({
           currentPage: 0,
-          pageSize: 100,
+          pageSize: 50,
         });
       }
 
@@ -450,7 +450,7 @@ export default {
       if (totalCMSTable === 90) {
         await this.getListImageCMSPush({
           currentPage: 0,
-          pageSize: 100,
+          pageSize: 50,
         });
       }
       this.isShowViewImage = false;
@@ -464,7 +464,7 @@ export default {
       this.keyReviewer = val;
       await this.getListImageCMS({
         currentPage: 0,
-        pageSize: 100,
+        pageSize: 50,
         statusReview: val,
         statusAI: this.keyAI,
         nameQuery: this.inputSearch,
@@ -479,7 +479,7 @@ export default {
       this.keyAI = val;
       await this.getListImageCMS({
         currentPage: 0,
-        pageSize: 100,
+        pageSize: 50,
         statusReview: this.keyReviewer,
         statusAI: val,
         nameQuery: this.inputSearch,
@@ -502,7 +502,7 @@ export default {
 
       setTimeout(() => {
         this.isLoading = false;
-      }, 1000);
+      }, 500);
     },
     async onChangeRejected(val) {
       debugger;
@@ -524,10 +524,10 @@ export default {
       this.setTotalStoreImage(valueStatus);
       const totalCMSTable = this.$store.state.cmsModule.listCMSTable.length;
 
-      if (totalCMSTable === 90) {
+      if (totalCMSTable === 40) {
         await this.getListImageCMSPush({
           currentPage: 0,
-          pageSize: 100,
+          pageSize: 50,
         });
       }
       this.isLoadingHistory = true;
@@ -536,7 +536,7 @@ export default {
       }, 500);
       await this.getListHistoryImage({
         currentPage: 0,
-        pageSize: 100,
+        pageSize: 50,
         nameQuery: "",
       });
     },
@@ -562,10 +562,10 @@ export default {
       this.setTotalStoreImage(valueStatus);
       const totalCMSTable = this.$store.state.cmsModule.listCMSTable.length;
 
-      if (totalCMSTable === 90) {
+      if (totalCMSTable === 40) {
         await this.getListImageCMSPush({
           currentPage: 0,
-          pageSize: 100,
+          pageSize: 50,
         });
       }
       this.isLoadingHistory = true;
@@ -574,7 +574,7 @@ export default {
       }, 500);
       await this.getListHistoryImage({
         currentPage: 0,
-        pageSize: 100,
+        pageSize: 50,
         nameQuery: "",
       });
     },
@@ -584,14 +584,14 @@ export default {
       this.isLoading = true;
       await this.getListImageCMS({
         currentPage: 0,
-        pageSize: 100,
+        pageSize: 50,
         statusReview: this.keyReviewer,
         statusAI: this.keyAI,
         nameQuery: this.inputSearch,
       });
       setTimeout(() => {
         this.isLoading = false;
-      }, 1000);
+      }, 500);
     },
 
     convertDate(val) {
@@ -641,22 +641,22 @@ export default {
 
     async onCloseModel() {
       debugger;
-      console.log("hello", this.$refs.cmsSlider.setDefault);
       if (this.$refs.cmsSlider) {
         // Đảm bảo component con đã được mount
         this.$refs.cmsSlider.setDefault();
-
-        console.log("hello", this.$refs.cmsSlider.currentSlideIndex);
       }
       this.isLoading = true;
       await this.getListImageCMS({
         currentPage: 0,
-        pageSize: 100,
+        pageSize: 50,
+        statusReview: 0,
+        statusAI: 0,
+        nameQuery: "",
       });
-
       setTimeout(() => {
         this.isLoading = false;
-      }, 1000);
+      }, 300);
+      await this.getTotalImages();
     },
   },
 };

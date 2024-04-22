@@ -118,7 +118,7 @@
               ></div>
               <div class="text-left">
                 <div class="text-base font-bold">
-                  {{ renderImage().profiles.fullname }}
+                  {{ renderImage().profiles[0].fullname }}
                 </div>
                 <div>Số lần vi phạm: 01</div>
               </div>
@@ -424,7 +424,6 @@ export default {
       this.loading = true;
       const itemUser = this.renderImage().avatars.id;
 
-      this.textNote = "";
       this.keyViolate = [];
       this.valueViolate = [];
       this.valueViolates = [];
@@ -433,8 +432,8 @@ export default {
         imageId: itemUser,
         objectImage: {
           imageId: this.renderImage()._id,
-          reviewerStatus: 2,
-          comment: "",
+          reviewerStatus: 1,
+          comment: this.textNote,
           reviewerViolateOption: [],
         },
       };
@@ -461,7 +460,7 @@ export default {
       debugger;
       const valueImage = this.renderImage().avatars;
 
-      if (valueImage.reviewerStatus === 2) {
+      if (valueImage.reviewerStatus === 1) {
         console.log(valueImage);
         this.textNote = valueImage.comment;
         this.valueViolate = valueImage.reviewerViolateOption;

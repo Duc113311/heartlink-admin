@@ -179,7 +179,7 @@ export default {
   data() {
     return {
       currentPage: 1,
-      totalPages: 10,
+      totalPages: 50,
     };
   },
 
