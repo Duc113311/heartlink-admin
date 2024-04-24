@@ -1,6 +1,6 @@
 <!-- eslint-disable prettier/prettier -->
 <template>
-  <div class="w-full h-full flex" v-if="renderImage()">
+  <div v-loading="isLoading" class="w-full h-full flex" v-if="renderImage()">
     <!--  -->
     <div class="w-4/6 bg-slate-400 h-full">
       <div class="w-full h-full bg-slate-500 p-5">
@@ -120,7 +120,6 @@
                 <div class="text-base font-bold">
                   {{ renderImage().profiles[0].fullname }}
                 </div>
-                <div>Số lần vi phạm: 01</div>
               </div>
             </div>
             <el-popover
@@ -141,13 +140,15 @@
           </div>
         </div>
       </div>
-      <div class="w-full right-body h-[calc(100%-220px)] bg-slate-200 p-5">
+      <div
+        class="w-full relative right-body h-[calc(100%-220px)] bg-slate-200 p-5"
+      >
         <div class="w-full pb-5">
           <div class="text-left">
             <div
-              class="mb-2 text-base flex font-semibold text-gray-900 dark:text-white"
+              class="mb-2 text-sm flex font-semibold text-gray-900 dark:text-white"
             >
-              <div class="w-[140px]">Reviewer Status :</div>
+              <div class="w-[130px]">Reviewer Status :</div>
               <span
                 :class="
                   renderStatusImage(renderImage().avatars.reviewerStatus)
@@ -162,9 +163,9 @@
           </div>
           <div class="text-left w-full flex justify-between">
             <div
-              class="mb-2 text-base flex font-semibold text-gray-900 dark:text-white"
+              class="mb-2 text-sm flex font-semibold text-gray-900 dark:text-white"
             >
-              <div class="w-[140px]">
+              <div class="w-[130px]">
                 Reviewer AI &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
               </div>
               <span
@@ -177,18 +178,6 @@
                 }}</span
               >
             </div>
-            <div>
-              <div class="font-semibold text-gray-900 dark:text-white">
-                {{ renderImage().avatars.comment }}
-              </div>
-              <ul
-                class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400"
-              >
-                <li>Liên quan trẻ em</li>
-                <li>Tôn giáo, chính trị</li>
-                <li>Súng đạn</li>
-              </ul>
-            </div>
           </div>
         </div>
 
@@ -197,7 +186,9 @@
         >
           <div class="w-full">
             <div class="">
-              <div class="text-lg font-semibold p-2">Chose option violate:</div>
+              <div class="text-base font-semibold p-2">
+                Chose option violate:
+              </div>
               <el-select
                 v-model="valueViolate"
                 multiple
@@ -217,7 +208,7 @@
             </div>
             <div class="grid grid-cols-4 gap-2 mt-3">
               <div
-                class="border p-2 rounded-lg bg-slate-100"
+                class="border text-sm p-1 rounded-lg bg-slate-100"
                 v-for="(item, index) in valueViolates"
                 :key="index"
               >
@@ -231,8 +222,8 @@
           class="flex justify-center items-center w-full border-t-2 pt-5 pb-5"
         >
           <div class="w-full">
-            <div class="text-lg font-semibold text-left">Add comment:</div>
-            <div class="w-full pt-5 pb-5 justify-center flex items-center">
+            <div class="text-base font-semibold text-left">Add comment:</div>
+            <div class="w-full pt-2 pb-5 justify-center flex items-center">
               <div class="w-[500px]">
                 <el-input
                   v-model="textNote"
@@ -244,16 +235,18 @@
                 />
               </div>
             </div>
-            <div class="w-full justify-center flex items-center">
-              <button
-                @click="onClickReject(renderImage())"
-                type="button"
-                class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-semibold rounded-lg text-lg px-10 py-2.5 text-center me-2 mb-2"
-              >
-                Reject
-              </button>
-            </div>
           </div>
+        </div>
+        <div
+          class="w-full absolute bottom-0 pb-4 left-0 justify-center flex items-center"
+        >
+          <button
+            @click="onClickReject(renderImage())"
+            type="button"
+            class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-semibold rounded-lg text-lg px-10 py-2.5 text-center me-2 mb-2"
+          >
+            Reject
+          </button>
         </div>
       </div>
       <div class="w-full right-footer h-[110px] bg-slate-100 p-5">
@@ -343,11 +336,11 @@ export default {
     };
   },
 
-  // watch: {
-  //   textNote(newValue, oldValue) {
-  //     return newValue;
-  //   },
-  // },
+  watch: {
+    textNote(newValue, oldValue) {
+      return newValue;
+    },
+  },
 
   data() {
     return {
@@ -356,14 +349,20 @@ export default {
       avatarDefault01: require("@/assets/icon_svg/avatar01.jpg"),
       currentSlideIndex: 0,
       currentPage: 0,
+      isLoading: false,
       loading: false,
-
       valueViolates: [],
       keyViolate: [],
     };
   },
 
-  mounted() {},
+  mounted() {
+    debugger;
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 2000);
+  },
   computed: {
     listCMS() {
       return this.$store.state.cmsModule.listImageCMS;
@@ -395,7 +394,6 @@ export default {
 
     renderImage() {
       const listImgs = this.listCMS[this.currentSlideIndex];
-      debugger;
       return listImgs;
     },
 
@@ -419,8 +417,8 @@ export default {
 
       return objectStatus;
     },
-    async onNextImage() {
-      debugger;
+
+    async onClickApproveDelay() {
       this.loading = true;
       const itemUser = this.renderImage().avatars.id;
 
@@ -448,19 +446,27 @@ export default {
       });
       this.onPreviousImage(this.currentSlideIndex);
 
-      if (this.currentSlideIndex >= parseInt(this.listCMS.length - 1)) {
-        this.getListImageQuickPush({
+      if (this.currentSlideIndex >= parseInt(this.listCMS.length - 3)) {
+        await this.getListImageQuickPush({
           currentPage: this.currentPage++,
-          pageSize: 500,
+          pageSize: 5,
+          statusReview: 0,
+          statusAI: -1,
+          nameQuery: "",
         });
       }
+    },
+    async onNextImage() {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      this.onClickApproveDelay();
     },
 
     async onPreviousImage(val) {
       debugger;
-      const valueImage = this.renderImage().avatars;
+      const valueImage = this.renderImage()?.avatars;
 
-      if (valueImage.reviewerStatus === 1) {
+      if (valueImage.reviewerStatus === 2) {
         console.log(valueImage);
         this.textNote = valueImage.comment;
         this.valueViolate = valueImage.reviewerViolateOption;
@@ -493,13 +499,18 @@ export default {
       });
       this.onPreviousImage(this.currentSlideIndex);
 
-      if (this.currentSlideIndex >= parseInt(this.listCMS.length - 1)) {
+      if (this.currentSlideIndex >= parseInt(this.listCMS.length - 3)) {
         this.getListImageQuickPush({
           currentPage: this.currentPage++,
-          pageSize: 500,
+          pageSize: 5,
+          statusReview: 0,
+          statusAI: -1,
+          nameQuery: "",
         });
       }
     },
+
+    // Btn Reject
     async onClickReject(val) {
       debugger;
       const objectImage = {
@@ -507,8 +518,8 @@ export default {
         objectImage: {
           imageId: val._id,
           reviewerStatus: 2,
-          comment: "",
-          reviewerViolateOption: [],
+          comment: this.textNote,
+          reviewerViolateOption: this.keyViolate,
         },
       };
       await this.putApproveImage(objectImage).then((data) => {
@@ -531,11 +542,13 @@ export default {
 
       this.onPreviousImage(this.currentSlideIndex);
 
-      if (this.currentSlideIndex >= parseInt(this.listCMS.length - 1)) {
+      if (this.currentSlideIndex >= parseInt(this.listCMS.length - 3)) {
         this.getListImageCMS({
           currentPage: this.currentPage++,
-          pageSize: 500,
-          statusAI: 1,
+          pageSize: 5,
+          statusReview: 0,
+          statusAI: -1,
+          nameQuery: "",
         });
       }
     },
@@ -554,7 +567,7 @@ export default {
   height: 50px;
   border-radius: 40px;
   background-position: center;
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   border: 1px solid #ccc;
   border-radius: 30px;

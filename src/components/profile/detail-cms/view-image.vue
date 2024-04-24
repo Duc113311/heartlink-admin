@@ -10,7 +10,7 @@
     <div class="flex w-full justify-center items-center pt-3 pb-2">
       <div class="w-full">
         <div class="">
-          <div class="text-lg font-semibold p-2">Chose option violate:</div>
+          <div class="text-base font-semibold p-2">Chose option violate:</div>
           <el-select
             v-model="valueViolate"
             multiple
@@ -30,7 +30,7 @@
         </div>
         <div class="grid grid-cols-4 gap-2 mt-3">
           <div
-            class="border p-2 rounded-lg bg-slate-100"
+            class="border text-sm p-1 rounded-lg bg-slate-100"
             v-for="(item, index) in valueViolates"
             :key="index"
           >
@@ -42,7 +42,7 @@
 
     <div class="flex justify-center items-center w-full pt-2 pb-5">
       <div class="w-full">
-        <div class="text-lg font-semibold text-left">Add comment:</div>
+        <div class="text-base font-semibold text-left">Add comment:</div>
         <div class="w-full pt-2 justify-center flex items-center">
           <div class="w-[500px]">
             <el-input
@@ -51,7 +51,7 @@
               class="w-full h-full rounded-lg"
               placeholder="Please enter the reason for the report"
               type="textarea"
-              :autosize="{ minRows: 6, maxRows: 4 }"
+              :autosize="{ minRows: 5, maxRows: 4 }"
             />
           </div>
         </div>
@@ -137,6 +137,7 @@ export default {
 
   computed: {
     renderObject() {
+      debugger;
       return this.objectImageValue;
     },
   },
@@ -191,7 +192,7 @@ export default {
   height: 300px;
   border-radius: 10px;
   background-position: center;
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
 }
 </style>

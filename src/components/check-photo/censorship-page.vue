@@ -131,7 +131,7 @@
 
     <!-- Search -->
     <div class="xl:flex justify-between items-center mt-4">
-      <div class="flex items-center">
+      <div class="flex items-center gap-5">
         <div class="relative md:w-[300px]">
           <div
             class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
@@ -163,44 +163,55 @@
             required
           />
         </div>
+        <div class="flex items-center">
+          <div class="text-sm font-medium text-black">Reviewer</div>
+          <el-select
+            v-model="valueReviewer"
+            class="m-2 w-[200px] rounded-lg"
+            placeholder="Select reviewer status"
+            size="large"
+            @change="onChangeReviewer"
+          >
+            <el-option label="Select all" value="-1" />
 
-        <el-select
-          v-model="valueReviewer"
-          class="m-2 w-[200px] rounded-lg"
-          placeholder="Select reviewer status"
-          size="large"
-          @change="onChangeReviewer"
+            <el-option
+              v-for="item in listReviewerStatus"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+        <div class="flex items-center">
+          <div class="text-sm font-medium text-black">AI</div>
+          <el-select
+            v-model="valueAI"
+            class="m-2 w-[200px] rounded-lg"
+            placeholder="Select AI status "
+            size="large"
+            @change="onChangeAI"
+          >
+            <el-option label="Select all" value="-1" />
+
+            <el-option
+              v-for="item in listAIStatus"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+        <button
+          @click="onClickReload()"
+          type="button"
+          class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
         >
-          <el-option label="Select all" value="-1" />
-
-          <el-option
-            v-for="item in listReviewerStatus"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-
-        <el-select
-          v-model="valueAI"
-          class="m-2 w-[200px] rounded-lg"
-          placeholder="Select AI status "
-          size="large"
-          @change="onChangeAI"
-        >
-          <el-option label="Select all" value="all" />
-
-          <el-option
-            v-for="item in listAIStatus"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
+          Reload
+        </button>
       </div>
       <div class="flex justify-between items-center gap-3">
         <button
-          @click="drawerView = true"
+          @click="onClickShowQuickAction(true)"
           type="button"
           class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
         >
@@ -208,7 +219,7 @@
         </button>
 
         <button
-          @click="drawer = true"
+          @click="onClickShowHistory(true)"
           type="button"
           class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
         >
@@ -227,7 +238,6 @@
       ></TableCms> -->
 
       <TableCommon
-        :loading="isLoading"
         @onChangeApproved="onChangeApproved"
         @onChangeRejected="onChangeRejected"
         @onChangeLimitNext="onChangeLimitNext"
@@ -236,7 +246,7 @@
     </div>
 
     <!-- History -->
-    <el-drawer v-model="drawer" :with-header="false" size="80%">
+    <el-drawer v-model="isShowHistory" :with-header="false" size="80%">
       <template v-slot>
         <div class="w-full h-full text-black text-left">
           <div class="text-xl font-bold text-blue-300 pt-2 pb-2">
@@ -244,7 +254,6 @@
           </div>
 
           <TableHistory
-            :loading="isLoadingHistory"
             @onChangeApproved="onChangeApproved"
             @onChangeLimitNext="onChangeLimitNext"
             @onChangeRejected="onChangeRejected"
@@ -256,7 +265,7 @@
     <!-- Quick action -->
     <el-drawer
       @close="onCloseModel()"
-      v-model="drawerView"
+      v-model="isShowQuickAction"
       :with-header="true"
       size="100%"
     >
@@ -266,13 +275,16 @@
         </div>
       </template>
       <!--  -->
-      <cms-slider ref="cmsSlider"></cms-slider>
+      <div class="w-full h-full" v-loading="isLoading">
+        <cms-slider ref="cmsSlider"></cms-slider>
+      </div>
       <!--  -->
     </el-drawer>
 
     <el-dialog
       v-model="isShowViewImage"
       width="30%"
+      align-center
       @close="closeDialog"
       draggable
     >
@@ -319,13 +331,15 @@ export default {
       avatarDefault: require("@/assets/icon_svg/avatar.jpg"),
       checked2: false,
       valueReviewer: "Pending",
-      valueAI: "Pending",
-      isLoading: false,
+      valueAI: "Select all",
+      isLoading: true,
       isLoadingHistory: false,
       keyReviewer: 0,
       keyAI: 0,
       isShowViewImage: false,
       objectImage: {},
+      isShowHistory: false,
+      isShowQuickAction: false,
     };
   },
 
@@ -382,17 +396,16 @@ export default {
 
   async created() {
     this.isLoading = true;
-    await this.getListImageCMS({
-      currentPage: 0,
-      pageSize: 100,
-      statusReview: 0,
-      statusAI: 0,
-      nameQuery: "",
-    });
-
+    // // await this.getListImageCMS({
+    // //   currentPage: 0,
+    // //   pageSize: 50,
+    // //   statusReview: 0,
+    // //   statusAI: 0,
+    // //   nameQuery: "",
+    // // });
     setTimeout(() => {
       this.isLoading = false;
-    }, 500);
+    }, 2000);
   },
 
   mounted() {},
@@ -411,9 +424,30 @@ export default {
       "getListHistoryImage",
     ]),
 
+    onClickReload() {
+      this.$emit("onChangeReload", true);
+    },
+
     onShowViewImage(val) {
+      debugger;
       this.isShowViewImage = true;
       this.objectImage = val;
+    },
+
+    onClickShowHistory(val) {
+      this.isShowHistory = val;
+    },
+
+    async onClickShowQuickAction(val) {
+      this.isShowQuickAction = val;
+
+      await this.getListImageCMS({
+        currentPage: 0,
+        pageSize: 5,
+        statusReview: 0,
+        statusAI: -1,
+        nameQuery: "",
+      });
     },
 
     async onChangeApproveSave(val) {

@@ -1,7 +1,10 @@
 <template>
-  <div class="w-full h-full">
+  <div class="w-full h-full p-[15px]" v-loading="isLoading">
     <!-- header -->
-    <CensorshipPage @onChangeEditImage="onChangeEditImage"></CensorshipPage>
+    <CensorshipPage
+      @onChangeEditImage="onChangeEditImage"
+      @onChangeReload="onChangeReload"
+    ></CensorshipPage>
     <!--  -->
 
     <!-- <div
@@ -34,23 +37,40 @@ export default {
     return {
       isModelCheckImage: true,
       imageDetail: {},
+      isLoading: false,
     };
   },
 
-  async mounted() {
-    await this.getTotalImages();
-  },
+  async mounted() {},
 
   async created() {
-    await this.getListHistoryImage({
-      currentPage: 0,
-      pageSize: 100,
-      nameQuery: "",
-    });
+    debugger;
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 3000);
+    await Promise.all([
+      this.getListImageCMS({
+        currentPage: 0,
+        pageSize: 50,
+        statusReview: 0,
+        statusAI: -1,
+        nameQuery: "",
+      }),
+      // Lấy tổng số danh sách
+      this.getTotalImages(),
+
+      // Lấy danh sách history
+      this.getListHistoryImage({
+        currentPage: 0,
+        pageSize: 50,
+        nameQuery: "",
+      }),
+    ]);
   },
 
   methods: {
-    ...mapActions(["getTotalImages", "getListHistoryImage"]),
+    ...mapActions(["getTotalImages", "getListHistoryImage", "getListImageCMS"]),
     onChangeEditImage(val) {
       this.isModelCheckImage = val.status;
       this.imageDetail = val.data;
@@ -58,6 +78,33 @@ export default {
 
     onHideModel(val) {
       this.isModelCheckImage = val.status;
+    },
+
+    // Reload data
+    async onChangeReload(val) {
+      this.isLoading = true;
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 3000);
+
+      await Promise.all([
+        this.getListImageCMS({
+          currentPage: 0,
+          pageSize: 50,
+          statusReview: 0,
+          statusAI: 0,
+          nameQuery: "",
+        }),
+        // Lấy tổng số danh sách
+        this.getTotalImages(),
+
+        // Lấy danh sách history
+        this.getListHistoryImage({
+          currentPage: 0,
+          pageSize: 50,
+          nameQuery: "",
+        }),
+      ]);
     },
   },
 };

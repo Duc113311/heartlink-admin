@@ -162,23 +162,7 @@ const actions = {
 
   async getListImageCMSPush({ commit }, data) {
     await http_mongo
-      .get(`api/avatars/need-confirm-images`, {
-        params: data,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          commit("setListImagesQuickPush", response.data.data);
-        }
-      })
-      .catch((error) => {});
-  },
-
-  async getListImageQuickPush({ commit }, data) {
-    await http_mongo
-      .get(`api/avatars/need-confirm-images`, {
+      .get(`api/avatars/card-images`, {
         params: data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -187,6 +171,22 @@ const actions = {
       .then((response) => {
         if (response.status === 200) {
           commit("setListImagesCMSPush", response.data.data);
+        }
+      })
+      .catch((error) => {});
+  },
+
+  async getListImageQuickPush({ commit }, data) {
+    await http_mongo
+      .get(`api/avatars/card-images`, {
+        params: data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          commit("setListImagesQuickPush", response.data.data);
         }
       })
       .catch((error) => {});

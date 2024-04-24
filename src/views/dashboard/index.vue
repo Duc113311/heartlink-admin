@@ -6,9 +6,9 @@
     >
       <HeaderCustomer @onChangeLogout="onChangeLogout"></HeaderCustomer>
       <div
-        class="main-content flex flex-col overflow-hidden flex-grow p-[20px] h-[calc(100vh-130px)] show-scroll overflow-y-auto"
+        class="main-content flex flex-col overflow-hidden flex-grow h-[calc(100vh-130px)] show-scroll overflow-y-auto"
       >
-        <router-view></router-view>
+        <router-view> </router-view>
         <!-- <FooterAdmin></FooterAdmin> -->
       </div>
     </main>
@@ -16,7 +16,7 @@
 
   <div
     v-show="isShowIconApp"
-    class="absolute z-50 top-0 left-0 img-app items-center flex w-full h-full justify-center"
+    class="absolute z-[2100] top-0 left-0 img-app items-center flex w-full h-full justify-center"
   >
     <LoadApp
       :urlImage="icUrlApp"
@@ -44,7 +44,6 @@ export default {
 
   data() {
     return {
-      loading: false,
       isShowIconApp: true,
       icUrlApp: require("@/assets/icon_svg/ic_logo.svg"),
       colorApp: "#FF828A",

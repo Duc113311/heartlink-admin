@@ -1,7 +1,6 @@
 <!-- eslint-disable prettier/prettier -->
 <template>
   <div
-    v-loading="isLoading"
     class="h-[calc(100vh-308px)] mt-10 relative shadow-md rounded-xl overflow-hidden sm:rounded-lg"
     v-if="listDataTable"
   >
@@ -168,6 +167,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import funValidation from "../../../middleware/validation";
 
 export default {
@@ -278,9 +278,18 @@ export default {
     },
   },
 
+  async created() {
+    await this.getListHistoryImage({
+      currentPage: 0,
+      pageSize: 50,
+      nameQuery: "",
+    });
+  },
+
   mounted() {},
 
   methods: {
+    ...mapActions(["getListHistoryImage"]),
     renderViolate(val) {
       let resultString = [];
       for (let index = 0; index < val.length; index++) {

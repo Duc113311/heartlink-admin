@@ -1,7 +1,7 @@
 <template>
   <div
-    class="h-[calc(100vh-338px)] relative overflow-hidden shadow-md sm:rounded-lg"
     v-loading="isLoading"
+    class="h-[calc(100vh-338px)] relative overflow-hidden shadow-md sm:rounded-lg"
     v-if="listDataTable"
   >
     <div class="show-scroll h-[calc(100%-60px)]">
@@ -22,7 +22,7 @@
             <th scope="col" class="px-6 py-3 text-center">Action</th>
           </tr>
         </thead>
-        <tbody v-loading="isLoading">
+        <tbody>
           <tr
             v-for="(item, index) in listDataTable"
             :key="index"
@@ -62,9 +62,11 @@
             <td class="px-6 py-4">{{ item.avatars.aiPoint }}</td>
             <td class="px-6 py-4">
               {{
-                item.avatars.aiViolateOption.length !== 0
-                  ? item.avatars.aiViolateOption.length
-                  : ""
+                renderViolet(
+                  item.avatars.aiViolateOption.length !== 0
+                    ? item.avatars.aiViolateOption
+                    : ""
+                )
               }}
             </td>
 
@@ -176,25 +178,54 @@
 export default {
   name: "table-common",
 
+  setup() {
+    const options = [
+      {
+        value: "item_1",
+        label: "Máu me, bạo lực",
+      },
+      {
+        value: "item_2",
+        label: "Trẻ em",
+      },
+      {
+        value: "item_3",
+        label: "Logo quyền sở hữu trí tuệ",
+      },
+      {
+        value: "item_4",
+        label: "Hình ảnh chứa chủ yếu là văn bản",
+      },
+      {
+        value: "item_5",
+        label: "Vũ khí",
+      },
+      {
+        value: "item_6",
+        label: "Hình ảnh chứa QR code, URL",
+      },
+      {
+        value: "item_7",
+        label: "Hình ảnh meme",
+      },
+      {
+        value: "item_8",
+        label: "Hình ảnh khỏa thân, tình dục",
+      },
+    ];
+    return {
+      options,
+    };
+  },
   data() {
     return {
       currentPage: 1,
       totalPages: 50,
+      isLoading: false,
     };
   },
 
-  props: {
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-  },
-
   computed: {
-    isLoading() {
-      return this.loading;
-    },
-
     listDataTable() {
       return this.$store.state.cmsModule.listCMSTable;
     },
@@ -227,14 +258,39 @@ export default {
     },
   },
 
-  mounted() {},
+  mounted() {
+    this.isLoading = true;
+
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 3000);
+  },
 
   methods: {
+    renderViolet(val) {
+      let resultName = [];
+      if (val.length !== 0) {
+        for (let index = 0; index < val.length; index++) {
+          const element = val[index];
+
+          const findData = this.options.find((x) => x.value === element);
+
+          if (findData) {
+            resultName.push(findData.label);
+          }
+        }
+      }
+
+      return resultName.join(", ");
+    },
+
     onClickView(val) {
       this.$emit("onShowViewImage", val);
     },
     // Next page
     goToPage(page) {
+      debugger;
+      this.isLoading = true;
       if (page >= 1 && page <= this.limitPage.total) {
         this.currentPage = page;
         // Gọi API hoặc thực hiện các thao tác khác khi chuyển trang
@@ -243,6 +299,10 @@ export default {
           pageSize: this.totalPages,
         });
       }
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
     },
 
     // Render trạng thái Reviewer
