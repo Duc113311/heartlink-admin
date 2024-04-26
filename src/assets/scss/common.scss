@@ -6,7 +6,15 @@
   top: 0;
   z-index: 99;
 }
+.hide-scroll {
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  overflow-y: scroll;
+}
 
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}
 .show-scroll {
   overflow-y: scroll;
 }

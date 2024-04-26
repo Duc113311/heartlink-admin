@@ -50,6 +50,18 @@ const state = {
       label: "Rejected",
     },
   ],
+
+  listReviewHistory: [
+    {
+      value: 1,
+      label: "Approved",
+    },
+    {
+      value: 2,
+      label: "Rejected",
+    },
+  ],
+
   listAI: [
     {
       value: 0,
@@ -101,6 +113,12 @@ const mutations = {
     const index = state.listCMSTable.findIndex((item) => item._id === id);
     if (index !== -1) {
       state.listCMSTable.splice(index, 1);
+    }
+  },
+  setListRemoveTableHistory(state, id) {
+    const index = state.listHistory.findIndex((item) => item._id === id);
+    if (index !== -1) {
+      state.listHistory.splice(index, 1);
     }
   },
 

@@ -15,6 +15,14 @@ const funValidation = {
       formattedTime,
     };
   },
+
+  convertBirthday(val) {
+    const timestamp = new Date(val);
+    const currentDate = new Date();
+    const difference = currentDate - timestamp;
+    const age = Math.floor(difference / (1000 * 60 * 60 * 24 * 365.25));
+    return age;
+  },
 };
 
 export default funValidation;

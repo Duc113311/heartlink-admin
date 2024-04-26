@@ -1,10 +1,10 @@
 <template>
   <div
-    v-loading="isLoading"
+    v-loading="isShowLoading"
     class="h-[calc(100vh-338px)] relative overflow-hidden shadow-md sm:rounded-lg"
     v-if="listDataTable"
   >
-    <div class="show-scroll h-[calc(100%-60px)]">
+    <div class="hide-scroll h-[calc(100%-60px)]">
       <table
         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
       >
@@ -128,47 +128,15 @@
             limitPage.total
           }}</span></span
         >
-        <ul
-          class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8 gap-3"
-        >
-          <li>
-            <a
-              href="#"
-              @click.prevent="goToPage(currentPage - 1)"
-              :disabled="currentPage === 1"
-              class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >Previous</a
-            >
-          </li>
 
-          <li v-for="page in visiblePages" :key="page">
-            <a
-              href="#"
-              :class="{
-                'font-active': page === currentPage,
-              }"
-              @click.prevent="goToPage(page)"
-              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              {{ page }}</a
-            >
-          </li>
-          <li v-if="showEllipsisAfterLastVisiblePage">
-            <a
-              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >...</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              @click.prevent="goToPage(currentPage + 1)"
-              :disabled="currentPage === limitPage.total"
-              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >Next</a
-            >
-          </li>
-        </ul>
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :page-size="50"
+          :total="limitPage.total"
+          @current-change="handleCurrentChange"
+          @size-change="handleSizeChange"
+        />
       </nav>
     </div>
   </div>
@@ -221,11 +189,19 @@ export default {
     return {
       currentPage: 1,
       totalPages: 50,
-      isLoading: false,
     };
   },
-
+  props: {
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
+    isShowLoading() {
+      return this.isLoading;
+    },
+
     listDataTable() {
       return this.$store.state.cmsModule.listCMSTable;
     },
@@ -234,39 +210,20 @@ export default {
       const limitData = this.$store.state.cmsModule.limitPage;
       return limitData;
     },
-
-    visiblePages() {
-      const maxVisiblePages = 5; // Đặt số lượng trang hiển thị tối đa
-      const totalPages = this.limitPage.total;
-      const startPage = Math.max(
-        1,
-        this.currentPage - Math.floor(maxVisiblePages / 2)
-      );
-      const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-      const pages = [];
-      for (let page = startPage; page <= endPage; page++) {
-        pages.push(page);
-      }
-      return pages;
-    },
-
-    showEllipsisAfterLastVisiblePage() {
-      return (
-        this.visiblePages[this.visiblePages.length - 1] < this.limitPage.total
-      );
-    },
-  },
-
-  mounted() {
-    this.isLoading = true;
-
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 3000);
   },
 
   methods: {
+    async handleCurrentChange(val) {
+      debugger;
+      this.$emit("onChangeLimitNext", {
+        currentPage: val - 1,
+        pageSize: this.totalPages,
+      });
+    },
+
+    handleSizeChange(val) {
+      debugger;
+    },
     renderViolet(val) {
       let resultName = [];
       if (val.length !== 0) {
@@ -290,7 +247,7 @@ export default {
     // Next page
     goToPage(page) {
       debugger;
-      this.isLoading = true;
+
       if (page >= 1 && page <= this.limitPage.total) {
         this.currentPage = page;
         // Gọi API hoặc thực hiện các thao tác khác khi chuyển trang
@@ -299,10 +256,6 @@ export default {
           pageSize: this.totalPages,
         });
       }
-
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 1000);
     },
 
     // Render trạng thái Reviewer
@@ -382,5 +335,15 @@ export default {
 }
 .show-scroll::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.hide-scroll {
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  overflow-y: scroll;
+}
+
+.hide-scroll::-webkit-scrollbar {
+  display: none;
 }
 </style>

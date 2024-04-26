@@ -228,16 +228,10 @@
       </div>
     </div>
 
-    <!-- Table -->
+    <!-- Table dashboard -->
     <div class="mt-4 w-full">
-      <!-- <TableCms
-        :loading="isLoading"
-        @onChangeApproved="onChangeApproved"
-        @onChangeRejected="onChangeRejected"
-        @onChangeLimitNext="onChangeLimitNext"
-      ></TableCms> -->
-
       <TableCommon
+        :isLoading="isLoading"
         @onChangeApproved="onChangeApproved"
         @onChangeRejected="onChangeRejected"
         @onChangeLimitNext="onChangeLimitNext"
@@ -249,11 +243,12 @@
     <el-drawer v-model="isShowHistory" :with-header="false" size="80%">
       <template v-slot>
         <div class="w-full h-full text-black text-left">
-          <div class="text-xl font-bold text-blue-300 pt-2 pb-2">
+          <div class="text-xl font-bold text-slate-400 pt-2 pb-2">
             Review History
           </div>
 
           <TableHistory
+            :isLoading="isLoading"
             @onChangeApproved="onChangeApproved"
             @onChangeLimitNext="onChangeLimitNext"
             @onChangeRejected="onChangeRejected"
@@ -274,13 +269,12 @@
           CHECK VERIFY IMAGE
         </div>
       </template>
-      <!--  -->
       <div class="w-full h-full" v-loading="isLoading">
         <cms-slider ref="cmsSlider"></cms-slider>
       </div>
-      <!--  -->
     </el-drawer>
 
+    <!-- View detail -->
     <el-dialog
       v-model="isShowViewImage"
       width="30%"
@@ -306,7 +300,6 @@
 import ViewImage from "../profile/detail-cms/view-image";
 import TableCommon from "../profile/table/table-common";
 import TableHistory from "../profile/table/table-history";
-// import TableCms from "../profile/table/table-cms";
 import TitlePage from "../profile/title/title-page";
 import { ref } from "vue";
 import funValidation from "../../middleware/validation";
@@ -321,7 +314,6 @@ export default {
     ViewImage,
     TableCommon,
     TableHistory,
-    // TableCms,
     TitlePage,
     CmsSlider,
   },
@@ -396,16 +388,16 @@ export default {
 
   async created() {
     this.isLoading = true;
-    // // await this.getListImageCMS({
-    // //   currentPage: 0,
-    // //   pageSize: 50,
-    // //   statusReview: 0,
-    // //   statusAI: 0,
-    // //   nameQuery: "",
-    // // });
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 2000);
+    this.getListImageCMS({
+      currentPage: 0,
+      pageSize: 50,
+      statusReview: 0,
+      statusAI: -1,
+      nameQuery: "",
+    }),
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 2000);
   },
 
   mounted() {},
@@ -434,8 +426,15 @@ export default {
       this.objectImage = val;
     },
 
-    onClickShowHistory(val) {
+    async onClickShowHistory(val) {
       this.isShowHistory = val;
+      await this.getListHistoryImage({
+        currentPage: 0,
+        pageSize: 50,
+        statusReview: -1,
+        statusAI: -1,
+        nameQuery: "",
+      });
     },
 
     async onClickShowQuickAction(val) {
@@ -443,7 +442,7 @@ export default {
 
       await this.getListImageCMS({
         currentPage: 0,
-        pageSize: 5,
+        pageSize: 50,
         statusReview: 0,
         statusAI: -1,
         nameQuery: "",
@@ -571,6 +570,8 @@ export default {
       await this.getListHistoryImage({
         currentPage: 0,
         pageSize: 50,
+        statusReview: -1,
+        statusAI: -1,
         nameQuery: "",
       });
     },
@@ -609,6 +610,8 @@ export default {
       await this.getListHistoryImage({
         currentPage: 0,
         pageSize: 50,
+        statusReview: -1,
+        statusAI: -1,
         nameQuery: "",
       });
     },

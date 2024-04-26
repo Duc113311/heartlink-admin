@@ -86,7 +86,7 @@
                   </a>
                 </li>
 
-                <li class="my-px">
+                <!-- <li class="my-px">
                   <a
                     :class="{
                       'bg-gray-100 text-gray-700': activeTab === 'Template',
@@ -114,7 +114,7 @@
 
                     <span class="ml-3">List Template </span>
                   </a>
-                </li>
+                </li> -->
               </ul>
             </div>
           </li>

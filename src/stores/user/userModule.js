@@ -76,21 +76,22 @@ const state = {
     numberNotiSeenMsg: 0,
   },
 
-  listUser: [],
+  listUser: {},
 };
 
 const getters = {};
 
 const mutations = {
   setListUsers(state, data) {
-    state.listUser = data.list_data;
+    state.listUser = data;
   },
 };
 
 const actions = {
-  async getListCardUsers({ commit }, pageSize) {
+  async getListCardUsers({ commit }, data) {
     await http_mongo
-      .get(`api/customers?currentPage=0&pageSize=${pageSize}`, {
+      .get(`api/customers`, {
+        params: data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

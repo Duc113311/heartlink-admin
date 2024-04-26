@@ -11,6 +11,7 @@
             v-model="username"
             @input="handelAccount"
             type="text"
+            class="w-full"
             placeholder="User name"
           />
         </div>
@@ -21,6 +22,7 @@
             @input="handelAccount"
             v-model="password"
             type="password"
+            class="w-full"
             placeholder="Password"
           />
         </div>

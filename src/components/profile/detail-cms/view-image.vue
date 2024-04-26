@@ -8,9 +8,11 @@
       ></div>
     </div>
     <div class="flex w-full justify-center items-center pt-3 pb-2">
-      <div class="w-full">
+      <div class="w-full flex justify-center items-center">
         <div class="">
-          <div class="text-base font-semibold p-2">Chose option violate:</div>
+          <div class="text-base font-semibold p-2 text-center">
+            Chose option violate:
+          </div>
           <el-select
             v-model="valueViolate"
             multiple
@@ -61,14 +63,14 @@
       <button
         @click="onClickApprove(renderObject)"
         type="button"
-        class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-semibold rounded-lg text-lg px-5 py-1 text-center me-2 mb-2"
+        class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-semibold rounded-lg text-base px-5 py-1 text-center me-2 mb-2"
       >
         Approve
       </button>
       <button
         @click="onClickReject(renderObject)"
         type="button"
-        class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-semibold rounded-lg text-lg px-5 py-1 text-center me-2 mb-2"
+        class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-semibold rounded-lg text-base px-5 py-1 text-center mb-2"
       >
         Reject
       </button>
@@ -175,7 +177,7 @@ export default {
         imageId: val.avatars.id,
         objectImage: {
           imageId: val._id,
-          reviewerStatus: 1,
+          reviewerStatus: 2,
           comment: this.textNote,
           reviewerViolateOption: this.keyViolate,
         },
@@ -194,5 +196,7 @@ export default {
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
+  border: 2px solid #6a769e;
+  box-shadow: 0px 6px 48px -23px #6a769e;
 }
 </style>

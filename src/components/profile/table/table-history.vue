@@ -1,5 +1,85 @@
 <!-- eslint-disable prettier/prettier -->
 <template>
+  <div class="xl:flex justify-between items-center mt-4">
+    <div class="flex items-center gap-5">
+      <div class="relative md:w-[300px]">
+        <div
+          class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+        >
+          <svg
+            class="w-4 h-4 text-gray-500 dark:text-gray-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 20 20"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+            />
+          </svg>
+        </div>
+
+        <input
+          type="search"
+          id="default-search"
+          v-model="inputSearch"
+          class="block search-text w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-sm bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Search key, name"
+          @input="onChangeSearch(inputSearch)"
+          required
+        />
+      </div>
+      <div class="flex items-center">
+        <div class="text-sm font-medium text-black">Reviewer</div>
+        <el-select
+          v-model="valueReviewer"
+          class="m-2 w-[200px] rounded-lg"
+          placeholder="Select reviewer status"
+          size="large"
+          @change="onChangeReviewer"
+        >
+          <el-option label="Select all" value="-1" />
+
+          <el-option
+            v-for="item in listReviewerStatus"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </div>
+      <div class="flex items-center">
+        <div class="text-sm font-medium text-black">AI</div>
+        <el-select
+          v-model="valueAI"
+          class="m-2 w-[200px] rounded-lg"
+          placeholder="Select AI status "
+          size="large"
+          @change="onChangeAI"
+        >
+          <el-option label="Select all" value="-1" />
+
+          <el-option
+            v-for="item in listAIStatus"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </div>
+      <button
+        @click="onClickReload()"
+        type="button"
+        class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+      >
+        Reload
+      </button>
+    </div>
+  </div>
   <div
     class="h-[calc(100vh-308px)] mt-10 relative shadow-md rounded-xl overflow-hidden sm:rounded-lg"
     v-if="listDataTable"
@@ -13,15 +93,24 @@
         >
           <tr>
             <th scope="col" class="px-6 py-3">STT</th>
+
             <th scope="col" class="px-6 py-3">Last update</th>
+
             <th scope="col" class="px-6 py-3">Image</th>
+
             <th scope="col" class="px-6 py-3">FullName</th>
+
             <th scope="col" class="px-6 py-3">Reviewer Status</th>
-            <th scope="col" class="px-6 py-3">Option Violate</th>
+            <th scope="col" class="px-6 py-3">AI Status</th>
             <th scope="col" class="px-6 py-3">Comment</th>
+
+            <th scope="col" class="px-6 py-3">Review Violate</th>
+            <th scope="col" class="px-6 py-3">AI Violate</th>
+
             <th scope="col" class="px-6 py-3 text-center">Action</th>
           </tr>
         </thead>
+
         <tbody>
           <tr
             v-for="(item, index) in listDataTable"
@@ -33,6 +122,7 @@
             <td class="px-6 py-4">
               <div class="flex items-center justify-start">{{ index }}</div>
             </td>
+
             <td class="px-6 py-4">
               <el-tooltip
                 class="box-item rounded-md shadow-md"
@@ -40,6 +130,7 @@
                 placement="top"
               >
                 {{ convertDate(item.avatars.update.when).formattedDate }}
+
                 <template #content>
                   <div>
                     {{ convertDate(item.avatars.update.when).formattedTime }}
@@ -64,16 +155,40 @@
                 {{ renderReviewStatus(item.avatars.reviewerStatus).name }}
               </div>
             </td>
+            <td class="px-6 py-4">
+              <div
+                class="font-semibold"
+                :class="`${
+                  renderReviewStatus(item.avatars.aiStatus).colorText
+                }`"
+              >
+                {{ renderReviewStatus(item.avatars.aiStatus).name }}
+              </div>
+            </td>
 
+            <td class="px-6 py-4">{{ item.avatars.comment }}</td>
             <td class="px-6 py-4">
               <div class="w-[120px]">
                 {{ renderViolate(item.avatars.reviewerViolateOption) }}
               </div>
             </td>
-            <td class="px-6 py-4">{{ item.avatars.comment }}</td>
-
+            <td class="px-6 py-4">
+              <div class="w-[120px]">
+                {{ renderViolate(item.avatars.aiViolateOption) }}
+              </div>
+            </td>
             <td class="px-6 py-4">
               <div class="gap-2 flex justify-center">
+                <button
+                  @click="onClickView(item)"
+                  class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
+                >
+                  <span
+                    class="relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-opacity-0"
+                  >
+                    View
+                  </span>
+                </button>
                 <button
                   @click="onClickApproved(item)"
                   class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800"
@@ -120,63 +235,60 @@
             limitPage.total
           }}</span></span
         >
-        <ul
-          class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8 gap-3"
-        >
-          <li>
-            <a
-              href="#"
-              @click.prevent="goToPage(currentPage - 1)"
-              :disabled="currentPage === 1"
-              class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >Previous</a
-            >
-          </li>
-
-          <li v-for="page in visiblePages" :key="page">
-            <a
-              href="#"
-              :class="{
-                'font-active': page === currentPage,
-              }"
-              @click.prevent="goToPage(page)"
-              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              {{ page }}</a
-            >
-          </li>
-          <li v-if="showEllipsisAfterLastVisiblePage">
-            <a
-              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >...</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              @click.prevent="goToPage(currentPage + 1)"
-              :disabled="currentPage === limitPage.total"
-              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >Next</a
-            >
-          </li>
-        </ul>
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :page-size="50"
+          :total="limitPage.total"
+          @current-change="handleCurrentChange"
+          @size-change="handleSizeChange"
+        />
       </nav>
     </div>
   </div>
+
+  <el-dialog
+    v-model="isShowViewImage"
+    width="30%"
+    align-center
+    @close="closeDialog"
+    draggable
+  >
+    <template #title>
+      <div class="text-lg font-semibold text-slate-500">
+        View detail image
+      </div>
+    </template>
+    <ViewImage
+      :objectImageValue="objectImage"
+      @onChangeApprove="onChangeApproveSaveHistory"
+      @onChangeReject="onChangeRejectSaveHistory"
+    ></ViewImage>
+  </el-dialog>
 </template>
 
 <script>
+import ViewImage from "../detail-cms/view-image";
 import { mapActions } from "vuex";
 import funValidation from "../../../middleware/validation";
+import { mapMutations } from "vuex/dist/vuex.cjs";
+import { ElNotification } from "element-plus";
 
 export default {
+  components: { ViewImage },
   name: "table-history",
 
   data() {
     return {
       currentPage: 1,
       totalPages: 10,
+      isShowViewImage: false,
+      objectImage: {},
+      inputSearch: "",
+      keyReviewer: -1,
+      keyAI: -1,
+      valueReviewer: "Approved",
+      valueAI: "Select all",
     };
   },
 
@@ -219,8 +331,21 @@ export default {
         label: "Vũ khí",
       },
     ];
+    const successNotification = () => {
+      const notificationInstance = ElNotification({
+        title: "Success",
+        message: "Image updated successfully",
+        type: "success",
+      });
+
+      // Close the notification after 500ms (1 second)
+      setTimeout(() => {
+        notificationInstance.close();
+      }, 500);
+    };
     return {
       options,
+      successNotification,
     };
   },
 
@@ -235,6 +360,13 @@ export default {
     isLoading() {
       return this.loading;
     },
+    listReviewerStatus() {
+      return this.$store.state.cmsModule.listReviewHistory;
+    },
+
+    listAIStatus() {
+      return this.$store.state.cmsModule.listAI;
+    },
 
     listDataTable() {
       return this.$store.state.cmsModule.listHistory;
@@ -244,29 +376,6 @@ export default {
       const limitData = this.$store.state.cmsModule.limitPageHistory;
 
       return limitData;
-    },
-
-    visiblePages() {
-      const maxVisiblePages = 5; // Đặt số lượng trang hiển thị tối đa
-      const totalPages = this.limitPage.total;
-      const startPage = Math.max(
-        1,
-        this.currentPage - Math.floor(maxVisiblePages / 2)
-      );
-      const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-      const pages = [];
-      for (let page = startPage; page <= endPage; page++) {
-        pages.push(page);
-      }
-
-      debugger;
-      return pages;
-    },
-    showEllipsisAfterLastVisiblePage() {
-      return (
-        this.visiblePages[this.visiblePages.length - 1] < this.limitPage.total
-      );
     },
   },
 
@@ -279,17 +388,36 @@ export default {
   },
 
   async created() {
-    await this.getListHistoryImage({
-      currentPage: 0,
-      pageSize: 50,
-      nameQuery: "",
-    });
+    // await this.getListHistoryImage({
+    //   currentPage: 0,
+    //   pageSize: 50,
+    //   nameQuery: "",
+    // });
   },
 
   mounted() {},
 
   methods: {
-    ...mapActions(["getListHistoryImage"]),
+    ...mapMutations(["setListRemoveTableHistory"]),
+    ...mapActions(["getListHistoryImage", "putApproveImage"]),
+
+    async handleCurrentChange(val) {
+      debugger;
+      this.$emit("onChangeLimitNext", {
+        currentPage: val - 1,
+        pageSize: this.totalPages,
+      });
+    },
+
+    async onChangeSearch(val) {
+      await this.getListHistoryImage({
+        currentPage: 0,
+        pageSize: 50,
+        statusReview: this.keyReviewer,
+        statusAI: this.keyAI,
+        nameQuery: this.inputSearch,
+      });
+    },
     renderViolate(val) {
       let resultString = [];
       for (let index = 0; index < val.length; index++) {
@@ -346,7 +474,30 @@ export default {
       const resultDate = funValidation.convertDateTime(val);
       return resultDate;
     },
-    onClickView(val) {},
+    onClickView(val) {
+      this.isShowViewImage = true;
+      this.objectImage = val;
+    },
+
+    async onChangeApproveSaveHistory(val) {
+      debugger;
+      await this.putApproveImage(val).then(async (data) => {
+        console.log(data);
+
+        this.successNotification();
+
+        // this.setListRemoveTableHistory(val.objectImage.imageId);
+      });
+      this.isShowViewImage = false;
+    },
+
+    async onChangeRejectSaveHistory(val) {
+      await this.putApproveImage(val).then(async (data) => {
+        this.successNotification();
+        // this.setListRemoveTableHistory(val.objectImage.imageId);
+      });
+      this.isShowViewImage = false;
+    },
 
     onClickApproved(val) {
       this.$emit("onChangeApproved", val);
@@ -356,16 +507,37 @@ export default {
       this.$emit("onChangeRejected", val);
     },
 
-    goToPage(page) {
-      if (page >= 1 && page <= this.limitPage.total) {
-        this.currentPage = page;
-        // Gọi API hoặc thực hiện các thao tác khác khi chuyển trang
+    async onChangeReviewer(val) {
+      debugger;
+      this.keyReviewer = val;
+      await this.getListHistoryImage({
+        currentPage: 0,
+        pageSize: 50,
+        statusReview: val,
+        statusAI: this.keyAI,
+        nameQuery: this.inputSearch,
+      });
+    },
 
-        this.$emit("onChangeLimitNext", {
-          currentPage: this.currentPage,
-          pageSize: this.totalPages,
-        });
-      }
+    async onChangeAI(val) {
+      this.keyAI = val;
+      await this.getListHistoryImage({
+        currentPage: 0,
+        pageSize: 50,
+        statusReview: this.keyReviewer,
+        statusAI: val,
+        nameQuery: this.inputSearch,
+      });
+    },
+
+    async onClickReload() {
+      await this.getListHistoryImage({
+        currentPage: 0,
+        pageSize: 50,
+        statusReview: this.keyReviewer,
+        statusAI: this.keyAI,
+        nameQuery: this.inputSearch,
+      });
     },
   },
 };
@@ -385,15 +557,19 @@ export default {
 .show-scroll {
   overflow-y: scroll;
 }
+
 .show-scroll::-webkit-scrollbar {
   width: 5px;
 }
+
 .show-scroll::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
+
 .show-scroll::-webkit-scrollbar-thumb {
   background: #888;
 }
+
 .show-scroll::-webkit-scrollbar-thumb:hover {
   background: #555;
 }

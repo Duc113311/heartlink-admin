@@ -432,7 +432,9 @@ export default {
       }, 500);
       await this.getListHistoryImage({
         currentPage: 0,
-        pageSize: 100,
+        pageSize: 50,
+        statusReview: -1,
+        statusAI: -1,
         nameQuery: "",
       });
     },
@@ -468,7 +470,9 @@ export default {
       }, 500);
       await this.getListHistoryImage({
         currentPage: 0,
-        pageSize: 100,
+        pageSize: 50,
+        statusReview: -1,
+        statusAI: -1,
         nameQuery: "",
       });
     },
