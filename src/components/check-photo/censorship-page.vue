@@ -13,7 +13,10 @@
           <div
             class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
           >
-            <div class="flex-auto p-2 text-center">
+            <div
+              class="flex-auto p-2 text-center"
+              @click="onClickFilterPending(0)"
+            >
               <h1
                 class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
@@ -33,7 +36,10 @@
           <div
             class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
           >
-            <div class="flex-auto p-2 text-center">
+            <div
+              class="flex-auto p-2 text-center"
+              @click="onClickFilterApproved(1)"
+            >
               <h1
                 class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
@@ -53,7 +59,10 @@
           <div
             class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
           >
-            <div class="flex-auto p-2 text-center">
+            <div
+              class="flex-auto p-2 text-center"
+              @click="onClickFilterReject(2)"
+            >
               <h1
                 class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
@@ -73,7 +82,10 @@
           <div
             class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
           >
-            <div class="flex-auto p-2 text-center">
+            <div
+              class="flex-auto p-2 text-center"
+              @click="onClickFilterAIPending(0)"
+            >
               <h1
                 class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
@@ -93,7 +105,10 @@
           <div
             class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
           >
-            <div class="flex-auto p-2 text-center">
+            <div
+              class="flex-auto p-2 text-center"
+              @click="onClickFilterAIApproved(1)"
+            >
               <h1
                 class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
@@ -113,7 +128,10 @@
           <div
             class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
           >
-            <div class="flex-auto p-2 text-center">
+            <div
+              class="flex-auto p-2 text-center"
+              @click="onClickFilterAIReject(2)"
+            >
               <h1
                 class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
@@ -236,6 +254,7 @@
         @onChangeRejected="onChangeRejected"
         @onChangeLimitNext="onChangeLimitNext"
         @onShowViewImage="onShowViewImage"
+        @onChangeShowDetailInfors="onChangeShowDetailInfors"
       ></TableCommon>
     </div>
 
@@ -259,22 +278,41 @@
 
     <!-- Quick action -->
     <el-drawer
-      @close="onCloseModel()"
       v-model="isShowQuickAction"
       :with-header="true"
+      :show-close="false"
       size="100%"
     >
-      <template #title>
-        <div class="text-lg text-slate-600 font-semibold">
+      <template #header="{ titleId, titleClass }">
+        <div
+          :id="titleId"
+          :class="titleClass"
+          class="text-lg text-slate-600 font-semibold"
+        >
           CHECK VERIFY IMAGE
         </div>
+        <button
+          type="button"
+          @click="onCloseModel()"
+          class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-1.5 text-center me-2 mb-2"
+        >
+          <div class="flex items-center gap-1">
+            <img
+              src="../../assets/icon_svg/ic_close.svg"
+              width="20"
+              alt=""
+              srcset=""
+            />
+            <div class="font-semibold">CLOSE</div>
+          </div>
+        </button>
       </template>
       <div class="w-full h-full" v-loading="isLoading">
         <cms-slider ref="cmsSlider"></cms-slider>
       </div>
     </el-drawer>
 
-    <!-- View detail -->
+    <!-- View image -->
     <el-dialog
       v-model="isShowViewImage"
       width="30%"
@@ -293,10 +331,21 @@
         @onChangeReject="onChangeRejectSave"
       ></ViewImage>
     </el-dialog>
+
+    <!-- View detail information -->
+    <!-- <el-dialog v-model="isShowViewInfos" width="30%" align-center draggable>
+      <template #title>
+        <div class="text-lg font-semibold text-slate-500">
+          View detail customer
+        </div>
+      </template>
+      <ViewDetail></ViewDetail>
+    </el-dialog> -->
   </div>
 </template>
 
 <script>
+// import ViewDetail from "../profile/detail-cms/view-detail";
 import ViewImage from "../profile/detail-cms/view-image";
 import TableCommon from "../profile/table/table-common";
 import TableHistory from "../profile/table/table-history";
@@ -311,6 +360,7 @@ export default {
   name: "censorship-page",
 
   components: {
+    // ViewDetail,
     ViewImage,
     TableCommon,
     TableHistory,
@@ -327,11 +377,12 @@ export default {
       isLoading: true,
       isLoadingHistory: false,
       keyReviewer: 0,
-      keyAI: 0,
+      keyAI: -1,
       isShowViewImage: false,
       objectImage: {},
       isShowHistory: false,
       isShowQuickAction: false,
+      isShowViewInfos: false,
     };
   },
 
@@ -424,6 +475,10 @@ export default {
       debugger;
       this.isShowViewImage = true;
       this.objectImage = val;
+    },
+
+    onChangeShowDetailInfors(val) {
+      this.isShowViewInfos = true;
     },
 
     async onClickShowHistory(val) {
@@ -677,9 +732,8 @@ export default {
     },
 
     async onCloseModel() {
-      debugger;
+      this.isShowQuickAction = false;
       if (this.$refs.cmsSlider) {
-        // Đảm bảo component con đã được mount
         this.$refs.cmsSlider.setDefault();
       }
       this.isLoading = true;
@@ -694,6 +748,64 @@ export default {
         this.isLoading = false;
       }, 300);
       await this.getTotalImages();
+    },
+
+    async commonFilterImageReviewer(val) {
+      this.isLoading = true;
+      await this.getListImageCMS({
+        currentPage: 0,
+        pageSize: 50,
+        statusReview: val,
+        statusAI: this.keyAI,
+        nameQuery: this.inputSearch,
+      });
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 500);
+    },
+
+    async commonFilterImageAI(val) {
+      this.isLoading = true;
+      await this.getListImageCMS({
+        currentPage: 0,
+        pageSize: 50,
+        statusReview: this.keyReviewer,
+        statusAI: val,
+        nameQuery: this.inputSearch,
+      });
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 500);
+    },
+
+    async onClickFilterPending(val) {
+      this.commonFilterImageReviewer(val);
+      this.valueReviewer = "Pending";
+    },
+
+    async onClickFilterApproved(val) {
+      this.commonFilterImageReviewer(val);
+      this.valueReviewer = "Approved";
+    },
+
+    async onClickFilterReject(val) {
+      this.commonFilterImageReviewer(val);
+      this.valueReviewer = "Reject";
+    },
+
+    async onClickFilterAIPending(val) {
+      this.commonFilterImageAI(val);
+      this.valueAI = "Pending";
+    },
+
+    async onClickFilterAIApproved(val) {
+      this.commonFilterImageAI(val);
+      this.valueAI = "Approved";
+    },
+
+    async onClickFilterAIReject(val) {
+      this.commonFilterImageAI(val);
+      this.valueAI = "Reject";
     },
   },
 };

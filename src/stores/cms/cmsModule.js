@@ -1,39 +1,6 @@
 import { http_mongo } from "../../configs/http-mongo";
 
 const state = {
-  listDataAvatar: [
-    {
-      _id: "659365f201337ad888952b14",
-      oAuth2Id: "GpyE22GH7kU6fXSikpZbO5HN8mZ2",
-      fullname: "NguyenVanDuc",
-      avatarUsers: {
-        id: "t3rUr4J3mE",
-        url: "https://firebasestorage.googleapis.com/v0/b/heartlink-dating-project.appspot.com/o/dating%2F64232d69024bb701000c567e_5.jpeg?alt=media&token=bd76b9de-bafb-4012-8650-e7e8d9cc5d2b",
-        reviewStatus: 1,
-        aiStatus: 2,
-        scores: 100,
-        aiReason: "Bạo lực",
-      },
-
-      createBy: "2023-04-06T02:59:31.158+00:00",
-    },
-    {
-      _id: "659365f201337ad888952b12",
-      oAuth2Id: "GpyE22GH7kU6fXSikpZbO5HS8mZ2",
-      fullname: "Trang Ha Linh",
-      avatarUsers: {
-        id: "t3rUr4J3mE",
-        url: "https://firebasestorage.googleapis.com/v0/b/heartlink-dating-project.appspot.com/o/dating%2F64232d69024bb701000c567e_5.jpeg?alt=media&token=bd76b9de-bafb-4012-8650-e7e8d9cc5d2b",
-        reviewStatus: 1,
-        aiStatus: 2,
-        scores: 100,
-        aiReason: "Bạo lực",
-      },
-
-      createBy: "2023-04-06T02:59:31.158+00:00",
-    },
-  ],
-
   listImageCMS: [],
 
   listReview: [

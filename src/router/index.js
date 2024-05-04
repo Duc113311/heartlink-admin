@@ -18,6 +18,7 @@ import SexualView from "../views/dashboard/profile/sexual-page/index.vue";
 import SchoolView from "../views/dashboard/profile/school-page/index.vue";
 import AccountView from "../views/dashboard/account/index.vue";
 import TemplateView from "../views/dashboard/template/index.vue";
+import Reports from "../views/dashboard/reports/index.vue";
 
 const routes = [
   {
@@ -58,6 +59,15 @@ const routes = [
         component: BrowsePhoto,
         meta: {
           nameTitle: "CMS Avatar",
+        },
+      },
+      // Report
+      {
+        path: "report-list",
+        name: "report-view",
+        component: Reports,
+        meta: {
+          nameTitle: "Reports",
         },
       },
       // Profile

@@ -7,6 +7,7 @@ import UserModule from "./user/userModule";
 import LoginModule from "./login/loginModule";
 import AccountModule from "./account/accountModule";
 import ProfileModule from "./profile/profileModule";
+import CommonModule from "./common/commonModule";
 
 export default createStore({
   modules: {
@@ -16,5 +17,6 @@ export default createStore({
     loginModule: LoginModule,
     accountModule: AccountModule,
     profileModule: ProfileModule,
+    commonModule: CommonModule,
   },
 });

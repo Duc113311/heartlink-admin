@@ -5,75 +5,109 @@ const state = {
   user_profile: {
     oAuth2Id: "",
     fullname: "",
-    username: "",
     email: "",
     phone: "",
     dob: "",
     profiles: {
-      avatars: [],
-      gender: "",
-      about: "",
-      datingPurpose: "",
+      showCommon: {
+        showSexual: false,
+        showGender: false,
+        showAge: false,
+        showHeight: false,
+        showEthnicity: false,
+        showChildrenPlan: false,
+        showFamilyPlan: false,
+        showWork: false,
+        showSchool: false,
+        showEducation: false,
+        showDrinking: false,
+        showSmoking: false,
+        showDrug: false,
+        showDistance: false,
+      },
+      interests: [],
+      orientationSexuals: [],
       languages: [],
-      zodiac: "",
-      education: "",
+      ethnicitys: [],
+      smartPhoto: false,
+      favoriteSongs: [],
+      gender: "",
+      address: "",
       school: "",
+      height: 0,
+      childrenPlan: "",
+      familyPlan: "",
       company: "",
-      familyFlan: "",
+      education: "",
+      drinking: "",
+      smoking: "",
+      drug: "",
+      about: "",
+      zodiac: "",
       covidVaccine: "",
       personality: "",
       communicationType: "",
       loveStyle: "",
       pet: "",
-      drinking: "",
-      smoking: "",
       workout: "",
       dietaryPreference: "",
       socialMedia: "",
       sleepingHabit: "",
-      favoriteSongs: [],
-      jobTitle: "",
-      showGender: false,
-      orientationSexuals: [],
-      showSexual: false,
-      interests: [],
-      address: "",
-      showAge: false,
-      showDistance: false,
+      datingPurpose: "",
+      prompts: [],
+      avatars: [],
     },
     settings: {
+      global: {
+        isEnabled: false,
+        languages: [],
+      },
       distancePreference: {
         range: 10,
         unit: "km",
         onlyShowInThis: false,
       },
-      genderFilter: "",
       agePreference: {
-        min: 20,
+        min: 15,
         max: 30,
         onlyShowInThis: false,
       },
-      showSameOrientationSexual: false,
-      showOnlineStatus: false,
-      showActiveStatus: false,
-      autoPlayVideo: "always",
-      notiSeenMsg: false,
-      showMePersonLikeMe: false,
-      global: {
-        isEnabled: false,
-        languages: [],
+      notiSeenEmail: {
+        newMatchs: false,
+        incomingMessage: false,
+        promotions: false,
       },
-      incognitoMode: false,
-      toppicksDiscoverable: true,
+      notiSeenApp: {
+        newMatchs: false,
+        incomingMessage: false,
+        promotions: false,
+        superLike: false,
+      },
+      genderFilter: "all",
+      autoPlayVideo: "always",
+      showTopPick: true,
+      showOnlineStatus: true,
+      showActiveStatus: true,
+      incognitoMode: true,
     },
     verifyStatus: false,
-    onlineNow: false,
-    activeStatus: "",
-    location: {},
+    activeStatus: false,
+    location: {
+      lat: "",
+      long: "",
+    },
     coins: 0,
-    numberBooster: 0,
+    explore: {
+      verified: false,
+      topics: [],
+    },
+    plusCtrl: {
+      whoYouSee: "default",
+      whoSeeYou: "everyone",
+    },
+    numberLike: 0,
     numberSuperLike: 0,
-    numberNotiSeenMsg: 0,
+    numberBooster: 0,
   },
 
   listUser: {},
@@ -84,6 +118,10 @@ const getters = {};
 const mutations = {
   setListUsers(state, data) {
     state.listUser = data;
+  },
+
+  setDetailInformationCustomer(state, data) {
+    state.user_profile = data;
   },
 };
 
@@ -99,6 +137,21 @@ const actions = {
       .then((response) => {
         if (response.status === 200) {
           commit("setListUsers", response.data.data);
+        }
+      })
+      .catch((error) => {});
+  },
+
+  async getDetailInformationCustomer({ commit }, data) {
+    await http_mongo
+      .get(`api/customers/${data}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          commit("setDetailInformationCustomer", response.data.data);
         }
       })
       .catch((error) => {});

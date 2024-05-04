@@ -261,8 +261,9 @@
 
                 <li class="my-px">
                   <a
+                    @click="onClickRouterReport('Report')"
                     :class="{
-                      'bg-gray-100 text-gray-700': activeTab === 'Payments',
+                      'bg-gray-100 text-gray-700': activeTab === 'Report',
                     }"
                     class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-gray-100 hover:text-gray-700"
                   >
@@ -284,7 +285,7 @@
                       </svg>
                     </span>
 
-                    <span class="ml-3">Payments </span>
+                    <span class="ml-3">Reports </span>
                   </a>
                 </li>
               </ul>
@@ -626,6 +627,11 @@ export default {
     onClickRouterAccount(val) {
       this.activeTab = val;
       this.$router.push({ path: "/dashboard/account" }).catch(() => {});
+    },
+
+    onClickRouterReport(val) {
+      this.activeTab = val;
+      this.$router.push({ path: "/dashboard/report-list" }).catch(() => {});
     },
 
     onClickRouterTemPlate(val) {

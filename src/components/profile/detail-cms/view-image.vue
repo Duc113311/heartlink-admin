@@ -29,14 +29,14 @@
               :value="item.value"
             />
           </el-select>
-        </div>
-        <div class="grid grid-cols-4 gap-2 mt-3">
-          <div
-            class="border text-sm p-1 rounded-lg bg-slate-100"
-            v-for="(item, index) in valueViolates"
-            :key="index"
-          >
-            {{ item.label }}
+          <div class="grid grid-cols-4 gap-2 mt-3">
+            <div
+              class="border text-sm p-1 rounded-lg bg-slate-100"
+              v-for="(item, index) in valueViolates"
+              :key="index"
+            >
+              {{ item.label }}
+            </div>
           </div>
         </div>
       </div>
@@ -53,7 +53,7 @@
               class="w-full h-full rounded-lg"
               placeholder="Please enter the reason for the report"
               type="textarea"
-              :autosize="{ minRows: 5, maxRows: 4 }"
+              :autosize="{ minRows: 4, maxRows: 4 }"
             />
           </div>
         </div>

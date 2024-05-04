@@ -29,7 +29,6 @@ export default {
   async mounted() {},
 
   async created() {
-    debugger;
     this.isLoading = true;
     setTimeout(() => {
       this.isLoading = false;

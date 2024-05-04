@@ -104,9 +104,9 @@
       <!--  -->
     </div>
 
-    <div class="w-4/12 bg-orange-100 h-full text-black p-5">
-      <div class="w-full right-header h-[110px] bg-slate-100 p-5">
-        <div class="flex justify-center items-center w-full h-full">
+    <div class="w-4/12 bg-orange-100 text-black h-full p-5">
+      <div class="w-full right-header bg-slate-100 p-5">
+        <div class="flex justify-center items-center w-full">
           <div class="w-full flex justify-between">
             <div class="flex items-center gap-2">
               <div
@@ -141,9 +141,9 @@
         </div>
       </div>
       <div
-        class="w-full relative right-body h-[calc(100%-220px)] bg-slate-200 p-5"
+        class="w-full relative right-body h-[calc(100%-200px)] bg-slate-200 p-5"
       >
-        <div class="w-full pb-5">
+        <div class="w-full">
           <div class="text-left">
             <div
               class="mb-2 text-sm flex font-semibold text-gray-900 dark:text-white"
@@ -208,7 +208,7 @@
             </div>
             <div class="grid grid-cols-4 gap-2 mt-3">
               <div
-                class="border text-sm p-1 rounded-lg bg-slate-100"
+                class="border text-xs p-1 rounded-lg bg-slate-100"
                 v-for="(item, index) in valueViolates"
                 :key="index"
               >
@@ -218,9 +218,7 @@
           </div>
         </div>
 
-        <div
-          class="flex justify-center items-center w-full border-t-2 pt-5 pb-5"
-        >
+        <div class="flex justify-center items-center w-full border-t-2 pb-5">
           <div class="w-full">
             <div class="text-base font-semibold text-left">Add comment:</div>
             <div class="w-full pt-2 pb-5 justify-center flex items-center">
@@ -231,7 +229,7 @@
                   class="w-full h-full rounded-lg"
                   placeholder="Please enter the reason for the report"
                   type="textarea"
-                  :autosize="{ minRows: 6, maxRows: 4 }"
+                  :autosize="{ minRows: 4, maxRows: 4 }"
                 />
               </div>
             </div>
@@ -264,6 +262,20 @@
     </div>
 
     <!--  -->
+  </div>
+
+  <div v-else class="w-full h-full flex justify-center items-center border">
+    <div>
+      <img
+        src="../../assets/icon_svg/ic_not_data.svg"
+        width="200"
+        alt=""
+        srcset=""
+      />
+      <div class="text-lg font-semibold text-black">
+        NOT DATA
+      </div>
+    </div>
   </div>
 </template>
 

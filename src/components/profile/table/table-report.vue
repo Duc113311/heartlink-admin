@@ -1,3 +1,4 @@
+<!-- eslint-disable prettier/prettier -->
 <template>
   <div
     v-loading="isShowLoading"
@@ -13,12 +14,14 @@
         >
           <tr>
             <th scope="col" class="px-6 py-3">STT</th>
-            <th scope="col" class="px-6 py-3">Avatar</th>
-            <th scope="col" class="px-6 py-3">FullName</th>
+            <th scope="col" class="px-6 py-3">Agent</th>
+            <th scope="col" class="px-6 py-3">Reported Object</th>
             <th scope="col" class="px-6 py-3">Reviewer Status</th>
-            <th scope="col" class="px-6 py-3">AI Status</th>
-            <th scope="col" class="px-6 py-3">AI Score</th>
-            <th scope="col" class="px-6 py-3">Violate option</th>
+            <th scope="col" class="px-6 py-3">Reason</th>
+            <th scope="col" class="px-6 py-3">Reason title</th>
+            <th scope="col" class="px-6 py-3">Reason detail</th>
+            <th scope="col" class="px-6 py-3">Type lock</th>
+            <th scope="col" class="px-6 py-3">Comment</th>
             <th scope="col" class="px-6 py-3 text-center">Action</th>
           </tr>
         </thead>
@@ -31,49 +34,41 @@
             <td class="px-6 py-4">
               <div class="flex items-center justify-start">{{ index }}</div>
             </td>
+            <!-- Agent -->
             <td class="px-6 py-4">
-              <img
-                class="w-14 h-14 rounded-full ring-1 ring-gray-300 dark:ring-gray-500"
-                :src="`${item.avatars.meta.url}`"
-              />
-            </td>
-            <td class="px-6 py-4">{{ item.profiles[0].fullname }}</td>
-            <td class="px-6 py-4">
-              <div
-                class="font-semibold"
-                :class="`${
-                  renderReviewStatus(item.avatars.reviewerStatus).colorText
-                }`"
-              >
-                {{ renderReviewStatus(item.avatars.reviewerStatus).name }}
+              <div class="flex items-center gap-2">
+                <div class="font-semibold">
+                  {{ item.profileAgent[0].fullname }}
+                </div>
               </div>
             </td>
-
+            <!-- Reported -->
             <td class="px-6 py-4">
-              <div
-                class="font-semibold"
-                :class="`${
-                  renderReviewStatus(item.avatars.aiStatus).colorText
-                }`"
-              >
-                {{ renderReviewStatus(item.avatars.aiStatus).name }}
+              <div class="flex items-center gap-2">
+                <div class="font-semibold">
+                  {{ item.profileReported[0].fullname }}
+                </div>
               </div>
             </td>
-            <td class="px-6 py-4">{{ item.avatars.aiPoint }}</td>
             <td class="px-6 py-4">
-              {{
-                renderViolet(
-                  item.avatars.aiViolateOption.length !== 0
-                    ? item.avatars.aiViolateOption
-                    : ""
-                )
-              }}
+              Tiểu sử của người này
             </td>
-
+            <td class="px-6 py-4">
+              Hồ sơ giả, lừa đảo, không đúng là người trong hồ sơ
+            </td>
+            <td class="px-6 py-4">
+              Hỏi xin tiền
+            </td>
+            <td class="px-6 py-4">
+              Lừa đảo
+            </td>
+            <td class="px-6 py-4">
+              Block
+            </td>
+            <td class="px-6 py-4"></td>
             <td class="px-6 py-4">
               <div class="gap-2 flex justify-center">
                 <button
-                  @click="onClickView(item)"
                   class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
                 >
                   <span
@@ -84,26 +79,53 @@
                 </button>
 
                 <button
-                  @click="onClickApproved(item)"
+                  @click="onClickBlock()"
                   class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800"
                 >
                   <span
                     class="relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-opacity-0"
                   >
-                    Approved
+                    Block account
                   </span>
                 </button>
 
-                <button
-                  @click="onClickReject(item)"
-                  class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800"
-                >
-                  <span
-                    class="relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-opacity-0"
-                  >
-                    Rejected
-                  </span>
-                </button>
+                <el-popover placement="top" :width="200" trigger="click">
+                  <template #reference>
+                    <button
+                      class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800"
+                    >
+                      <span
+                        class="relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-opacity-0"
+                      >
+                        Unlock
+                      </span>
+                    </button>
+                  </template>
+                  <template v-slot="">
+                    <div class="flex justify-center items-center w-full">
+                      <div class="w-full text-center">
+                        <div
+                          class="mb-4 text-sm text-gray-500 dark:text-gray-300"
+                        >
+                          Do you want to unlock your account?
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex justify-center items-center space-x-4">
+                      <button
+                        type="button"
+                        class="py-1 px-3 text-sm font-medium text-gray-500 bg-slate-50 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                      >
+                        No
+                      </button>
+                      <button
+                        class="py-1 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-2 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                      >
+                        Yes
+                      </button>
+                    </div>
+                  </template>
+                </el-popover>
               </div>
             </td>
           </tr>
@@ -166,47 +188,8 @@
 import { mapActions } from "vuex";
 
 export default {
-  name: "table-common",
+  name: "table-report",
 
-  setup() {
-    const options = [
-      {
-        value: "item_1",
-        label: "Máu me, bạo lực",
-      },
-      {
-        value: "item_2",
-        label: "Trẻ em",
-      },
-      {
-        value: "item_3",
-        label: "Logo quyền sở hữu trí tuệ",
-      },
-      {
-        value: "item_4",
-        label: "Hình ảnh chứa chủ yếu là văn bản",
-      },
-      {
-        value: "item_5",
-        label: "Vũ khí",
-      },
-      {
-        value: "item_6",
-        label: "Hình ảnh chứa QR code, URL",
-      },
-      {
-        value: "item_7",
-        label: "Hình ảnh meme",
-      },
-      {
-        value: "item_8",
-        label: "Hình ảnh khỏa thân, tình dục",
-      },
-    ];
-    return {
-      options,
-    };
-  },
   data() {
     return {
       currentPage: 1,
@@ -226,11 +209,11 @@ export default {
     },
 
     listDataTable() {
-      return this.$store.state.cmsModule.listCMSTable;
+      return this.$store.state.commonModule.reportObject.list_data;
     },
 
     limitPage() {
-      const limitData = this.$store.state.cmsModule.limitPage;
+      const limitData = this.$store.state.commonModule.reportObject;
       return limitData;
     },
   },
@@ -239,43 +222,15 @@ export default {
     ...mapActions(["getDetailInformationCustomer"]),
 
     async handleCurrentChange(val) {
-      debugger;
       this.$emit("onChangeLimitNext", {
         currentPage: val - 1,
         pageSize: this.totalPages,
       });
     },
 
-    handleSizeChange(val) {
-      debugger;
-    },
-    renderViolet(val) {
-      let resultName = [];
-      if (val.length !== 0) {
-        for (let index = 0; index < val.length; index++) {
-          const element = val[index];
-
-          const findData = this.options.find((x) => x.value === element);
-
-          if (findData) {
-            resultName.push(findData.label);
-          }
-        }
-      }
-
-      return resultName.join(", ");
-    },
-
-    onClickView(val) {
-      this.$emit("onShowViewImage", val);
-    },
-    // Next page
     goToPage(page) {
-      debugger;
-
       if (page >= 1 && page <= this.limitPage.total) {
         this.currentPage = page;
-        // Gọi API hoặc thực hiện các thao tác khác khi chuyển trang
         this.$emit("onChangeLimitNext", {
           currentPage: this.currentPage,
           pageSize: this.totalPages,
@@ -283,60 +238,8 @@ export default {
       }
     },
 
-    // Render trạng thái Reviewer
-    renderReviewStatus(val) {
-      const objectStatus = {
-        name: "Pending",
-        colorText: "text-blue-700",
-      };
-      switch (val) {
-        case 1:
-          objectStatus.name = "Approved";
-          objectStatus.colorText = "text-yellow-500";
-          break;
-        case 2:
-          objectStatus.name = "Reject";
-          objectStatus.colorText = "text-red-500";
-          break;
-      }
-
-      return objectStatus;
-    },
-
-    // Render trạng thái AI
-    renderAIStatus(val) {
-      const objectStatus = {
-        name: "Pending",
-        colorText: "text-blue-700",
-      };
-      switch (val) {
-        case 1:
-          objectStatus.name = "Approved";
-          objectStatus.colorText = "text-yellow-500";
-          break;
-        case 2:
-          objectStatus.name = "Reject";
-          objectStatus.colorText = "text-red-500";
-          break;
-      }
-
-      return objectStatus;
-    },
-
-    // Click approved
-    onClickApproved(val) {
-      this.$emit("onChangeApproved", val);
-    },
-
-    // Click Reject
-    onClickReject(val) {
-      this.$emit("onChangeRejected", val);
-    },
-
-    async onShowDetailInfors(val) {
-      console.log(val);
-      await this.getDetailInformationCustomer(val.userId);
-      this.$emit("onChangeShowDetailInfors", val);
+    onClickBlock(val) {
+      this.$emit("onShowFormBlock", val);
     },
   },
 };
