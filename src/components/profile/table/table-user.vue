@@ -38,7 +38,7 @@
 
         <!-- tbody -->
 
-        <tbody>
+        <tbody v-if="listDataTable.length > 0">
           <tr
             v-for="(item, index) in listDataTable"
             :key="index"
@@ -132,26 +132,41 @@
                 </button>
 
                 <button
-                  @click="onClickLookAccount(item)"
-                  class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800"
-                >
-                  <span
-                    class="relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-opacity-0"
-                  >
-                    Look account
-                  </span>
-                </button>
-
-                <button
-                  @click="onDeleteAccount(item)"
+                  @click="onClickBlockAccount(item)"
                   class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800"
                 >
                   <span
                     class="relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-opacity-0"
                   >
-                    Delete account
+                    Block
                   </span>
                 </button>
+                <button
+                  @click="onClickUnlockAccount(item)"
+                  class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800"
+                >
+                  <span
+                    class="relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-opacity-0"
+                  >
+                    Unlock
+                  </span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <tbody v-else>
+          <tr>
+            <td class="text-center p-96" :colspan="number_of_columns">
+              <div class="flex justify-center items-center">
+                <div>
+                  <img
+                    src="../../../assets/icon_svg/ic_not_data.svg"
+                    width="100"
+                    alt=""
+                  />
+                  <div class="font-medium text-base">Not data</div>
+                </div>
               </div>
             </td>
           </tr>
@@ -251,6 +266,14 @@ export default {
 
     onClickView(val) {
       this.$emit("onShowDetailUser", val);
+    },
+
+    onClickBlockAccount(val) {
+      this.$emit("onShowBlockAccount", val);
+    },
+
+    onClickUnlockAccount(val) {
+      this.$emit("onShowUnlockAccount", val);
     },
   },
 };

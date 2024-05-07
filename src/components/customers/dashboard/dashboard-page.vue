@@ -29,12 +29,10 @@
               <h1
                 class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
-                <span id="status1">Total user</span>
+                <span id="status1">Total customer</span>
               </h1>
 
-              <h6 class="mb-0 font-bold text-black text-lg">
-                0
-              </h6>
+              <h6 class="mb-0 font-bold text-black text-lg">0</h6>
             </div>
           </div>
         </div>
@@ -49,12 +47,10 @@
               <h1
                 class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
-                <span id="status1">Total reviewer photo approved</span>
+                <span id="status1">Total customer verified</span>
               </h1>
 
-              <h6 class="mb-0 font-bold text-black text-lg">
-                0
-              </h6>
+              <h6 class="mb-0 font-bold text-black text-lg">0</h6>
             </div>
           </div>
         </div>
@@ -69,12 +65,10 @@
               <h1
                 class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
-                <span id="status1">Total reviewer photo reject</span>
+                <span id="status1">Total customer block</span>
               </h1>
 
-              <h6 class="mb-0 font-bold text-black text-lg">
-                0
-              </h6>
+              <h6 class="mb-0 font-bold text-black text-lg">0</h6>
             </div>
           </div>
         </div>
@@ -89,12 +83,10 @@
               <h1
                 class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
-                <span id="status1">Total AI photo pending</span>
+                <span id="status1">Total customer online</span>
               </h1>
 
-              <h6 class="mb-0 font-bold text-black text-lg">
-                0
-              </h6>
+              <h6 class="mb-0 font-bold text-black text-lg">0</h6>
             </div>
           </div>
         </div>
@@ -109,12 +101,10 @@
               <h1
                 class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
-                <span id="status1">Total AI photo approved</span>
+                <span id="status1">Total customer offline</span>
               </h1>
 
-              <h6 class="mb-0 font-bold text-black text-lg">
-                0
-              </h6>
+              <h6 class="mb-0 font-bold text-black text-lg">0</h6>
             </div>
           </div>
         </div>
@@ -129,12 +119,10 @@
               <h1
                 class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
               >
-                <span id="status1">Total AI photo reject</span>
+                <span id="status1">Total reported</span>
               </h1>
 
-              <h6 class="mb-0 font-bold text-black text-lg">
-                0
-              </h6>
+              <h6 class="mb-0 font-bold text-black text-lg">0</h6>
             </div>
           </div>
         </div>
@@ -181,7 +169,6 @@
       <div class="flex items-center gap-2">
         <button
           type="button"
-          @click="onClickDisableAccount()"
           class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
         >
           Disable account
@@ -189,7 +176,6 @@
 
         <button
           type="button"
-          @click="onClickDeleteAllAccount()"
           class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
         >
           Delete all
@@ -203,13 +189,16 @@
       <TableUser
         :isLoading="isLoading"
         @onChangeLimitNext="onChangeLimitNext"
+        @onShowBlockAccount="onShowBlockAccount"
+        @onShowUnlockAccount="onShowUnlockAccount"
         @onShowDetailUser="onShowDetailUser"
       ></TableUser>
     </div>
 
+    <!-- Show detail -->
     <el-dialog
       v-model="isShowViewDetailCustomer"
-      width="30%"
+      width="25%"
       align-center
       @close="closeDialog"
       draggable
@@ -221,26 +210,86 @@
       </template>
       <ViewDetail :objectCustomer="objectCustomer"></ViewDetail>
     </el-dialog>
+
+    <el-dialog v-model="isShowFormBlock" title="Shipping address" width="500">
+      <template #title>
+        <div class="text-lg font-semibold text-slate-500">
+          Bạn chắc chắn muốn block account?
+        </div>
+      </template>
+      <ViewBlock></ViewBlock>
+      <template #footer>
+        <div class="dialog-footer">
+          <button
+            @click="onClickCancelBlock()"
+            type="button"
+            class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-semibold rounded-lg text-base px-5 py-1 text-center me-2 mb-2"
+          >
+            Cancel
+          </button>
+          <button
+            @click="onClickApplyBlock()"
+            type="button"
+            class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-semibold rounded-lg text-base px-5 py-1 text-center mb-2"
+          >
+            Apply
+          </button>
+        </div>
+      </template>
+    </el-dialog>
+
+    <el-dialog v-model="isShowFormUnlock" title="Shipping address" width="500">
+      <template #title>
+        <div class="text-lg font-semibold text-slate-500">
+          Bạn chắc chắn muốn unlock account?
+        </div>
+      </template>
+      <div>
+        Bạn mở khóa tài khoản <span class="font-semibold">Duc nguyen</span> sẽ
+        có thể truy cập vào Ứng dụng!
+      </div>
+      <template #footer>
+        <div class="dialog-footer">
+          <button
+            @click="onClickCancelUnlock()"
+            type="button"
+            class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-semibold rounded-lg text-base px-5 py-1 text-center me-2 mb-2"
+          >
+            Cancel
+          </button>
+          <button
+            @click="onClickApplyUnlock()"
+            type="button"
+            class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-semibold rounded-lg text-base px-5 py-1 text-center mb-2"
+          >
+            Apply
+          </button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import ViewBlock from "../../profile/report/view-block";
 import ViewDetail from "../../profile/detail-cms/view-detail";
 import TableUser from "../../profile/table/table-user";
 import { mapActions } from "vuex";
 export default {
+  name: "dashboard-page",
   components: {
+    ViewBlock,
     ViewDetail,
     TableUser,
   },
-  name: "dashboard-page",
-
   data() {
     return {
       inputSearch: "",
       isLoading: false,
       isShowViewDetailCustomer: false,
       objectCustomer: {},
+      isShowFormBlock: false,
+      isShowFormUnlock: false,
     };
   },
 
@@ -249,6 +298,7 @@ export default {
     await this.getListCardUsers({
       currentPage: 0,
       pageSize: 200,
+      nameQuery: this.inputSearch,
     });
 
     setTimeout(() => {
@@ -261,13 +311,55 @@ export default {
   methods: {
     ...mapActions(["getListCardUsers"]),
 
+    // On change limit
     async onChangeLimitNext(val) {
       this.isLoading = true;
-      await this.getListCardUsers(val);
+      await this.getListCardUsers({
+        currentPage: val.currentPage,
+        pageSize: val.pageSize,
+        nameQuery: this.inputSearch,
+      });
 
       setTimeout(() => {
         this.isLoading = false;
       }, 1500);
+    },
+
+    onClickApplyBlock(val) {
+      this.isShowFormBlock = false;
+    },
+
+    onClickCancelBlock(val) {
+      this.isShowFormBlock = false;
+    },
+
+    onClickApplyUnlock(val) {
+      this.isShowFormBlock = false;
+    },
+
+    onClickCancelUnlock(val) {
+      this.isShowFormBlock = false;
+    },
+
+    // Unlock
+    async onShowUnlockAccount(val) {
+      this.isShowFormUnlock = true;
+    },
+
+    // Block
+    async onShowBlockAccount(val) {
+      this.isShowFormBlock = true;
+    },
+    async onChangeSearch(val) {
+      this.isLoading = true;
+      await this.getListCardUsers({
+        currentPage: 0,
+        pageSize: 200,
+        nameQuery: this.inputSearch,
+      });
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 500);
     },
 
     onShowDetailUser(val) {

@@ -50,23 +50,6 @@
         </div>
       </div>
     </div>
-
-    <div class="w-full justify-end flex items-center mt-5">
-      <button
-        @click="onClickCancel()"
-        type="button"
-        class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-semibold rounded-lg text-base px-5 py-1 text-center me-2 mb-2"
-      >
-        Cancel
-      </button>
-      <button
-        @click="onClickApply()"
-        type="button"
-        class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-semibold rounded-lg text-base px-5 py-1 text-center mb-2"
-      >
-        Apply
-      </button>
-    </div>
   </div>
 </template>
 

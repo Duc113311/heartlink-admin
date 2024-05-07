@@ -116,7 +116,7 @@ const state = {
 const getters = {};
 
 const mutations = {
-  setListUsers(state, data) {
+  setListCardCustomer(state, data) {
     state.listUser = data;
   },
 
@@ -136,7 +136,7 @@ const actions = {
       })
       .then((response) => {
         if (response.status === 200) {
-          commit("setListUsers", response.data.data);
+          commit("setListCardCustomer", response.data.data);
         }
       })
       .catch((error) => {});
