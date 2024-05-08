@@ -1,10 +1,10 @@
 import axios from "axios";
 export const http_mongo = axios.create({
-  baseURL: `http://118.70.126.72:3001`,
+  baseURL: `https://api.heartlinkdating.com`,
   headers: {
     "Content-Type": "application/json",
     "Content-Transfer-Encoding": "bachaxPPsb9SCaz7TVJsda7cCD5sshsoft",
-    Authorization: `Bearer ${localStorage.getItem("tokenIdV2")}`,
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
   },
   withCredentials: false,
 });

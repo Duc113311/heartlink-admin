@@ -136,7 +136,7 @@ const actions = {
       .get(`api/customers`, {
         params: data,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("tokenIdV2")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
       .then((response) => {
@@ -151,7 +151,7 @@ const actions = {
     await http_mongo
       .get(`api/customers/${data}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("tokenIdV2")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
       .then((response) => {
@@ -167,7 +167,7 @@ const actions = {
       .post(`api/customers/block`, {
         params: data,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("tokenIdV2")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
       .then((response) => {

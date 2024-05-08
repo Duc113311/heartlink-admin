@@ -232,6 +232,7 @@
               <ul id="dropdown-example" class="py-2 space-y-2 pl-3">
                 <li class="my-px">
                   <a
+                    @click="onClickRouterActivities('Activity')"
                     :class="{
                       'bg-gray-100 text-gray-700': activeTab === 'Activity',
                     }"
