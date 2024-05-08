@@ -10,14 +10,14 @@
         <div class="flex items-center gap-2">
           <div
             class="w-4 h-4 rounded-sm"
-            style="background-color: #13ce66;"
+            style="background-color: #e1e1e3;"
           ></div>
           <div>Vô thời hạn</div>
         </div>
         <div class="flex items-center gap-2">
           <div
             class="w-4 h-4 rounded-sm"
-            style="background-color: #ff4949;"
+            style="background-color: #4d87d4;"
           ></div>
           <div>Có thời hạn</div>
         </div>
@@ -32,7 +32,7 @@
             v-model="valueNumberDay"
             :min="1"
             :max="10"
-            @change="handleChange"
+            :disabled="valueForever"
           />
         </div>
       </div>
@@ -43,8 +43,8 @@
             v-model="valueForever"
             class="ml-2"
             style="
-              --el-switch-on-color: #13ce66;
-              --el-switch-off-color: #ff4949;
+              --el-switch-on-color: #4d87d4;
+              --el-switch-off-color: #e1e1e3;
             "
           />
         </div>

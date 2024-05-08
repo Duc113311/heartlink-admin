@@ -1,11 +1,9 @@
 <template>
-  <div class="w-full items-center">
+  <div class="w-full items-center h-full">
     <!-- -->
     <!-- {{ renderObject }} -->
-    <div class="w-full gap-4 grid">
-      <div
-        class="w-full flex justify-between items-center pb-2 pt-2 border-b-2"
-      >
+    <div class="w-full gap-4 grid hide-scroll h-[400px]">
+      <div class="w-full flex justify-between items-center pb-2 border-b-2">
         <div class="w-full text-left">
           <div class="flex items-center gap-2">
             <div class="font-semibold text-xl">{{ renderObject.fullname }}</div>
@@ -54,7 +52,7 @@
           <div class="text-base">{{ renderObject.profiles.company }}</div>
         </div>
       </div>
-      <div class="w-full gap-2">
+      <div class="w-full gap-2 block">
         <div class="text-left text-base border rounded-lg p-2">
           <div>{{ renderObject.profiles.about }}</div>
           <div>

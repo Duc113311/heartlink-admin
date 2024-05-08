@@ -24,7 +24,7 @@
 
             <th scope="col" class="px-6 py-3">Age</th>
 
-            <th scope="col" class="px-6 py-3">Address</th>
+            <th scope="col" class="px-6 py-3 w-[100px]">Address</th>
 
             <th scope="col" class="px-6 py-3">Gender</th>
 
@@ -49,17 +49,6 @@
             </td>
 
             <td class="px-6 py-4">
-              <!-- <div class="relative w-fit" v-if="item.profiles.avatars">
-                <img
-                  class="w-14 h-14 rounded-full ring-1 ring-gray-300 dark:ring-gray-500"
-                  :src="`${item.profiles.avatars[0].meta.url}`"
-                />
-                <div
-                  class="absolute top-0 right-0 p-1 rounded-full bg-red-500 border-2 w-5 flex justify-center items-center text-white h-5"
-                >
-                  {{ item.profiles.avatars.length }}
-                </div>
-              </div> -->
               <div class="relative flex css-107" v-if="item.profiles.avatars">
                 <div
                   class="css-c5"
@@ -72,11 +61,29 @@
               <div v-else>{{ item._id }}</div>
             </td>
 
-            <td class="px-6 py-4">{{ item.fullname }}</td>
+            <td class="px-6 py-4" :title="item._id">
+              <el-tooltip
+                class="box-item"
+                effect="light"
+                :content="item._id"
+                placement="top"
+                >{{ item.fullname }}
+              </el-tooltip>
+            </td>
 
             <td class="px-6 py-4">{{ convertDob(item.dob) }}</td>
 
-            <td class="px-6 py-4">{{ item.profiles.address }}</td>
+            <td class="px-6 py-4">
+              <div class="w-[300px] truncate">
+                <el-tooltip
+                  class="box-item"
+                  effect="light"
+                  :content="item.profiles.address"
+                  placement="top"
+                  >{{ item.profiles.address }}
+                </el-tooltip>
+              </div>
+            </td>
 
             <td class="px-6 py-4">{{ item.profiles.gender }}</td>
 

@@ -211,13 +211,14 @@
       <ViewDetail :objectCustomer="objectCustomer"></ViewDetail>
     </el-dialog>
 
+    <!-- Block -->
     <el-dialog v-model="isShowFormBlock" title="Shipping address" width="500">
       <template #title>
         <div class="text-lg font-semibold text-slate-500">
           Bạn chắc chắn muốn block account?
         </div>
       </template>
-      <ViewBlock></ViewBlock>
+      <ViewBlock ref="view_block" :objectCustomer="objectCustomer"></ViewBlock>
       <template #footer>
         <div class="dialog-footer">
           <button
@@ -238,6 +239,7 @@
       </template>
     </el-dialog>
 
+    <!-- Unlock -->
     <el-dialog v-model="isShowFormUnlock" title="Shipping address" width="500">
       <template #title>
         <div class="text-lg font-semibold text-slate-500">
@@ -309,7 +311,7 @@ export default {
   mounted() {},
 
   methods: {
-    ...mapActions(["getListCardUsers"]),
+    ...mapActions(["getListCardUsers", "postBlockAccountCustomer"]),
 
     // On change limit
     async onChangeLimitNext(val) {
@@ -325,7 +327,15 @@ export default {
       }, 1500);
     },
 
-    onClickApplyBlock(val) {
+    async onClickApplyBlock() {
+      debugger;
+      const refBlock = this.$refs.view_block;
+      const object = {
+        interactorId: this.objectCustomer._id,
+        lockDuration: refBlock.valueNumberDay,
+        disable: refBlock.valueForever,
+      };
+      await this.postBlockAccountCustomer(object);
       this.isShowFormBlock = false;
     },
 
@@ -349,6 +359,7 @@ export default {
     // Block
     async onShowBlockAccount(val) {
       this.isShowFormBlock = true;
+      this.objectCustomer = val;
     },
     async onChangeSearch(val) {
       this.isLoading = true;

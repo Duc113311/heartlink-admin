@@ -111,6 +111,7 @@ const state = {
   },
 
   listUser: {},
+  statusBlock: false,
 };
 
 const getters = {};
@@ -123,6 +124,10 @@ const mutations = {
   setDetailInformationCustomer(state, data) {
     state.user_profile = data;
   },
+
+  setPostBlockAccountCustomer(state, data) {
+    state.statusBlock = data;
+  },
 };
 
 const actions = {
@@ -131,7 +136,7 @@ const actions = {
       .get(`api/customers`, {
         params: data,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("tokenIdV2")}`,
         },
       })
       .then((response) => {
@@ -146,7 +151,23 @@ const actions = {
     await http_mongo
       .get(`api/customers/${data}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("tokenIdV2")}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          commit("setDetailInformationCustomer", response.data.data);
+        }
+      })
+      .catch((error) => {});
+  },
+
+  async postBlockAccountCustomer({ commit }, data) {
+    await http_mongo
+      .post(`api/customers/block`, {
+        params: data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("tokenIdV2")}`,
         },
       })
       .then((response) => {
