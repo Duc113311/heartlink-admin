@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import LoadApp from "./layout/loading/load-app";
 export default {
   components: { LoadApp },
@@ -38,9 +39,10 @@ export default {
 
   computed: {},
 
-  created() {
+  async created() {
     const tokenId = localStorage.getItem("token");
     if (tokenId) {
+      await this.getReasonReport();
       this.$router.push({ path: "/dashboard" }).catch(() => {});
     } else {
       this.$router.push({ path: "/" }).catch(() => {});
@@ -51,7 +53,9 @@ export default {
 
     console.log(JSON.parse(userLocal));
   },
-  methods: {},
+  methods: {
+    ...mapActions(["getReasonReport"]),
+  },
 };
 </script>
 <style lang="scss">

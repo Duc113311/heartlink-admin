@@ -111,6 +111,14 @@ const state = {
   },
 
   listUser: {},
+  listActivities: {
+    currentPage: 0,
+    skip: 0,
+    limit: 0,
+    count: 0,
+    total: 0,
+    list_data: [],
+  },
   statusBlock: false,
 };
 
@@ -127,6 +135,10 @@ const mutations = {
 
   setPostBlockAccountCustomer(state, data) {
     state.statusBlock = data;
+  },
+
+  setListCardActivities(state, data) {
+    state.listActivities = data;
   },
 };
 
@@ -173,6 +185,22 @@ const actions = {
       .then((response) => {
         if (response.status === 200) {
           commit("setDetailInformationCustomer", response.data.data);
+        }
+      })
+      .catch((error) => {});
+  },
+
+  async getListCardActivities({ commit }, data) {
+    await http_mongo
+      .get(`api/list-activities`, {
+        params: data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          commit("setListCardActivities", response.data.data);
         }
       })
       .catch((error) => {});

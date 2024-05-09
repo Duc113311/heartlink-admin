@@ -16,11 +16,9 @@
             <th scope="col" class="px-6 py-3">STT</th>
             <th scope="col" class="px-6 py-3">Agent</th>
             <th scope="col" class="px-6 py-3">Reported Object</th>
-            <th scope="col" class="px-6 py-3">Reviewer Status</th>
             <th scope="col" class="px-6 py-3">Reason</th>
             <th scope="col" class="px-6 py-3">Reason title</th>
             <th scope="col" class="px-6 py-3">Reason detail</th>
-            <th scope="col" class="px-6 py-3">Type lock</th>
             <th scope="col" class="px-6 py-3">Comment</th>
             <th scope="col" class="px-6 py-3 text-center">Action</th>
           </tr>
@@ -37,7 +35,10 @@
             <!-- Agent -->
             <td class="px-6 py-4">
               <div class="flex items-center gap-2">
-                <div class="font-semibold">
+                <div
+                  class="font-semibold"
+                  v-if="item.profileAgent.length !== 0"
+                >
                   {{ item.profileAgent[0].fullname }}
                 </div>
               </div>
@@ -45,30 +46,40 @@
             <!-- Reported -->
             <td class="px-6 py-4">
               <div class="flex items-center gap-2">
-                <div class="font-semibold">
+                <div
+                  class="font-semibold"
+                  v-if="item.profileReported.length !== 0"
+                >
                   {{ item.profileReported[0].fullname }}
                 </div>
               </div>
             </td>
-            <td class="px-6 py-4">
-              Tiểu sử của người này
+            <td class="px-6 py-4 w-[300px]">
+              <div v-if="item.reasonCode.length !== 0">
+                {{ renderReasonCode(item.reasonCode) }}
+              </div>
             </td>
-            <td class="px-6 py-4">
-              Hồ sơ giả, lừa đảo, không đúng là người trong hồ sơ
+            <td class="px-6 py-4 w-[300px]">
+              <div v-if="item.codeTitle.length !== 0">
+                {{ renderTitleCode(item.reasonCode, item.codeTitle) }}
+              </div>
             </td>
-            <td class="px-6 py-4">
-              Hỏi xin tiền
+            <td class="px-6 py-4 w-[300px]">
+              <div v-if="item.codeDetail.length !== 0">
+                {{
+                  renderDetailCode(
+                    item.reasonCode,
+                    item.codeTitle,
+                    item.codeDetail
+                  )
+                }}
+              </div>
             </td>
-            <td class="px-6 py-4">
-              Lừa đảo
-            </td>
-            <td class="px-6 py-4">
-              Block
-            </td>
-            <td class="px-6 py-4"></td>
+            <td class="px-6 py-4">{{ item.comments }}</td>
             <td class="px-6 py-4">
               <div class="gap-2 flex justify-center">
                 <button
+                  @click="onClickView(item)"
                   class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
                 >
                   <span
@@ -77,9 +88,8 @@
                     View
                   </span>
                 </button>
-
                 <button
-                  @click="onClickBlock()"
+                  @click="onClickBlock(item)"
                   class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800"
                 >
                   <span
@@ -216,10 +226,57 @@ export default {
       const limitData = this.$store.state.commonModule.reportObject;
       return limitData;
     },
+
+    listReasons() {
+      const result = this.$store.state.commonModule.listReasons;
+      return result;
+    },
   },
 
   methods: {
     ...mapActions(["getDetailInformationCustomer"]),
+
+    renderReasonCode(val) {
+      const listReasonParam = this.listReasons;
+
+      const findData = listReasonParam.find((x) => x.code === val);
+
+      return findData.value;
+    },
+
+    renderTitleCode(valueReasonCode, valueCodeTitle) {
+      const listReasonParam = this.listReasons;
+
+      const findData = listReasonParam.find((x) => x.code === valueReasonCode);
+      if (findData) {
+        const findDataTitle = findData.codeReason.find(
+          (x) => x.codeTitle === valueCodeTitle
+        );
+        if (findDataTitle) {
+          return findDataTitle.value;
+        }
+      }
+    },
+
+    renderDetailCode(valueReasonCode, valueCodeTitle, valueCodeDetail) {
+      const listReasonParam = this.listReasons;
+
+      const findData = listReasonParam.find((x) => x.code === valueReasonCode);
+      if (findData) {
+        const findDataTitle = findData.codeReason.find(
+          (x) => x.codeTitle === valueCodeTitle
+        );
+        if (findDataTitle) {
+          const findDetail = findDataTitle.codeReasonDetail.find(
+            (x) => x.codeDetail === valueCodeDetail
+          );
+
+          if (findDetail) {
+            return findDetail.value;
+          }
+        }
+      }
+    },
 
     async handleCurrentChange(val) {
       this.$emit("onChangeLimitNext", {
@@ -240,6 +297,10 @@ export default {
 
     onClickBlock(val) {
       this.$emit("onShowFormBlock", val);
+    },
+
+    onClickView(val) {
+      this.$emit("onShowReportDetail", val);
     },
   },
 };

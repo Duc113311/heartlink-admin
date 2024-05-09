@@ -603,11 +603,17 @@ export default {
           reviewerViolateOption: [],
         },
       };
-      await this.putApproveImage(objectImage).then(async (data) => {
-        debugger;
-        this.successNotification();
-        this.setListRemoveTable(val._id);
-      });
+
+      await this.putApproveImage(objectImage)
+        .then(async (data) => {
+          console.log(data);
+          this.successNotification();
+          this.setListRemoveTable(val._id); // Move inside the then block
+        })
+        .catch((error) => {
+          console.error(error); // Handle any errors
+        });
+
       const valueStatus = 2;
       this.setTotalStoreImage(valueStatus);
       const totalCMSTable = this.$store.state.cmsModule.listCMSTable.length;
@@ -641,13 +647,18 @@ export default {
           reviewerViolateOption: [],
         },
       };
-      await this.putApproveImage(objectImage).then(async (data) => {
-        console.log(data);
+      console.log(val.profiles[0].fullname);
 
-        this.successNotification();
+      await this.putApproveImage(objectImage)
+        .then(async (data) => {
+          console.log(data);
+          this.successNotification();
+          this.setListRemoveTable(val._id); // Move inside the then block
+        })
+        .catch((error) => {
+          console.error(error); // Handle any errors
+        });
 
-        this.setListRemoveTable(val._id);
-      });
       const valueStatus = 1;
       this.setTotalStoreImage(valueStatus);
       const totalCMSTable = this.$store.state.cmsModule.listCMSTable.length;

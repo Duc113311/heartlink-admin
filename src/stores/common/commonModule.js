@@ -9,6 +9,8 @@ const state = {
     total: 0,
     list_data: [],
   },
+
+  listReasons: [],
 };
 
 const getters = {};
@@ -20,6 +22,10 @@ const mutations = {
    */
   setListReportAccount(state, data) {
     state.reportObject = data;
+  },
+
+  setReasonReport(state, data) {
+    state.listReasons = data;
   },
 };
 const actions = {
@@ -39,6 +45,22 @@ const actions = {
       .then((response) => {
         if (response.status === 200) {
           commit("setListReportAccount", response.data.data);
+        }
+      })
+      .catch((error) => {});
+  },
+
+  async getReasonReport({ commit }, data) {
+    await http_mongo
+      .get(`api/static/reason-account`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Accept-Language": "en",
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          commit("setReasonReport", response.data.data);
         }
       })
       .catch((error) => {});

@@ -4,7 +4,11 @@
     <div class="w-full pb-6">
       <div class="text-base text-center mb-4">
         Sau khi bạn lựa chọn các giới hạn dưới đây, tài khoản
-        <span class="font-semibold">Duc Nguyễn</span> sẽ bị block
+        <span class="font-semibold">{{
+          renderReport.profileReported[0].fullname
+        }}</span>
+        <span class="font-semibold"></span>
+        sẽ bị block
       </div>
       <div class="w-full flex justify-center items-center gap-4">
         <div class="flex items-center gap-2">
@@ -65,9 +69,16 @@ export default {
   },
 
   props: {
-    objectCustomer: {
+    objectReport: {
       type: Object,
       default: () => {},
+    },
+  },
+
+  computed: {
+    renderReport() {
+      console.log(this.objectReport);
+      return this.objectReport;
     },
   },
 

@@ -635,6 +635,11 @@ export default {
       this.$router.push({ path: "/dashboard/report-list" }).catch(() => {});
     },
 
+    onClickRouterActivities(val) {
+      this.activeTab = val;
+      this.$router.push({ path: "/dashboard/activities-list" }).catch(() => {});
+    },
+
     onClickRouterTemPlate(val) {
       this.activeTab = val;
       this.$router.push({ path: "/dashboard/template" }).catch(() => {});

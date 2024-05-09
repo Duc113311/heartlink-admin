@@ -19,6 +19,7 @@ import SchoolView from "../views/dashboard/profile/school-page/index.vue";
 import AccountView from "../views/dashboard/account/index.vue";
 import TemplateView from "../views/dashboard/template/index.vue";
 import Reports from "../views/dashboard/reports/index.vue";
+import Activities from "../views/dashboard/activities/index.vue";
 
 const routes = [
   {
@@ -68,6 +69,15 @@ const routes = [
         component: Reports,
         meta: {
           nameTitle: "Reports",
+        },
+      },
+      // Activities
+      {
+        path: "activities-list",
+        name: "activities-view",
+        component: Activities,
+        meta: {
+          nameTitle: "Activity",
         },
       },
       // Profile

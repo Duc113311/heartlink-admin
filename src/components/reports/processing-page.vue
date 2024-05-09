@@ -5,117 +5,6 @@
 
     <TitlePage></TitlePage>
 
-    <!-- Thống kê -->
-    <!-- <div class="grid grid-cols-12 2xl:grid-cols-12 gap-x-5 mt-4">
-      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 lg:mb-0 mb-4">
-        <div class="md:flex-0 shrink-0">
-          <div
-            class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
-          >
-            <div class="flex-auto p-2 text-center">
-              <h1
-                class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
-              >
-                <span id="status1"></span>
-              </h1>
-
-              <h6 class="mb-0 font-bold text-black text-lg"></h6>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 lg:mb-0 mb-4">
-        <div class="md:flex-0 shrink-0">
-          <div
-            class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
-          >
-            <div class="flex-auto p-2 text-center">
-              <h1
-                class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
-              >
-                <span id="status1"></span>
-              </h1>
-
-              <h6 class="mb-0 font-bold text-black text-lg"></h6>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 lg:mb-0 mb-4">
-        <div class="md:flex-0 shrink-0">
-          <div
-            class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
-          >
-            <div class="flex-auto p-2 text-center">
-              <h1
-                class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
-              >
-                <span id="status1"></span>
-              </h1>
-
-              <h6 class="mb-0 font-bold text-black text-lg"></h6>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 lg:mb-0 mb-4">
-        <div class="md:flex-0 shrink-0">
-          <div
-            class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
-          >
-            <div class="flex-auto p-2 text-center">
-              <h1
-                class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
-              >
-                <span id="status1"></span>
-              </h1>
-
-              <h6 class="mb-0 font-bold text-black text-lg"></h6>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 lg:mb-0 mb-4">
-        <div class="md:flex-0 shrink-0">
-          <div
-            class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
-          >
-            <div class="flex-auto p-2 text-center">
-              <h1
-                class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
-              >
-                <span id="status1"></span>
-              </h1>
-
-              <h6 class="mb-0 font-bold text-black text-lg"></h6>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card col-span-12 lg:col-span-6 2xl:col-span-2 lg:mb-0 mb-4">
-        <div class="md:flex-0 shrink-0">
-          <div
-            class="hover:bg-slate-200 cursor-pointer border-black/12.5 dark:shadow-soft-dark-xl shadow-soft-xl dark:bg-gray-950 relative flex min-w-0 flex-col break-words rounded-xl border-0 border-solid bg-white bg-clip-border"
-          >
-            <div class="flex-auto p-2 text-center">
-              <h1
-                class="relative z-10 text-sm text-transparent bg-gradient-to-tl from-purple-700 to-pink-500 bg-clip-text"
-              >
-                <span id="status1"></span>
-              </h1>
-
-              <h6 class="mb-0 font-bold text-black text-lg"></h6>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- Search -->
     <div class="xl:flex justify-between items-center mt-4">
       <div class="flex items-center gap-5">
         <div class="relative md:w-[300px]">
@@ -175,7 +64,11 @@
 
     <!-- Table -->
     <div class="mt-4 w-full">
-      <TableReport @onShowFormBlock="onShowFormBlock"></TableReport>
+      <TableReport
+        @onShowFormBlock="onShowFormBlock"
+        @onChangeLimitNext="onChangeLimitNext"
+        @onShowReportDetail="onShowReportDetail"
+      ></TableReport>
     </div>
 
     <el-dialog
@@ -190,7 +83,25 @@
           Bạn chắc chắn muốn block account?
         </div>
       </template>
-      <ViewBlock></ViewBlock>
+      <ViewBlock ref="view_block" :objectReport="objectReport"></ViewBlock>
+      <template #footer>
+        <div class="dialog-footer">
+          <button
+            @click="onClickCancelBlock()"
+            type="button"
+            class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-semibold rounded-lg text-base px-5 py-1 text-center me-2 mb-2"
+          >
+            Cancel
+          </button>
+          <button
+            @click="onClickApplyBlock()"
+            type="button"
+            class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-semibold rounded-lg text-base px-5 py-1 text-center mb-2"
+          >
+            Apply
+          </button>
+        </div>
+      </template>
     </el-dialog>
 
     <el-dialog
@@ -205,7 +116,7 @@
           View detail report
         </div>
       </template>
-      <ViewDetailBlock></ViewDetailBlock>
+      <ViewDetailBlock :objectReport="objectReport"></ViewDetailBlock>
     </el-dialog>
   </div>
 </template>
@@ -215,6 +126,7 @@ import ViewDetailBlock from "../profile/report/view-detail-block";
 import ViewBlock from "../profile/report/view-block";
 import TableReport from "../profile/table/table-report";
 import TitlePage from "../profile/title/title-page";
+import { mapActions } from "vuex";
 export default {
   components: {
     ViewDetailBlock,
@@ -228,15 +140,57 @@ export default {
     return {
       inputSearch: "",
       isShowViewBlock: false,
-      isShowViewBlockDetail: true,
+      isShowViewBlockDetail: false,
+      objectReport: {},
     };
   },
 
   mounted() {},
 
   methods: {
+    ...mapActions(["getListReportAccount"]),
     onShowFormBlock(val) {
+      this.objectReport = val;
       this.isShowViewBlock = true;
+    },
+
+    async onChangeSearch(val) {
+      this.isLoading = true;
+      await this.getListReportAccount({
+        currentPage: 0,
+        pageSize: 50,
+        fullname: this.inputSearch,
+      });
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 500);
+    },
+
+    async onChangeLimitNext(val) {
+      this.isLoading = true;
+
+      await this.getListReportAccount({
+        currentPage: 0,
+        pageSize: 50,
+        fullname: this.inputSearch,
+      });
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 500);
+    },
+
+    onShowReportDetail(val) {
+      this.objectReport = val;
+      this.isShowViewBlockDetail = true;
+    },
+
+    onClickCancelBlock(val) {
+      this.isShowViewBlock = false;
+    },
+
+    onClickApplyBlock(val) {
+      this.isShowViewBlock = false;
     },
   },
 };
