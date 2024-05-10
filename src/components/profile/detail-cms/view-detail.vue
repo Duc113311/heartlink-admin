@@ -2,7 +2,7 @@
   <div class="w-full items-center h-full">
     <!-- -->
     <!-- {{ renderObject }} -->
-    <div class="w-full gap-4 grid hide-scroll h-[400px]">
+    <div class="w-full gap-4 grid hide-scroll h-[700px]">
       <div class="w-full flex justify-between items-center pb-2 border-b-2">
         <div class="w-full text-left">
           <div class="flex items-center gap-2">
@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="w-full">
-        <el-carousel :interval="4000" type="card" height="200px">
+        <el-carousel indicator-position="outside">
           <el-carousel-item
             v-for="item in renderObject.profiles.avatars"
             :key="item"
@@ -29,6 +29,18 @@
             />
           </el-carousel-item>
         </el-carousel>
+
+        <!-- <el-carousel :interval="4000" type="card" height="00px">
+          <el-carousel-item
+            v-for="item in renderObject.profiles.avatars"
+            :key="item"
+          >
+            <div
+              class="imageDetail"
+              :style="`background-image:url(${item.meta.url})`"
+            />
+          </el-carousel-item>
+        </el-carousel> -->
       </div>
       <div class="w-full gap-2">
         <div class="flex w-full items-center gap-2">

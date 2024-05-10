@@ -11,6 +11,28 @@ const state = {
   },
 
   listReasons: [],
+
+  basicInfors: {
+    zodiacs: [],
+    educations: [],
+    familyPlans: [],
+    covidVaccines: [],
+    personalities: [],
+    communicationStyles: [],
+    loveStyles: [],
+  },
+
+  lifeStyles: {
+    pets: [],
+    drinkings: [],
+    smokings: [],
+    workouts: [],
+    foodPreferences: [],
+    socials: [],
+    sleepingStyles: [],
+  },
+
+  listPrompt: {},
 };
 
 const getters = {};
@@ -26,6 +48,51 @@ const mutations = {
 
   setReasonReport(state, data) {
     state.listReasons = data;
+  },
+
+  setObjectReportBlock(state, data) {
+    debugger;
+    const findData = state.reportObject.list_data.filter(
+      (x) => x.reportedSubjectId === data.interactorId
+    );
+    debugger;
+    let now = Date.now();
+    let unlockTime = now + data.lockDuration * 24 * 60 * 60 * 1000;
+    if (findData) {
+      findData.block = {
+        when: unlockTime,
+      };
+      findData.disable = data.disable;
+    }
+  },
+
+  setObjectReportUnlock(state, data) {
+    const findData = state.reportObject.list_data.find(
+      (x) => x._id === data.interactorId
+    );
+    let now = Date.now();
+    let unlockTime = now;
+    if (findData) {
+      if (findData.block) {
+        delete findData.block;
+      }
+      findData.unlock = {
+        when: unlockTime,
+      };
+      findData.disable = false;
+    }
+  },
+
+  setCommonBasicInformation(state, data) {
+    state.basicInfors = data;
+  },
+
+  setCommonLifeStyle(state, data) {
+    state.lifeStyles = data;
+  },
+
+  setCommonPrompts(state, data) {
+    state.listPrompt = data;
   },
 };
 const actions = {
@@ -61,6 +128,54 @@ const actions = {
       .then((response) => {
         if (response.status === 200) {
           commit("setReasonReport", response.data.data);
+        }
+      })
+      .catch((error) => {});
+  },
+
+  async getCommonBasicInformation({ commit }, data) {
+    await http_mongo
+      .get(`api/static/basic-infos`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Accept-Language": "en",
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          commit("setCommonBasicInformation", response.data.data);
+        }
+      })
+      .catch((error) => {});
+  },
+
+  async getCommonLifeStyle({ commit }, data) {
+    await http_mongo
+      .get(`api/static/basic-infos`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Accept-Language": "en",
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          commit("setCommonLifeStyle", response.data.data);
+        }
+      })
+      .catch((error) => {});
+  },
+
+  async getCommonPrompts({ commit }, data) {
+    await http_mongo
+      .get(`api/static/prompts`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Accept-Language": "en",
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          commit("setCommonPrompts", response.data.data);
         }
       })
       .catch((error) => {});

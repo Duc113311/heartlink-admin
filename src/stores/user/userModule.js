@@ -120,6 +120,7 @@ const state = {
     list_data: [],
   },
   statusBlock: false,
+  statusUnlock: false,
 };
 
 const getters = {};
@@ -139,6 +140,42 @@ const mutations = {
 
   setListCardActivities(state, data) {
     state.listActivities = data;
+  },
+
+  setUnlockAccountCustomer(state, data) {
+    state.statusUnlock = data;
+  },
+
+  setObjectCustomerBlock(state, data) {
+    debugger;
+    const findData = state.listUser.list_data.find(
+      (x) => x._id === data.interactorId
+    );
+    let now = Date.now();
+    let unlockTime = now + data.lockDuration * 24 * 60 * 60 * 1000;
+    if (findData) {
+      findData.block = {
+        when: unlockTime,
+      };
+      findData.disable = data.disable;
+    }
+  },
+
+  setObjectCustomerUnlock(state, data) {
+    const findData = state.listUser.list_data.find(
+      (x) => x._id === data.interactorId
+    );
+    let now = Date.now();
+    let unlockTime = now;
+    if (findData) {
+      if (findData.block) {
+        delete findData.block;
+      }
+      findData.unlock = {
+        when: unlockTime,
+      };
+      findData.disable = false;
+    }
   },
 };
 
@@ -175,19 +212,43 @@ const actions = {
   },
 
   async postBlockAccountCustomer({ commit }, data) {
-    await http_mongo
-      .post(`api/customers/block`, {
-        params: data,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          commit("setDetailInformationCustomer", response.data.data);
-        }
-      })
-      .catch((error) => {});
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .post(`api/customers/block`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            commit("setPostBlockAccountCustomer", response.data.data);
+            resolve("Block successful", response.data);
+          }
+        })
+        .catch((error) => {
+          reject("something went wrong", error);
+        });
+    });
+  },
+
+  async postUnlockAccountCustomer({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .post(`api/customers/unlock`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            commit("setUnlockAccountCustomer", response.data.data);
+            resolve("Unlock successful", response.data);
+          }
+        })
+        .catch((error) => {
+          reject("something went wrong", error);
+        });
+    });
   },
 
   async getListCardActivities({ commit }, data) {

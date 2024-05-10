@@ -42,8 +42,18 @@ export default {
   async created() {
     const tokenId = localStorage.getItem("token");
     if (tokenId) {
-      await this.getReasonReport();
-      this.$router.push({ path: "/dashboard" }).catch(() => {});
+      try {
+        await Promise.all([
+          this.getReasonReport(),
+          this.getCommonBasicInformation(),
+          this.getCommonLifeStyle(),
+          this.getCommonPrompts(),
+        ]);
+        this.$router.push({ path: "/dashboard" }).catch(() => {});
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Xử lý lỗi nếu cần
+      }
     } else {
       this.$router.push({ path: "/" }).catch(() => {});
     }

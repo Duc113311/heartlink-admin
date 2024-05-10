@@ -32,6 +32,8 @@
 
             <th scope="col" class="px-6 py-3">Online</th>
 
+            <th scope="col" class="px-6 py-3">Lock Account</th>
+
             <th scope="col" class="px-6 py-3 text-center">Action</th>
           </tr>
         </thead>
@@ -122,6 +124,51 @@
                   srcset=""
                 />
                 <span class="text-sm pl-1">Offline</span>
+              </div>
+            </td>
+
+            <td class="px-6 py-4">
+              <div
+                v-if="item.disable === true"
+                class="flex w-[100px] gap-2 items-center"
+              >
+                <img
+                  src="../../../assets/icon_svg/ic_block.svg"
+                  width="20"
+                  alt=""
+                />
+                <span>Block permanently </span>
+              </div>
+              <div
+                v-if="item.disable === false"
+                class="flex w-[100px] items-center"
+              >
+                <div v-if="item.block" class="flex items-center gap-2">
+                  <img
+                    src="../../../assets/icon_svg/ic_block.svg"
+                    width="20"
+                    alt=""
+                  />
+                  <div>
+                    <span
+                      >Date unlock
+                      {{ convertTimeBlock(item.block.when).formattedDate }}
+                    </span>
+                  </div>
+                </div>
+                <div v-if="item.unlock" class="flex items-center gap-2">
+                  <img
+                    src="../../../assets/icon_svg/ic_unlock.svg"
+                    width="20"
+                    alt=""
+                  />
+                  <div class="">
+                    <span>Unlocked </span>
+                    <span>{{
+                      convertTimeBlock(item.unlock.when).formattedDate
+                    }}</span>
+                  </div>
+                </div>
               </div>
             </td>
 
@@ -267,6 +314,10 @@ export default {
 
     convertDob(val) {
       return funValidation.convertBirthday(val);
+    },
+
+    convertTimeBlock(val) {
+      return funValidation.convertDateTime(val);
     },
 
     handleSizeChange() {},

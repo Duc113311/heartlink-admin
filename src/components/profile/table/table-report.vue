@@ -99,43 +99,16 @@
                   </span>
                 </button>
 
-                <el-popover placement="top" :width="200" trigger="click">
-                  <template #reference>
-                    <button
-                      class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800"
-                    >
-                      <span
-                        class="relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-opacity-0"
-                      >
-                        Unlock
-                      </span>
-                    </button>
-                  </template>
-                  <template v-slot="">
-                    <div class="flex justify-center items-center w-full">
-                      <div class="w-full text-center">
-                        <div
-                          class="mb-4 text-sm text-gray-500 dark:text-gray-300"
-                        >
-                          Do you want to unlock your account?
-                        </div>
-                      </div>
-                    </div>
-                    <div class="flex justify-center items-center space-x-4">
-                      <button
-                        type="button"
-                        class="py-1 px-3 text-sm font-medium text-gray-500 bg-slate-50 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
-                      >
-                        No
-                      </button>
-                      <button
-                        class="py-1 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-2 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
-                      >
-                        Yes
-                      </button>
-                    </div>
-                  </template>
-                </el-popover>
+                <button
+                  @click="onClickUnlock(item)"
+                  class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800"
+                >
+                  <span
+                    class="relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-opacity-0"
+                  >
+                    Unlock
+                  </span>
+                </button>
               </div>
             </td>
           </tr>
@@ -297,6 +270,10 @@ export default {
 
     onClickBlock(val) {
       this.$emit("onShowFormBlock", val);
+    },
+
+    onClickUnlock(val) {
+      this.$emit("onShowFormUnlock", val);
     },
 
     onClickView(val) {

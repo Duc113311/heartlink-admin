@@ -4,9 +4,7 @@
     <div class="w-full pb-6">
       <div class="text-base text-center mb-4">
         Sau khi bạn lựa chọn các giới hạn dưới đây, tài khoản
-        <span class="font-semibold">{{
-          renderReport.profileReported[0].fullname
-        }}</span>
+        <span class="font-semibold">{{ renderFullName }}</span>
         <span class="font-semibold"></span>
         sẽ bị block
       </div>
@@ -69,16 +67,15 @@ export default {
   },
 
   props: {
-    objectReport: {
-      type: Object,
-      default: () => {},
+    fullName: {
+      type: String,
+      default: () => "",
     },
   },
 
   computed: {
-    renderReport() {
-      console.log(this.objectReport);
-      return this.objectReport;
+    renderFullName() {
+      return this.fullName;
     },
   },
 

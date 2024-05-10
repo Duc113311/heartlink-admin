@@ -19,6 +19,7 @@
               srcset=""
             />
           </div>
+          <div>Agent</div>
         </div>
         <div>
           <img src="../../../assets/icon_svg/ic_arrow_right.svg" alt="" />
@@ -42,14 +43,15 @@
               />
             </div>
           </div>
+          <div>Reported</div>
         </div>
       </div>
       <div class="text-left p-2 font-semibold text-base">
         Thông tin user bị report
       </div>
-      <div class="flex w-full p-3">
+      <div class="flex justify-between w-full p-3">
         <!-- Left -->
-        <div class="w-[400px]">
+        <div class="w-2/4">
           <el-carousel indicator-position="outside">
             <el-carousel-item
               v-for="item in renderObjectReport.avatarReported[0].avatars"
@@ -60,8 +62,65 @@
           </el-carousel>
         </div>
         <!-- Right -->
-        <div class="w-[calc(100%-100px)]">
+        <div class="w-2/4">
           <div class="text-left pl-3 pr-3 text-base">
+            <div>
+              <div
+                v-if="renderObjectReport.profileReported[0].disable === true"
+                class="flex gap-2 items-center"
+              >
+                <img
+                  src="../../../assets/icon_svg/ic_block.svg"
+                  width="20"
+                  alt=""
+                />
+                <span>Block permanently </span>
+              </div>
+
+              <div
+                v-if="renderObjectReport.profileReported[0].disable === false"
+                class="flex items-center"
+              >
+                <div
+                  v-if="renderObjectReport.profileReported[0].block"
+                  class="flex items-center gap-2"
+                >
+                  <img
+                    src="../../../assets/icon_svg/ic_block.svg"
+                    width="20"
+                    alt=""
+                  />
+                  <div>
+                    <span
+                      >Date unlock
+                      {{
+                        convertTimeBlock(
+                          renderObjectReport.profileReported[0].block.when
+                        ).formattedDate
+                      }}
+                    </span>
+                  </div>
+                </div>
+                <div
+                  v-if="renderObjectReport.profileReported[0].unlock"
+                  class="flex items-center gap-2"
+                >
+                  <img
+                    src="../../../assets/icon_svg/ic_unlock.svg"
+                    width="20"
+                    alt=""
+                  />
+                  <div class="">
+                    <span>Unlocked </span>
+                    <span>{{
+                      convertTimeBlock(
+                        renderObjectReport.profileReported[0].unlock.when
+                      ).formattedDate
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div>
               <span class="font-semibold">FullName:&nbsp;</span>
               <span>{{ renderObjectReport.profileReported[0].fullname }}</span>
@@ -126,6 +185,8 @@
 </template>
 
 <script>
+import funValidation from "../../../middleware/validation";
+
 export default {
   name: "view-detail-block",
 
@@ -156,6 +217,9 @@ export default {
   mounted() {},
 
   methods: {
+    convertTimeBlock(val) {
+      return funValidation.convertDateTime(val);
+    },
     renderReasonCode(val) {
       const listReasonParam = this.listReasons;
 

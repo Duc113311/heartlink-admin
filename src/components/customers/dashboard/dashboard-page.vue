@@ -168,10 +168,11 @@
 
       <div class="flex items-center gap-2">
         <button
+          @click="onClickReloadCustomer()"
           type="button"
           class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
         >
-          Disable account
+          Reload
         </button>
 
         <button
@@ -198,7 +199,7 @@
     <!-- Show detail -->
     <el-dialog
       v-model="isShowViewDetailCustomer"
-      width="25%"
+      width="40%"
       align-center
       @close="closeDialog"
       draggable
@@ -218,7 +219,7 @@
           Bạn chắc chắn muốn block account?
         </div>
       </template>
-      <ViewBlock ref="view_block" :objectCustomer="objectCustomer"></ViewBlock>
+      <ViewBlock ref="view_block" :fullName="propertyName"></ViewBlock>
       <template #footer>
         <div class="dialog-footer">
           <button
@@ -247,8 +248,9 @@
         </div>
       </template>
       <div>
-        Bạn mở khóa tài khoản <span class="font-semibold">Duc nguyen</span> sẽ
-        có thể truy cập vào Ứng dụng!
+        Bạn mở khóa tài khoản
+        <span class="font-semibold">{{ propertyName }}</span> sẽ có thể truy cập
+        vào Ứng dụng!
       </div>
       <template #footer>
         <div class="dialog-footer">
@@ -276,13 +278,28 @@
 import ViewBlock from "../../profile/report/view-block";
 import ViewDetail from "../../profile/detail-cms/view-detail";
 import TableUser from "../../profile/table/table-user";
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
+import { ElNotification } from "element-plus";
+
 export default {
   name: "dashboard-page",
   components: {
     ViewBlock,
     ViewDetail,
     TableUser,
+  },
+
+  setup() {
+    const success = (val) => {
+      ElNotification({
+        title: "Success",
+        message: val,
+        type: "success",
+      });
+    };
+    return {
+      success,
+    };
   },
   data() {
     return {
@@ -292,6 +309,7 @@ export default {
       objectCustomer: {},
       isShowFormBlock: false,
       isShowFormUnlock: false,
+      propertyName: "",
     };
   },
 
@@ -311,7 +329,25 @@ export default {
   mounted() {},
 
   methods: {
-    ...mapActions(["getListCardUsers", "postBlockAccountCustomer"]),
+    ...mapActions([
+      "getListCardUsers",
+      "postBlockAccountCustomer",
+      "postUnlockAccountCustomer",
+    ]),
+    ...mapMutations(["setObjectCustomerBlock", "setObjectCustomerUnlock"]),
+
+    async onClickReloadCustomer() {
+      this.isLoading = true;
+      await this.getListCardUsers({
+        currentPage: 0,
+        pageSize: 200,
+        nameQuery: this.inputSearch,
+      });
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
+    },
 
     // On change limit
     async onChangeLimitNext(val) {
@@ -330,36 +366,54 @@ export default {
     async onClickApplyBlock() {
       debugger;
       const refBlock = this.$refs.view_block;
-      const object = {
+      let object = {
         interactorId: this.objectCustomer._id,
         lockDuration: refBlock.valueNumberDay,
         disable: refBlock.valueForever,
       };
-      await this.postBlockAccountCustomer(object);
-      this.isShowFormBlock = false;
+      await this.postBlockAccountCustomer(object).then((data) => {
+        if (data) {
+          this.isShowFormBlock = false;
+          this.setObjectCustomerBlock(object);
+          this.success("Block successfully");
+        }
+      });
     },
 
     onClickCancelBlock(val) {
       this.isShowFormBlock = false;
     },
 
-    onClickApplyUnlock(val) {
-      this.isShowFormBlock = false;
+    async onClickApplyUnlock(val) {
+      const object = {
+        interactorId: this.objectCustomer._id,
+      };
+      await this.postUnlockAccountCustomer(object).then((data) => {
+        if (data) {
+          this.isShowFormUnlock = false;
+          this.setObjectCustomerUnlock(object);
+          this.success("Unlock successfully ");
+        }
+      });
     },
 
     onClickCancelUnlock(val) {
-      this.isShowFormBlock = false;
+      this.isShowFormUnlock = false;
     },
 
     // Unlock
     async onShowUnlockAccount(val) {
+      this.propertyName = val.fullname;
+      this.objectCustomer = val;
       this.isShowFormUnlock = true;
     },
 
     // Block
     async onShowBlockAccount(val) {
       this.isShowFormBlock = true;
+      console.log(val);
       this.objectCustomer = val;
+      this.propertyName = val.fullname;
     },
     async onChangeSearch(val) {
       this.isLoading = true;
