@@ -7,7 +7,7 @@
     <div class="sidebar-header flex items-center justify-center py-4">
       <div class="inline-flex">
         <a href="#" class="inline-flex flex-row items-center">
-          <img src="../../assets/icon_svg/ic_logo_name.svg" alt="" srcset="" />
+          <img src="../../assets/icon_svg/app_icon.svg" alt="" srcset="" />
         </a>
       </div>
     </div>
