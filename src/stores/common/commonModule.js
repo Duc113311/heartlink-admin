@@ -32,6 +32,17 @@ const state = {
     sleepingStyles: [],
   },
 
+  commonStatic: {
+    datingPurposes: [],
+    languages: [],
+    interests: [],
+    schools: [],
+    jobTitles: [],
+    sexuals: [],
+    genders: [],
+    genderFilters: [],
+  },
+
   listPrompt: {},
 };
 
@@ -94,6 +105,10 @@ const mutations = {
   setCommonPrompts(state, data) {
     state.listPrompt = data;
   },
+
+  setCommonStatic(state, data) {
+    state.listPrompt = data;
+  },
 };
 const actions = {
   /**
@@ -133,6 +148,22 @@ const actions = {
       .catch((error) => {});
   },
 
+  async getCommonStatic({ commit }, data) {
+    await http_mongo
+      .get(`api/static/common`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Accept-Language": "en",
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          commit("setCommonStatic", response.data.data);
+        }
+      })
+      .catch((error) => {});
+  },
+
   async getCommonBasicInformation({ commit }, data) {
     await http_mongo
       .get(`api/static/basic-infos`, {
@@ -151,7 +182,7 @@ const actions = {
 
   async getCommonLifeStyle({ commit }, data) {
     await http_mongo
-      .get(`api/static/basic-infos`, {
+      .get(`api/static/life-style-infos`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Accept-Language": "en",

@@ -48,6 +48,7 @@ export default {
           this.getCommonBasicInformation(),
           this.getCommonLifeStyle(),
           this.getCommonPrompts(),
+          this.getCommonStatic(),
         ]);
         this.$router.push({ path: "/dashboard" }).catch(() => {});
       } catch (error) {
@@ -64,7 +65,13 @@ export default {
     console.log(JSON.parse(userLocal));
   },
   methods: {
-    ...mapActions(["getReasonReport"]),
+    ...mapActions([
+      "getReasonReport",
+      "getCommonBasicInformation",
+      "getCommonLifeStyle",
+      "getCommonPrompts",
+      "getCommonStatic",
+    ]),
   },
 };
 </script>

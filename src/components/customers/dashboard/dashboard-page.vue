@@ -199,7 +199,7 @@
     <!-- Show detail -->
     <el-dialog
       v-model="isShowViewDetailCustomer"
-      width="40%"
+      width="28%"
       align-center
       @close="closeDialog"
       draggable

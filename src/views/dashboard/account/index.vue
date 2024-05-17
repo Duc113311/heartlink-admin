@@ -20,6 +20,7 @@
       @onChangeUpdateData="onChangeUpdateData"
       @onChangeResetData="onChangeResetData"
       @onChangeDisableData="onChangeDisableData"
+      @onChangeUnlockData="onChangeUnlockData"
     ></TableAccount>
   </div>
 
@@ -140,9 +141,10 @@
         </el-select>
       </el-form-item>
       <el-form-item
+        v-if="!dataForm._id"
         label="Password"
         :label-width="formLabelWidth"
-        prop="pass"
+        prop="password"
         :rules="[
           {
             required: true,
@@ -158,19 +160,20 @@
         />
       </el-form-item>
       <el-form-item
+        v-if="!dataForm._id"
         label="Confirm password"
         :label-width="formLabelWidth"
-        prop="pass"
+        prop="confirmPassword"
         :rules="[
           {
             required: true,
-            message: 'Password is required',
+            message: 'Confirm password is required',
             trigger: 'blur',
           },
         ]"
       >
         <el-input
-          v-model="dataForm.password"
+          v-model="dataForm.confirmPassword"
           type="password"
           autocomplete="off"
         />
@@ -255,6 +258,14 @@ export default {
     // },
   },
 
+  created() {
+    this.isLoading = true;
+
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
+  },
+
   async mounted() {
     await this.getRoles();
     await this.getListAccount({
@@ -273,9 +284,12 @@ export default {
       "resetAccount",
       "updateDisableAccount",
       "insertAccount",
+      "updateUnlockAccount",
     ]),
 
     onChangeAddNew(val) {
+      this.setFormAccount({});
+
       this.dialogFormVisible = val;
     },
     onChangeLimitNext() {},
@@ -334,6 +348,22 @@ export default {
       }, 1000);
     },
 
+    async onChangeUnlockData(val) {
+      await this.updateUnlockAccount(val).then((data) => {
+        this.notificationSuccess();
+      });
+
+      this.isLoading = true;
+      await this.getListAccount({
+        currentPage: 0,
+        pageSize: 16,
+      });
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
+    },
+
     onConfirmDialog() {
       this.$refs.dataFormRef.validate((valid) => {
         if (valid) {
@@ -354,6 +384,7 @@ export default {
       } else {
         await this.insertAccount(formData).then((data) => {
           this.notificationSuccess("Insert record successfully");
+          this.dialogFormVisible = false;
         });
       }
       this.$refs.dataFormRef.resetFields();

@@ -36,7 +36,9 @@
         class="m-2 rounded-lg"
         placeholder="Please select role"
         size="large"
+        @change="onChangeAction"
       >
+        <el-option label="Select all" value="-1" />
         <el-option
           v-for="item in dataRoles"
           :key="item.value"
@@ -96,20 +98,20 @@ export default {
   mounted() {},
 
   methods: {
-    ...mapActions(["getListInterests"]),
+    ...mapActions(["getListAccount"]),
     async onChangeSearch(val) {
       this.$emit("onChangeSearch", val);
-      await this.getListInterests({
+      await this.getListAccount({
         currentPage: 0,
         pageSize: 10,
-        filters: [
-          {
-            columnName: "langs.en",
-            value: val,
-            operation: "contains",
-            dataType: "text",
-          },
-        ],
+      });
+    },
+
+    async onChangeAction(val) {
+      this.$emit("onChangeSearch", val);
+      await this.getListAccount({
+        currentPage: 0,
+        pageSize: 10,
       });
     },
 

@@ -172,11 +172,182 @@ export default {
     renderObject() {
       return this.objectCustomer;
     },
+
+    renderBasicInfor() {
+      return this.$store.state.commonModule.listImageCMS;
+    },
+    renderLifeStyle() {
+      return this.$store.state.commonModule.lifeStyles;
+    },
+    renderPrompt() {
+      return this.$store.state.commonModule.listPrompt;
+    },
+    renderCommonStatic() {
+      return this.$store.state.commonModule.commonStatic;
+    },
   },
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    renderDatingPurchased(val) {
+      let datingPurposes = this.renderCommonStatic.datingPurposes;
+      const findData = datingPurposes.find((x) => x.code === val);
+      if (findData) {
+        return findData.value;
+      }
+    },
+    renderGender(val) {
+      let genders = this.renderCommonStatic.genders;
+      const findData = genders.find((x) => x.code === val);
+      if (findData) {
+        return findData.value;
+      }
+    },
+
+    renderInterests(val) {
+      let result = [];
+      let interests = this.renderCommonStatic.interests;
+      for (let index = 0; index < val.length; index++) {
+        const element = val[index];
+        const findData = interests.find((x) => x.code === element);
+        if (findData) {
+          result.push(findData.value);
+        }
+      }
+      return result;
+    },
+
+    renderSexuals(val) {
+      let result = [];
+      let sexuals = this.renderCommonStatic.sexuals;
+      for (let index = 0; index < val.length; index++) {
+        const element = val[index];
+        const findData = sexuals.find((x) => x.code === element);
+        if (findData) {
+          result.push(findData.value);
+        }
+      }
+      return result;
+    },
+
+    renderLanguages(val) {
+      let result = [];
+      let languages = this.renderCommonStatic.languages;
+      for (let index = 0; index < val.length; index++) {
+        const element = val[index];
+        const findData = languages.find((x) => x.code === element);
+        if (findData) {
+          result.push(findData.value);
+        }
+      }
+      return result;
+    },
+
+    renderZodiacs(val) {
+      let zodiacs = this.renderCommonStatic.zodiacs;
+      const findData = zodiacs.find((x) => x.code === val);
+      if (findData) {
+        return findData.value;
+      }
+    },
+    renderPersonalities(val) {
+      let personalities = this.renderCommonStatic.personalities;
+      const findData = personalities.find((x) => x.code === val);
+      if (findData) {
+        return findData.value;
+      }
+    },
+    renderLoveStyles(val) {
+      let loveStyles = this.renderCommonStatic.loveStyles;
+      const findData = loveStyles.find((x) => x.code === val);
+      if (findData) {
+        return findData.value;
+      }
+    },
+    renderFamilyPlans(val) {
+      let familyPlans = this.renderCommonStatic.familyPlans;
+      const findData = familyPlans.find((x) => x.code === val);
+      if (findData) {
+        return findData.value;
+      }
+    },
+    renderEducations(val) {
+      let educations = this.renderCommonStatic.educations;
+      const findData = educations.find((x) => x.code === val);
+      if (findData) {
+        return findData.value;
+      }
+    },
+    renderCovidVaccines(val) {
+      let covidVaccines = this.renderCommonStatic.covidVaccines;
+      const findData = covidVaccines.find((x) => x.code === val);
+      if (findData) {
+        return findData.value;
+      }
+    },
+
+    renderCommunicationStyles(val) {
+      let communicationStyles = this.renderCommonStatic.communicationStyles;
+      const findData = communicationStyles.find((x) => x.code === val);
+      if (findData) {
+        return findData.value;
+      }
+    },
+
+    renderDrinkings(val) {
+      let drinkings = this.renderCommonStatic.drinkings;
+      const findData = drinkings.find((x) => x.code === val);
+      if (findData) {
+        return findData.value;
+      }
+    },
+
+    renderFoodPreferences(val) {
+      let foodPreferences = this.renderCommonStatic.foodPreferences;
+      const findData = foodPreferences.find((x) => x.code === val);
+      if (findData) {
+        return findData.value;
+      }
+    },
+
+    renderPets(val) {
+      let pets = this.renderCommonStatic.pets;
+      const findData = pets.find((x) => x.code === val);
+      if (findData) {
+        return findData.value;
+      }
+    },
+
+    renderSleepingStyles(val) {
+      let sleepingStyles = this.renderCommonStatic.sleepingStyles;
+      const findData = sleepingStyles.find((x) => x.code === val);
+      if (findData) {
+        return findData.value;
+      }
+    },
+    renderSmokings(val) {
+      let smokings = this.renderCommonStatic.smokings;
+      const findData = smokings.find((x) => x.code === val);
+      if (findData) {
+        return findData.value;
+      }
+    },
+    renderSocials(val) {
+      let socials = this.renderCommonStatic.socials;
+      const findData = socials.find((x) => x.code === val);
+      if (findData) {
+        return findData.value;
+      }
+    },
+    renderWorkouts(val) {
+      let workouts = this.renderCommonStatic.workouts;
+      const findData = workouts.find((x) => x.code === val);
+      if (findData) {
+        return findData.value;
+      }
+    },
+  },
 };
 </script>
 

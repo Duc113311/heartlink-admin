@@ -1,8 +1,23 @@
 import { http_mongo } from "../../configs/http-mongo";
 
 const state = {
-  listAccount: [],
-  formAccount: {},
+  listAccount: {
+    currentPage: 0,
+    skip: 0,
+    limit: 0,
+    count: 0,
+    total: 0,
+    list_data: [],
+  },
+  formAccount: {
+    address: "",
+    email: "",
+    name: "",
+    phone: "",
+    role: "",
+    password: "",
+    confirmPassword: "",
+  },
   listRole: [],
 };
 
@@ -10,7 +25,7 @@ const getters = {};
 
 const mutations = {
   setListAccount(state, data) {
-    state.listAccount = data.list_data;
+    state.listAccount = data;
   },
 
   setListReport(state, data) {
@@ -53,7 +68,30 @@ const actions = {
       http_mongo
         .put(`api/lock-account/${data._id}`, {
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDBlZjZlMDM5NmMwMjEwMjZhNjk1ODQiLCJlbWFpbCI6ImFkbWluIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3MDU0NTE4OTAsImlhdCI6MTcwNDg0NzA5MH0.6ssxcLHJ5SaifAvQRRNbdzLTqLsQKYSEfSP6MfdwkGE`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            resolve("Unlock successful", response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            reject("validation error", err);
+          } else {
+            reject("something went wrong", err);
+          }
+        });
+    });
+  },
+
+  updateUnlockAccount({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      http_mongo
+        .put(`api/unlock-account/${data._id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         })
         .then((response) => {
@@ -74,8 +112,7 @@ const actions = {
   insertAccount({ commit }, data) {
     return new Promise((resolve, reject) => {
       http_mongo
-        .post(`api/users`, {
-          params: data,
+        .post(`api/users`, data, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
