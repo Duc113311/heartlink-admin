@@ -226,10 +226,6 @@
 export default {
   name: "dash-view",
 
-  data() {
-    return {};
-  },
-
   mounted() {},
 
   methods: {},

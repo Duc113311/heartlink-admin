@@ -107,7 +107,7 @@ const mutations = {
   },
 
   setCommonStatic(state, data) {
-    state.listPrompt = data;
+    state.commonStatic = data;
   },
 };
 const actions = {
